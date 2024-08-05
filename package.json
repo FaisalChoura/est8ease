@@ -2,7 +2,12 @@
   "name": "@est8ease/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "npm run build:fe && npm run build:be",
+    "build:fe": "nx build est8ease-fe",
+    "build:be": "nx build est8ease-be",
+    "start:prod": "node dist/apps/est8ease-be/main.js"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.1.0",
