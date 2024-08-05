@@ -22,7 +22,12 @@
             "input": "apps/est8ease-fe/public"
           }
         ],
-        "styles": ["apps/est8ease-fe/src/styles.scss"],
+        "styles": [
+          "node_modules/ag-grid-community/styles/ag-grid.css",
+          "node_modules/ag-grid-community/styles/ag-theme-quartz.css",
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "apps/est8ease-fe/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {

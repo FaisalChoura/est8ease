@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="column">
+    <div class="d-flex justify-content-between">
+      <h1>{{ title }}</h1>
+      <div class="col-md-2 pt-1">
+        <p class="mb-0">Areas</p>
+        <select id="inputState" class="form-select" (change)="onAreaChange($event)">
+          <option [selected]="area == 'Emaar_Beach_Front'" value="Emaar_Beach_Front">Emaar Beach Front</option>
+          <option [selected]="area == 'Marina'" value="Marina">Marina</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      We have found {{properties.length}} properties that have a price/sqmt that is at least
+      <select id="inputState" [formControl]="selectedPctControl">
+        <option [selected]="selectedPctControl.value == 10" value=10>10%</option>
+        <option [selected]="selectedPctControl.value == 15" value=15>15%</option>
+        <option [selected]="selectedPctControl.value == 20" value=20>20%</option>
+      </select>
+      lower than the average price/sqmt {{pricePerSqm}} AED for a {{numOfBedroomsMapper(bedrooms)}} bedroom apartment in
+      {{title}}
+    </div>
+
+
+    <div class="row gx-5">
+
+    </div>
+
+    <div class="row gx-2">
+      <div class="col">
+        <button (click)="changeBedroomSelection('studio')" type="button" class="btn"
+          [ngClass]="{'btn-outline-secondary': bedrooms !== 'studio', 'btn-secondary': bedrooms === 'studio'}">
+          Studio
+        </button>
+        <button (click)="changeBedroomSelection('oneBR')" type="button" class="btn"
+          [ngClass]="{'btn-outline-secondary': bedrooms !== 'oneBR', 'btn-secondary': bedrooms === 'oneBR'}">
+          One Bedroom
+        </button>
+        <button (click)="changeBedroomSelection('twoBR')" type="button" class="btn"
+          [ngClass]="{'btn-outline-secondary': bedrooms !== 'twoBR', 'btn-secondary': bedrooms === 'twoBR'}">
+          Two Bedrooms
+        </button>
+        <button (click)="changeBedroomSelection('threeBR')" type="button" class="btn"
+          [ngClass]="{'btn-outline-secondary': bedrooms !== 'threeBR', 'btn-secondary': bedrooms === 'threeBR'}">
+          Three Bedrooms
+        </button>
+      </div>
+      <div class="col">
+        <div class="input-group mb-3">
+          <input [formControl]="minPriceControl" type="number" class="form-control" placeholder="Min Price"
+            aria-label="Min Price" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group mb-3">
+          <input [formControl]="maxPriceControl" type="number" class="form-control" placeholder="Max Price"
+            aria-label="Max Price" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group mb-3">
+          <input [formControl]="estimatedSizeControl" type="number" class="form-control" placeholder="Size (sqmt)"
+            aria-label="Size (sqmt)" aria-describedby="basic-addon1">
+        </div>
+      </div>
+    </div>
+
+
+    <ag-grid-angular class="ag-theme-quartz mt-2" style="width: 100%; height: 400px;" [rowData]="filteredProperties"
+      [columnDefs]="colDefs" />
+
+    <div class="row mt-2">
+      <div class="col">
+        <h4>Get notified when we find a property that matches your filter</h4>
+        <p>We will notify you as soon as a new property that matches your search gets added</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-group mb-3">
+          <input [formControl]="emailControl" type="email" class="form-control" placeholder="Email" aria-label="email"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-primary" (click)="sendInterst()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
