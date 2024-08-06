@@ -2,11 +2,15 @@
   "name": "@est8ease/source",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "18.19.1"
+  },
   "scripts": {
     "postinstall": "npm run build:fe && npm run build:be",
     "build:fe": "nx build est8ease-fe",
     "build:be": "nx build est8ease-be",
-    "start:prod": "node dist/apps/est8ease-be/main.js"
+    "start:prod": "node dist/apps/est8ease-be/main.js",
+    "start": "node dist/apps/est8ease-be/main.js"
   },
   "private": true,
   "dependencies": {
