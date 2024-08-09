@@ -11,15 +11,14 @@ export class PropertiesController {
     @Query('area') area: string,
     @Query('bedrooms') bedrooms: string,
     @Query('priceM2') priceM2: string,
-    @Query('pctLower') pctLower: string,
+    @Query('pctLower') pctLower: string
   ): Promise<Property[]> {
     const x = await this.propertiesService.getProperties(
       area,
       parseFloat(priceM2),
       parseInt(bedrooms),
-      parseFloat(pctLower),
+      parseFloat(pctLower)
     );
-    console.log(x);
     return x;
   }
 }

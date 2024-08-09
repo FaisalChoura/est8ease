@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type InterestDocument = HydratedDocument<Interest>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Interest {
   @Prop()
   email: string;
@@ -25,6 +25,12 @@ export class Interest {
 
   @Prop()
   active: boolean;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
 export const InterestSchema = SchemaFactory.createForClass(Interest);

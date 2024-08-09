@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class PropertiesService {
   constructor(
-    @InjectModel('Property') private readonly propertyModel: Model<Property>,
+    @InjectModel('Property') private readonly propertyModel: Model<Property>
   ) {}
 
   async findAll(): Promise<Property[]> {
@@ -17,7 +17,7 @@ export class PropertiesService {
     area: string,
     pricePerSqm: number,
     numOfBedrooms: number,
-    percentageLower: number,
+    percentageLower: number
   ): Promise<Property[]> {
     const query = {
       name_of_area: area,
@@ -26,7 +26,6 @@ export class PropertiesService {
         $lt: pricePerSqm - pricePerSqm * percentageLower,
       },
     };
-    console.log(query);
     // const q = query(
     //   propertiesRef,
     //   where('name_of_area', '==', area),

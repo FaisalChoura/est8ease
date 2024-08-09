@@ -18,7 +18,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type PropertyDocument = HydratedDocument<Property>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Property {
   @Prop()
   price: number;
@@ -49,6 +49,12 @@ export class Property {
 
   @Prop()
   name_of_area: string;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Property);
