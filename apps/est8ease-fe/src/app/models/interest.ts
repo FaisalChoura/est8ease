@@ -1,4 +1,5 @@
 export class Interest {
+  _id: string | undefined;
   email: string;
   nameOfArea: string;
   maxPrice: number;

@@ -7,7 +7,7 @@ import { CreateInterestDto } from './dtos/create-interest.dto';
 @Injectable()
 export class InterestsService {
   constructor(
-    @InjectModel('Interest') private readonly interestModel: Model<Interest>,
+    @InjectModel('Interest') private readonly interestModel: Model<Interest>
   ) {}
 
   async findByEmail(email: string): Promise<Interest[]> {
@@ -24,7 +24,7 @@ export class InterestsService {
     numOfBedrooms: number,
     maxPrice: number,
     minPrice: number,
-    nameOfArea: string,
+    nameOfArea: string
   ): Promise<Interest[]> {
     const query = {
       email: email,
@@ -37,13 +37,6 @@ export class InterestsService {
       },
       name_of_area: nameOfArea,
     };
-    console.log(query);
-    //   where('email', '==', interest.email),
-    //   where('number_of_bedrooms', '==', interest.bedrooms),
-    //   where('max_price', '==', interest.maxPrice),
-    //   where('size', '<=', interest.size + interest.size * 0.05),
-    //   where('size', '>=', interest.size - interest.size * 0.05),
-    //   where('name_of_area', '==', interest.nameOfArea)
     return this.interestModel.find(query);
   }
 
@@ -55,7 +48,7 @@ export class InterestsService {
 
   async update(
     id: string,
-    createInterestDto: CreateInterestDto,
+    createInterestDto: CreateInterestDto
   ): Promise<Interest> {
     return this.interestModel
       .findByIdAndUpdate(id, createInterestDto, { new: true })

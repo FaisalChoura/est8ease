@@ -9,7 +9,7 @@ export class InterestsController {
 
   @Post()
   async create(
-    @Body() createInterestDto: CreateInterestDto,
+    @Body() createInterestDto: CreateInterestDto
   ): Promise<Interest> {
     return this.interestsService.create(createInterestDto);
   }
@@ -21,23 +21,25 @@ export class InterestsController {
     @Query('numOfBedrooms') numOfBedrooms: string,
     @Query('maxPrice') maxPrice: string,
     @Query('minPrice') minPrice: string,
-    @Query('nameOfArea') nameOfArea: string,
+    @Query('nameOfArea') nameOfArea: string
   ): Promise<Interest[]> {
-    console.log(minPrice);
+    if (email && !size) {
+      return this.interestsService.findByEmail(email);
+    }
     return this.interestsService.findExistingInterest(
       email,
       parseFloat(size),
       parseFloat(numOfBedrooms),
       parseFloat(maxPrice),
       parseFloat(minPrice),
-      nameOfArea,
+      nameOfArea
     );
   }
 
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() createInterestDto: CreateInterestDto,
+    @Body() createInterestDto: CreateInterestDto
   ): Promise<Interest> {
     return this.interestsService.update(id, createInterestDto);
   }
