@@ -12,10 +12,10 @@ import { join } from 'path';
     MongooseConfigModule,
     PropertiesModule,
     InterestsModule,
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '..', 'est8ease-fe'),
-    //   exclude: ['/api*'],
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'est8ease-fe'),
+      exclude: ['/api*'],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
