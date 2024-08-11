@@ -17,10 +17,12 @@ export class FirestoreService {
     percentageLower: number
   ): Observable<any[]> {
     let params = new HttpParams();
-    if (area) params = params.append('area', area);
-    if (numOfBedrooms) params = params.append('bedrooms', numOfBedrooms);
-    if (pricePerSqm) params = params.append('priceM2', pricePerSqm);
-    if (percentageLower) params = params.append('pctLower', percentageLower);
+    if (area != null) params = params.append('area', area);
+    if (numOfBedrooms != null)
+      params = params.append('bedrooms', numOfBedrooms);
+    if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
+    if (percentageLower != null)
+      params = params.append('pctLower', percentageLower);
     return this.http.get<any[]>(this.apiUrl + '/properties', {
       params: params,
     });

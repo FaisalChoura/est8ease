@@ -5,8 +5,14 @@
       <div class="col-md-2 pt-1">
         <p class="mb-0">Areas</p>
         <select id="inputState" class="form-select" (change)="onAreaChange($event)">
-          <option [selected]="area == 'Emaar_Beach_Front'" value="Emaar_Beach_Front">Emaar Beach Front</option>
-          <option [selected]="area == 'Marina'" value="Marina">Marina</option>
+          <option [selected]="area === 'Emaar_Beach_Front'" value="Emaar_Beach_Front">Emaar Beach Front</option>
+          <option [selected]="area === 'Down_Town'" value="Down_Town">Down Town</option>
+          <option [selected]="area === 'Marina'" value="Marina">Marina</option>
+          <option [selected]="area === 'JLT'" value="JLT">JLT</option>
+          <option [selected]="area === 'Emaar_South'" value="Emaar_South">Emaar South</option>
+          <option [selected]="area === 'Business_Bay'" value="Business_Bay">Business Bay</option>
+          <option [selected]="area === 'Dubai_Hills'" value="Dubai_Hills">Dubai Hills</option>
+          <option [selected]="area === 'City_Walk'" value="City_Walk">City Walk</option>
         </select>
       </div>
     </div>
@@ -14,51 +20,65 @@
     <div class="mb-4">
       We have found {{properties.length}} properties that have a price/sqmt that is at least
       <select id="inputState" [formControl]="selectedPctControl">
-        <option [selected]="selectedPctControl.value == 10" value=10>10%</option>
-        <option [selected]="selectedPctControl.value == 15" value=15>15%</option>
-        <option [selected]="selectedPctControl.value == 20" value=20>20%</option>
+        <option [selected]="selectedPctControl.value === 10" value=10>10%</option>
+        <option [selected]="selectedPctControl.value === 15" value=15>15%</option>
+        <option [selected]="selectedPctControl.value === 20" value=20>20%</option>
       </select>
       lower than the average price/sqmt {{pricePerSqm}} AED for a {{numOfBedroomsMapper(bedrooms)}} bedroom apartment in
       {{title}}
     </div>
 
 
-    <div class="row gx-5">
 
-    </div>
 
     <div class="row gx-2">
-      <div class="col">
-        <button (click)="changeBedroomSelection('studio')" type="button" class="btn"
-          [ngClass]="{'btn-outline-secondary': bedrooms !== 'studio', 'btn-secondary': bedrooms === 'studio'}">
-          Studio
-        </button>
-        <button (click)="changeBedroomSelection('oneBR')" type="button" class="btn"
-          [ngClass]="{'btn-outline-secondary': bedrooms !== 'oneBR', 'btn-secondary': bedrooms === 'oneBR'}">
-          One Bedroom
-        </button>
-        <button (click)="changeBedroomSelection('twoBR')" type="button" class="btn"
-          [ngClass]="{'btn-outline-secondary': bedrooms !== 'twoBR', 'btn-secondary': bedrooms === 'twoBR'}">
-          Two Bedrooms
-        </button>
-        <button (click)="changeBedroomSelection('threeBR')" type="button" class="btn"
-          [ngClass]="{'btn-outline-secondary': bedrooms !== 'threeBR', 'btn-secondary': bedrooms === 'threeBR'}">
-          Three Bedrooms
-        </button>
+      <div class="col-md-3 col-sm-12">
+        <div class="column">
+          <div class="row">
+            <div class="col-md-12 col-sm-6 col-xs-6">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                (click)="changeBedroomSelection('studio')" [checked]="bedrooms === 'studio'">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Studio
+              </label>
+            </div>
+            <div class="col-md-12 col-sm-6 col-xs-6">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                (click)="changeBedroomSelection('oneBR')" [checked]="bedrooms === 'oneBR'">
+              <label class="form-check-label" for="flexRadioDefault2">
+                1 Bedroom
+              </label>
+            </div>
+            <div class="col-md-12 col-sm-6 col-xs-6">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+                (click)="changeBedroomSelection('twoBR')" [checked]="bedrooms === 'twoBR'">
+              <label class="form-check-label" for="flexRadioDefault3">
+                2 Bedrooms
+              </label>
+            </div>
+            <div class="col-md-12 col-sm-6 col-xs-6">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4"
+                (click)="changeBedroomSelection('threeBR')" [checked]="bedrooms === 'threeBR'">
+              <label class="form-check-label" for="flexRadioDefault4">
+                3 Bedrooms
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col">
+      <div class="col-md-3 col-sm-4">
         <div class="input-group mb-3">
           <input [formControl]="minPriceControl" type="number" class="form-control" placeholder="Min Price"
             aria-label="Min Price" aria-describedby="basic-addon1">
         </div>
       </div>
-      <div class="col">
+      <div class="col-md-3 col-sm-4">
         <div class="input-group mb-3">
           <input [formControl]="maxPriceControl" type="number" class="form-control" placeholder="Max Price"
             aria-label="Max Price" aria-describedby="basic-addon1">
         </div>
       </div>
-      <div class="col">
+      <div class="col-md-3 col-sm-4">
         <div class="input-group mb-3">
           <input [formControl]="estimatedSizeControl" type="number" class="form-control" placeholder="Size (sqmt)"
             aria-label="Size (sqmt)" aria-describedby="basic-addon1">
