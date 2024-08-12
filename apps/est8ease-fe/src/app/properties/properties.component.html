@@ -32,38 +32,14 @@
 
 
     <div class="row gx-2">
-      <div class="col-md-3 col-sm-12">
+      <div class="col-md-3 col-sm-12 ">
         <div class="column">
-          <div class="row">
-            <div class="col-md-12 col-sm-6 col-xs-6">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                (click)="changeBedroomSelection('studio')" [checked]="bedrooms === 'studio'">
-              <label class="form-check-label" for="flexRadioDefault1">
-                Studio
-              </label>
-            </div>
-            <div class="col-md-12 col-sm-6 col-xs-6">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                (click)="changeBedroomSelection('oneBR')" [checked]="bedrooms === 'oneBR'">
-              <label class="form-check-label" for="flexRadioDefault2">
-                1 Bedroom
-              </label>
-            </div>
-            <div class="col-md-12 col-sm-6 col-xs-6">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
-                (click)="changeBedroomSelection('twoBR')" [checked]="bedrooms === 'twoBR'">
-              <label class="form-check-label" for="flexRadioDefault3">
-                2 Bedrooms
-              </label>
-            </div>
-            <div class="col-md-12 col-sm-6 col-xs-6">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4"
-                (click)="changeBedroomSelection('threeBR')" [checked]="bedrooms === 'threeBR'">
-              <label class="form-check-label" for="flexRadioDefault4">
-                3 Bedrooms
-              </label>
-            </div>
-          </div>
+          <select id="inputState" class="form-select" (change)="changeBedroomSelection($event)">
+            <option [selected]="bedrooms === 'studio'" value="studio">Studio</option>
+            <option [selected]="bedrooms === 'oneBR'" value="oneBR">1 Bedroom</option>
+            <option [selected]="bedrooms === 'twoBR'" value="twoBR">2 Bedrooms</option>
+            <option [selected]="bedrooms === 'threeBR'" value="threeBR">3 Bedrooms</option>
+          </select>
         </div>
       </div>
       <div class="col-md-3 col-sm-4">

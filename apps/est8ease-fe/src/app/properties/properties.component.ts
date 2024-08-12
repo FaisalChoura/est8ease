@@ -136,8 +136,10 @@ export class PropertiesComponent implements OnInit {
     );
   }
 
-  changeBedroomSelection(selection: BRs) {
-    this.bedrooms = selection;
+  changeBedroomSelection(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedValue = selectElement.value;
+    this.bedrooms = selectedValue as BRs;
     this.maxPriceControl.reset();
     this.estimatedSizeControl.reset();
     this.fetchProperties(this.area, this.bedrooms);
