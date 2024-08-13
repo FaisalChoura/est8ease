@@ -7,7 +7,7 @@ import { Interest } from '../models/interest';
   providedIn: 'root',
 })
 export class InterestsService {
-  private apiUrl = '/api';
+  private apiUrl = 'http://localhost:3000/api';
   constructor(private http: HttpClient) {}
 
   findInterestsByEmail(email: string): Observable<Interest[]> {
