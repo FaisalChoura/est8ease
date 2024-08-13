@@ -31,47 +31,53 @@
 
 
 
-    <div class="row gx-2">
+    <form class="row gx-2" [formGroup]="interestForm">
       <div class="col-md-3 col-sm-12 ">
-        <select id="inputState" class="form-select mb-2" (change)="changeBedroomSelection($event)">
-          <option [selected]="bedrooms === 'studio'" value="studio">Studio</option>
-          <option [selected]="bedrooms === 'oneBR'" value="oneBR">1 Bedroom</option>
-          <option [selected]="bedrooms === 'twoBR'" value="twoBR">2 Bedrooms</option>
-          <option [selected]="bedrooms === 'threeBR'" value="threeBR">3 Bedrooms</option>
+        <select id="inputState" class="form-select mb-2" (change)="changeBedroomSelection($event)"
+          [ngClass]="{'is-invalid': interestForm.controls['bedrooms'].invalid && interestForm.controls['bedrooms'].touched}">
+          <option value="oneBR">1 Bedroom</option>
+          <option value="twoBR">2 Bedrooms</option>
+          <option value="threeBR">3 Bedrooms</option>
+          <option value="studio">Studio</option>
         </select>
       </div>
       <div class="col-md-3 col-sm-4">
         <div class="input-group mb-2">
-          <input [formControl]="minPriceControl" type="number" class="form-control" placeholder="Min Price"
-            aria-label="Min Price" aria-describedby="basic-addon1">
+          <input [formControl]="interestForm.get('minPrice')" type="number" class="form-control" placeholder="Min Price"
+            aria-label="Min Price" aria-describedby="basic-addon1"
+            [ngClass]="{'is-invalid': interestForm.controls['minPrice'].invalid && interestForm.controls['minPrice'].touched}">
         </div>
       </div>
       <div class="col-md-3 col-sm-4">
         <div class="input-group mb-2">
-          <input [formControl]="maxPriceControl" type="number" class="form-control" placeholder="Max Price"
-            aria-label="Max Price" aria-describedby="basic-addon1">
+          <input [formControl]="interestForm.get('maxPrice')" type="number" class="form-control" placeholder="Max Price"
+            aria-label="Max Price" aria-describedby="basic-addon1"
+            [ngClass]="{'is-invalid': interestForm.controls['maxPrice'].invalid && interestForm.controls['maxPrice'].touched}">
         </div>
       </div>
       <div class="col-md-3 col-sm-4">
         <div class="input-group mb-2">
-          <input [formControl]="estimatedSizeControl" type="number" class="form-control" placeholder="Size (sqmt)"
-            aria-label="Size (sqmt)" aria-describedby="basic-addon1">
+          <input [formControl]="interestForm.get('estimatedSize')" type="number" class="form-control"
+            placeholder="Size (sqmt)" aria-label="Size (sqmt)" aria-describedby="basic-addon1"
+            [ngClass]="{'is-invalid': interestForm.controls['estimatedSize'].invalid && interestForm.controls['estimatedSize'].touched}">
         </div>
       </div>
-    </div>
+    </form>
     <div class="row">
       <div class="offset-md-8 col-md-4 col-sm-4">
         <div class="input-group">
-          <input [formControl]="emailControl" type="email" class="form-control" placeholder="Email" aria-label="email"
-            aria-describedby="basic-addon1">
+          <input [formControl]="interestForm.get('email')" type="email" class="form-control" placeholder="Email"
+            aria-label="email" aria-describedby="basic-addon1"
+            [ngClass]="{'is-invalid': interestForm.controls['email'].invalid && interestForm.controls['email'].touched}">
           <button class="btn btn-outline-primary" type="button" id="button-addon2"
-            (click)="sendInterst()">Submit</button>
+            (click)="sendInterest()">Submit</button>
         </div>
         <div class="form-text email-text" id="basic-addon4">Get notified when a new property that matches your search
           gets added
         </div>
       </div>
     </div>
+
 
 
     <ag-grid-angular class="ag-theme-quartz mt-2" style="width: 100%; height: 400px;" [rowData]="filteredProperties"

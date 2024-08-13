@@ -8,7 +8,13 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { LinkComponent } from '../cell-renderers/link/link.component';
 import { areaPricePerSqm } from '../average_price_per_sqm';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Property } from '../models/property';
 import { Interest } from '../models/interest';
 
@@ -34,10 +40,11 @@ export class PropertiesComponent implements OnInit {
   title = '';
   pricePerSqm = 0;
   properties$: Observable<any> | undefined;
-  bedrooms: BRs = 'twoBR';
+  bedrooms: BRs = 'oneBR';
   area = '';
   properties: Property[] = [];
   filteredProperties: Property[] = [];
+  interestForm!: FormGroup;
 
   maxPriceControl = new FormControl();
   minPriceControl = new FormControl();
@@ -67,10 +74,55 @@ export class PropertiesComponent implements OnInit {
   constructor(
     private firestoreService: FirestoreService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.interestForm = this.fb.group({
+      bedrooms: [this.bedrooms, Validators.required],
+      minPrice: [null, [Validators.required, Validators.min(1)]],
+      maxPrice: [null, [Validators.required, Validators.min(1)]],
+      estimatedSize: [null, [Validators.required, Validators.min(1)]],
+      email: ['', [Validators.required, Validators.email]],
+    });
+
+    this.interestForm.valueChanges.subscribe((form) => {
+      let filteredProperties = this.properties;
+
+      if (form['maxPrice'] != null && form['maxPrice'] > 0) {
+        const maxPrice = form['maxPrice'];
+        if (!isNaN(maxPrice)) {
+          filteredProperties = filteredProperties.filter(
+            (property) => property.price <= maxPrice
+          );
+        }
+      }
+
+      if (form['minPrice'] != null && form['minPrice'] > 0) {
+        const minPrice = form['minPrice'];
+        if (!isNaN(minPrice)) {
+          filteredProperties = filteredProperties.filter(
+            (property) => property.price >= minPrice
+          );
+        }
+      }
+
+      if (form['estimatedSize'] != null && form['estimatedSize'] > 0) {
+        const size = form['estimatedSize'];
+        if (!isNaN(size)) {
+          filteredProperties = filteredProperties.filter((property) => {
+            return (
+              property.size < size + size * 0.05 &&
+              property.size > size - size * 0.05
+            );
+          });
+        }
+      }
+
+      this.filteredProperties = filteredProperties;
+    });
+
     this.selectedPctControl.setValue(10);
     this.area = this.route.snapshot.paramMap.get('id') ?? '';
     this.title = this.area.replaceAll('_', ' ');
@@ -139,6 +191,7 @@ export class PropertiesComponent implements OnInit {
   changeBedroomSelection(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
+    this.interestForm.patchValue({ bedrooms: selectElement.value });
     this.bedrooms = selectedValue as BRs;
     this.maxPriceControl.reset();
     this.estimatedSizeControl.reset();
@@ -181,7 +234,11 @@ export class PropertiesComponent implements OnInit {
     }
   }
 
-  sendInterst() {
+  sendInterest() {
+    if (!this.interestForm.valid) {
+      this.interestForm.markAllAsTouched();
+      return;
+    }
     const interest = new Interest(
       this.emailControl.value,
       this.area,
