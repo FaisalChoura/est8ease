@@ -43,8 +43,8 @@
       </div>
       <div class="col-md-3 col-sm-4">
         <div class="input-group mb-2">
-          <input [formControl]="interestForm.get('minPrice')" type="number" class="form-control" placeholder="Min Price"
-            aria-label="Min Price" aria-describedby="basic-addon1"
+          <input id="exampleInputEmail1" [formControl]="interestForm.get('minPrice')" type="number" class="form-control"
+            placeholder="Min Price" aria-label="Min Price" aria-describedby="basic-addon1"
             [ngClass]="{'is-invalid': interestForm.controls['minPrice'].invalid && interestForm.controls['minPrice'].touched}">
         </div>
       </div>

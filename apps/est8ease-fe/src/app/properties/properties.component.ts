@@ -56,10 +56,10 @@ export class PropertiesComponent implements OnInit {
     { field: 'address', flex: 2 },
     { field: 'price' },
     { field: 'size' },
-    { field: 'priceM2' },
-    { field: 'url', cellRenderer: LinkComponent },
+    { field: 'priceM2', headerName: 'Price/m²' },
+    { field: 'url', headerName: 'Property Link', cellRenderer: LinkComponent },
     {
-      headerName: '% difference with avg price/m2',
+      headerName: '% difference with avg Price/m²',
       valueGetter: (params) => {
         const propertyPricePerSqm = params.data.priceM2;
         this.pricePerSqm;
