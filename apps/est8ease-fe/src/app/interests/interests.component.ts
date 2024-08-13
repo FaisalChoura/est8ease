@@ -23,20 +23,21 @@ export class InterestsComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
   colDefs: ColDef[] = [
+    {
+      headerName: 'Active',
+      field: 'active',
+      cellRenderer: CheckBoxRendererComponent,
+      width: 100,
+      cellRendererParams: {
+        onChange: this.onCheckboxChange.bind(this),
+      },
+    },
     { field: 'name_of_area', width: 200 },
     { field: 'max_price' },
     { field: 'min_price' },
     { field: 'size' },
     { field: 'number_of_bedrooms' },
     { field: 'createdAt' },
-    {
-      headerName: 'Active',
-      field: 'active',
-      cellRenderer: CheckBoxRendererComponent,
-      cellRendererParams: {
-        onChange: this.onCheckboxChange.bind(this),
-      },
-    },
   ];
 
   ngOnInit(): void {
