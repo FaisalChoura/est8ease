@@ -19,6 +19,7 @@ import { Property } from '../models/property';
 import { Interest } from '../models/interest';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
+declare let dataLayer: any;
 
 @Component({
   selector: 'properties',
@@ -239,6 +240,7 @@ export class PropertiesComponent implements OnInit {
       this.interestForm.markAllAsTouched();
       return;
     }
+
     const interest = new Interest(
       this.emailControl.value,
       this.area,
@@ -247,14 +249,24 @@ export class PropertiesComponent implements OnInit {
       this.numOfBedroomsMapper(this.bedrooms),
       parseFloat(this.minPriceControl.value)
     );
+    this.fireGtmEvent(`Interest sent`);
     this.firestoreService.addInterest(interest).subscribe();
   }
 
   onAreaChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
+    this.fireGtmEvent(`Area changed to ${selectedValue}`);
 
     // Navigate to the same page with the selected value as an ID in the URL
     this.router.navigate([`/properties/${selectedValue}`]);
+  }
+
+  fireGtmEvent(eventName: string, eventParams: any = {}) {
+    dataLayer = dataLayer || [];
+    dataLayer.push({
+      event: eventName,
+      ...eventParams,
+    });
   }
 }
