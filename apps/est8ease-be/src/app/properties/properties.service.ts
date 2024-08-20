@@ -19,6 +19,14 @@ export class PropertiesService {
     numOfBedrooms: number,
     percentageLower: number
   ): Promise<Property[]> {
+    if (percentageLower === 0) {
+      const query = {
+        name_of_area: area,
+        bedrooms: numOfBedrooms,
+      };
+      return this.propertyModel.find(query);
+    }
+
     const query = {
       name_of_area: area,
       bedrooms: numOfBedrooms,
