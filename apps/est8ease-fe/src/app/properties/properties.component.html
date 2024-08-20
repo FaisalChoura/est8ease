@@ -20,6 +20,7 @@
     <div class="mb-4 mt-4">
       We have found {{properties.length}} properties that have a price/sqmt that is at least
       <select id="inputState" [formControl]="selectedPctControl">
+        <option [selected]="selectedPctControl.value === 0" value=0>View all</option>
         <option [selected]="selectedPctControl.value === 10" value=10>10%</option>
         <option [selected]="selectedPctControl.value === 15" value=15>15%</option>
         <option [selected]="selectedPctControl.value === 20" value=20>20%</option>
