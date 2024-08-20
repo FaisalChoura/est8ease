@@ -20,7 +20,7 @@ areaPricePerSqm.set('JLT', {
   threeBR: 14765.7,
 });
 
-areaPricePerSqm.set('City_walk', {
+areaPricePerSqm.set('City_Walk', {
   studio: 27953.85,
   oneBR: 31697.53,
   twoBR: 29713.21,
@@ -34,7 +34,7 @@ areaPricePerSqm.set('Down_Town', {
   threeBR: 35124.76,
 });
 
-areaPricePerSqm.set('Dubai_hills', {
+areaPricePerSqm.set('Dubai_Hills', {
   studio: 19467.59,
   oneBR: 19958.42,
   twoBR: 23417.94,
