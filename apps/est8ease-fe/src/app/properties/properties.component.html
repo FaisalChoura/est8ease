@@ -21,9 +21,16 @@
       We have found {{properties.length}} properties that have a price/sqmt that is at least
       <select id="inputState" [formControl]="selectedPctControl">
         <option [selected]="selectedPctControl.value === 0" value=0>View all</option>
+        <option [selected]="selectedPctControl.value === 5" value=5>5%</option>
         <option [selected]="selectedPctControl.value === 10" value=10>10%</option>
         <option [selected]="selectedPctControl.value === 15" value=15>15%</option>
         <option [selected]="selectedPctControl.value === 20" value=20>20%</option>
+        <option [selected]="selectedPctControl.value === 25" value=25>25%</option>
+        <option [selected]="selectedPctControl.value === 30" value=30>30%</option>
+        <option [selected]="selectedPctControl.value === 35" value=35>35%</option>
+        <option [selected]="selectedPctControl.value === 40" value=45>40%</option>
+        <option [selected]="selectedPctControl.value === 45" value=45>45%</option>
+        <option [selected]="selectedPctControl.value === 50" value=50>50%</option>
       </select>
       lower than the average price/sqmt {{pricePerSqm}} AED for a {{numOfBedroomsMapper(bedrooms)}} bedroom apartment in
       {{title}}
