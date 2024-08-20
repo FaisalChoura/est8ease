@@ -7,7 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root',
 })
 export class FirestoreService {
-  private apiUrl = '/api';
+  private apiUrl = 'http://localhost:3000/api';
   constructor(private http: HttpClient) {}
 
   getProperties(
