@@ -8,51 +8,51 @@ interface sqmPriceCollection {
 const areaPricePerSqm: Map<string, sqmPriceCollection> = new Map();
 areaPricePerSqm.set('Emaar_Beach_Front', {
   studio: 0,
-  oneBR: 36502.75,
-  twoBR: 44291.62,
-  threeBR: 38610.11,
+  oneBR: 38925.2,
+  twoBR: 44114.77,
+  threeBR: 43450.28,
 });
 
 areaPricePerSqm.set('JLT', {
-  studio: 24318.88,
-  oneBR: 14970.22,
-  twoBR: 17861.62,
-  threeBR: 14765.7,
+  studio: 16026.1,
+  oneBR: 15729.65,
+  twoBR: 12665.88,
+  threeBR: 13676.61,
 });
 
 areaPricePerSqm.set('City_Walk', {
-  studio: 27953.85,
-  oneBR: 31697.53,
-  twoBR: 29713.21,
-  threeBR: 31667.39,
+  studio: 20742.04,
+  oneBR: 23981.97,
+  twoBR: 20519.58,
+  threeBR: 23548.72,
 });
 
 areaPricePerSqm.set('Down_Town', {
-  studio: 24007.8,
-  oneBR: 35124.76,
-  twoBR: 45796.09,
-  threeBR: 35124.76,
+  studio: 20198.04,
+  oneBR: 25667.6,
+  twoBR: 27958.15,
+  threeBR: 30821.35,
 });
 
 areaPricePerSqm.set('Dubai_Hills', {
-  studio: 19467.59,
-  oneBR: 19958.42,
-  twoBR: 23417.94,
-  threeBR: 19579.53,
+  studio: 23612.41,
+  oneBR: 23614.34,
+  twoBR: 22573.09,
+  threeBR: 16995.0,
 });
 
 areaPricePerSqm.set('Business_Bay', {
-  studio: 21080.02,
-  oneBR: 21452.45,
-  twoBR: 26851.62,
-  threeBR: 43566.89,
+  studio: 23798.98,
+  oneBR: 21560.09,
+  twoBR: 22499.63,
+  threeBR: 16654.44,
 });
 
 areaPricePerSqm.set('Marina', {
-  studio: 78765.91,
-  oneBR: 87237.1,
-  twoBR: 79831.54,
-  threeBR: 21194.12,
+  studio: 21284.03,
+  oneBR: 16731.01,
+  twoBR: 19484.64,
+  threeBR: 18572.83,
 });
 
 export { areaPricePerSqm };
