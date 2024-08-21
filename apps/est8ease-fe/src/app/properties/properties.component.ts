@@ -47,10 +47,6 @@ export class PropertiesComponent implements OnInit {
   filteredProperties: Property[] = [];
   interestForm!: FormGroup;
 
-  maxPriceControl = new FormControl();
-  minPriceControl = new FormControl();
-  estimatedSizeControl = new FormControl();
-  emailControl = new FormControl();
   selectedPctControl = new FormControl();
 
   colDefs: ColDef[] = [
@@ -136,57 +132,6 @@ export class PropertiesComponent implements OnInit {
     this.selectedPctControl.valueChanges.subscribe((x) =>
       this.fetchProperties(this.area, this.bedrooms)
     );
-
-    combineLatest([
-      this.maxPriceControl.valueChanges.pipe(
-        startWith(this.maxPriceControl.value || ''), // Start with the current value or an empty string
-        debounceTime(300)
-      ),
-      this.estimatedSizeControl.valueChanges.pipe(
-        startWith(this.estimatedSizeControl.value || ''), // Start with the current value or an empty string
-        debounceTime(300)
-      ),
-      this.minPriceControl.valueChanges.pipe(
-        startWith(this.estimatedSizeControl.value || ''), // Start with the current value or an empty string
-        debounceTime(300)
-      ),
-    ]).subscribe(
-      ([maxPriceValue, sizeValue, minPriceValue]: [number, number, number]) => {
-        let filteredProperties = this.properties;
-
-        if (maxPriceValue != null && maxPriceValue > 0) {
-          const maxPrice = maxPriceValue;
-          if (!isNaN(maxPrice)) {
-            filteredProperties = filteredProperties.filter(
-              (property) => property.price <= maxPrice
-            );
-          }
-        }
-
-        if (minPriceValue != null && minPriceValue > 0) {
-          const minPrice = minPriceValue;
-          if (!isNaN(minPrice)) {
-            filteredProperties = filteredProperties.filter(
-              (property) => property.price >= minPrice
-            );
-          }
-        }
-
-        if (sizeValue != null && sizeValue > 0) {
-          const size = sizeValue;
-          if (!isNaN(size)) {
-            filteredProperties = filteredProperties.filter((property) => {
-              return (
-                property.size < size + size * 0.05 &&
-                property.size > size - size * 0.05
-              );
-            });
-          }
-        }
-
-        this.filteredProperties = filteredProperties;
-      }
-    );
   }
 
   changeBedroomSelection(event: Event) {
@@ -194,8 +139,6 @@ export class PropertiesComponent implements OnInit {
     const selectedValue = selectElement.value;
     this.interestForm.patchValue({ bedrooms: selectElement.value });
     this.bedrooms = selectedValue as BRs;
-    this.maxPriceControl.reset();
-    this.estimatedSizeControl.reset();
     this.fetchProperties(this.area, this.bedrooms);
   }
 
@@ -242,12 +185,12 @@ export class PropertiesComponent implements OnInit {
     }
 
     const interest = new Interest(
-      this.emailControl.value,
+      this.interestForm.controls['email'].value,
       this.area,
-      parseFloat(this.maxPriceControl.value),
-      parseFloat(this.estimatedSizeControl.value),
+      parseFloat(this.interestForm.controls['maxPrice'].value),
+      parseFloat(this.interestForm.controls['estimatedSize'].value),
       this.numOfBedroomsMapper(this.bedrooms),
-      parseFloat(this.minPriceControl.value)
+      parseFloat(this.interestForm.controls['minPrice'].value)
     );
     this.fireGtmEvent(`Interest sent`);
     this.firestoreService.addInterest(interest).subscribe();
