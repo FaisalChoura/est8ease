@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Interest } from '../models/interest';
+import { environment } from '../../environments/env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InterestsService {
-  private apiUrl = '/api';
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   findInterestsByEmail(email: string): Observable<Interest[]> {

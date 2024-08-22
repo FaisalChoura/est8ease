@@ -20,7 +20,7 @@
     <div class="mb-4 mt-4">
       We have found {{properties.length}} properties that have a price/sqmt that is at least
       <select id="inputState" [formControl]="selectedPctControl">
-        <option [selected]="selectedPctControl.value === 0" value=0>View all</option>
+        <option [selected]="selectedPctControl.value === 0" value=0>0% (View all)</option>
         <option [selected]="selectedPctControl.value === 5" value=5>5%</option>
         <option [selected]="selectedPctControl.value === 10" value=10>10%</option>
         <option [selected]="selectedPctControl.value === 15" value=15>15%</option>
@@ -73,6 +73,9 @@
     </form>
     <div class="row">
       <div class="offset-md-8 col-md-4 col-sm-4">
+        <div class="form-text email-text" id="basic-addon4">Get notified when a new property that matches your search
+          gets added
+        </div>
         <div class="input-group">
           <input [formControl]="interestForm.get('email')" type="email" class="form-control" placeholder="Email"
             aria-label="email" aria-describedby="basic-addon1"
@@ -80,8 +83,15 @@
           <button class="btn btn-outline-primary" type="button" id="button-addon2"
             (click)="sendInterest()">Submit</button>
         </div>
-        <div class="form-text email-text" id="basic-addon4">Get notified when a new property that matches your search
-          gets added
+        <div *ngIf="interestSuccess" class="form-text email-text mt-2" id="basic-addon4">
+          Interest created successfully! to view your interests <a [routerLink]="['/interests']"
+            [queryParams]="{ email: interestForm.controls['email'].value }">Click here</a>
+
+        </div>
+        <div *ngIf="interestExists" class="form-text email-text mt-2" id="basic-addon4">
+          Similar Interest already exists. To view your interests <a [routerLink]="['/interests']"
+            [queryParams]="{ email: interestForm.controls['email'].value }">Click here</a>
+
         </div>
       </div>
     </div>

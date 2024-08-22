@@ -28,7 +28,7 @@ export class InterestsService {
   ): Promise<Interest[]> {
     const query = {
       email: email,
-      bedrooms: numOfBedrooms,
+      number_of_bedrooms: numOfBedrooms,
       max_price: maxPrice,
       min_price: minPrice,
       size: {

@@ -31,6 +31,12 @@
       },
       "configurations": {
         "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/est8ease-fe/src/environments/env.ts",
+              "with": "apps/est8ease-fe/src/environments/env.prod.ts"
+            }
+          ],
           "budgets": [
             {
               "type": "initial",
@@ -46,6 +52,12 @@
           "outputHashing": "all"
         },
         "development": {
+          "fileReplacements": [
+            {
+              "replace": "apps/est8ease-fe/src/environments/env.ts",
+              "with": "apps/est8ease-fe/src/environments/env.dev.ts"
+            }
+          ],
           "buildOptimizer": false,
           "optimization": false,
           "vendorChunk": true,

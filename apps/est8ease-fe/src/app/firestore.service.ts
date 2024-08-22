@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap, throwError } from 'rxjs';
 import { Interest } from './models/interest';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../environments/env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirestoreService {
-  private apiUrl = '/api';
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getProperties(
@@ -32,8 +33,7 @@ export class FirestoreService {
     return this.checkIfInterestExists(interest).pipe(
       switchMap((exists) => {
         if (exists) {
-          console.log('Interest already exists');
-          return of(); // Observable with no value, indicates completion without action
+          return throwError(() => new Error('Interest already exists'));
         } else {
           return this.http.post(
             this.apiUrl + '/interests',

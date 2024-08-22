@@ -46,11 +46,13 @@ export class PropertiesComponent implements OnInit {
   properties: Property[] = [];
   filteredProperties: Property[] = [];
   interestForm!: FormGroup;
+  interestSuccess = false;
+  interestExists = false;
 
   selectedPctControl = new FormControl();
 
   colDefs: ColDef[] = [
-    { field: 'address', flex: 2 },
+    { field: 'address', flex: 2, filter: 'agTextColumnFilter' },
     { field: 'price' },
     { field: 'size' },
     { field: 'priceM2', headerName: 'Price/m²' },
@@ -85,6 +87,8 @@ export class PropertiesComponent implements OnInit {
     });
 
     this.interestForm.valueChanges.subscribe((form) => {
+      this.interestSuccess = false;
+      this.interestExists = false;
       let filteredProperties = this.properties;
 
       if (form['maxPrice'] != null && form['maxPrice'] > 0) {
@@ -193,7 +197,18 @@ export class PropertiesComponent implements OnInit {
       parseFloat(this.interestForm.controls['minPrice'].value)
     );
     this.fireGtmEvent(`Interest sent`);
-    this.firestoreService.addInterest(interest).subscribe();
+    this.firestoreService.addInterest(interest).subscribe({
+      next: () => {
+        this.interestSuccess = true;
+      },
+      error: (error) => {
+        if (error.message === 'Interest already exists') {
+          this.interestExists = true;
+        } else {
+          console.error('An unexpected error occurred:', error);
+        }
+      },
+    });
   }
 
   onAreaChange(event: Event): void {

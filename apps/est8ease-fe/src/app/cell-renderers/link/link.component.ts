@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+declare let dataLayer: any;
 
 @Component({
   selector: 'app-link',
@@ -18,6 +19,17 @@ export class LinkComponent implements ICellRendererAngularComp {
     return true;
   }
   linkClicked() {
+    this.fireGtmEvent('Link clicked', {
+      url: this.url,
+    });
     window.open(this.url, '_blank');
+  }
+
+  fireGtmEvent(eventName: string, eventParams: any = {}) {
+    dataLayer = dataLayer || [];
+    dataLayer.push({
+      event: eventName,
+      ...eventParams,
+    });
   }
 }
