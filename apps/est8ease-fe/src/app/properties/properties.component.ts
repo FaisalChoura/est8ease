@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { Property } from '../models/property';
 import { Interest } from '../models/interest';
+import { FormattedNumberRendererComponent } from '../cell-renderers/formatted-number/formatted-number.component';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
@@ -48,24 +49,59 @@ export class PropertiesComponent implements OnInit {
   interestForm!: FormGroup;
   interestSuccess = false;
   interestExists = false;
+  formSubmitted = false;
+  filterOds = '';
+  totalPropertyCountForBRs = 0;
 
   selectedPctControl = new FormControl();
 
   colDefs: ColDef[] = [
     { field: 'address', flex: 2, filter: 'agTextColumnFilter' },
-    { field: 'price' },
-    { field: 'size' },
-    { field: 'priceM2', headerName: 'Price/m²' },
+    {
+      field: 'price',
+      headerName: 'Price (AED)',
+      cellRenderer: FormattedNumberRendererComponent,
+    },
+    { field: 'size', headerName: 'Size (m²)' },
+    {
+      field: 'priceM2',
+      headerName: 'Price (AED) / m²',
+      cellRenderer: FormattedNumberRendererComponent,
+    },
     { field: 'url', headerName: 'Property Link', cellRenderer: LinkComponent },
     {
-      headerName: '% difference with avg Price/m²',
+      headerName: '% Dif from AVG price',
+      cellStyle: (params) => {
+        if (params.value < 0) {
+          return {
+            color: 'green',
+            backgroundColor: `rgba(0, 185, 0, ${Math.min(
+              1,
+              Math.abs(params.value / 100)
+            )})`,
+          };
+        } else if (params.value > 0) {
+          return {
+            color: 'red',
+            backgroundColor: `rgba(185, 0, 0, ${Math.min(
+              1,
+              params.value / 100
+            )})`,
+          };
+        }
+        return null; // Default color for zero or other cases
+      },
       valueGetter: (params) => {
         const propertyPricePerSqm = params.data.priceM2;
         this.pricePerSqm;
         return propertyPricePerSqm
-          ? (100 - (propertyPricePerSqm / this.pricePerSqm) * 100).toFixed(2)
+          ? (
+              (100 - (propertyPricePerSqm / this.pricePerSqm) * 100) *
+              -1
+            ).toFixed(2)
           : 'N/A';
       },
+      sortable: false,
     },
     // { field: 'updated_at', cellRenderer: TimeStampDataComponent },
   ];
@@ -89,39 +125,8 @@ export class PropertiesComponent implements OnInit {
     this.interestForm.valueChanges.subscribe((form) => {
       this.interestSuccess = false;
       this.interestExists = false;
-      let filteredProperties = this.properties;
-
-      if (form['maxPrice'] != null && form['maxPrice'] > 0) {
-        const maxPrice = form['maxPrice'];
-        if (!isNaN(maxPrice)) {
-          filteredProperties = filteredProperties.filter(
-            (property) => property.price <= maxPrice
-          );
-        }
-      }
-
-      if (form['minPrice'] != null && form['minPrice'] > 0) {
-        const minPrice = form['minPrice'];
-        if (!isNaN(minPrice)) {
-          filteredProperties = filteredProperties.filter(
-            (property) => property.price >= minPrice
-          );
-        }
-      }
-
-      if (form['estimatedSize'] != null && form['estimatedSize'] > 0) {
-        const size = form['estimatedSize'];
-        if (!isNaN(size)) {
-          filteredProperties = filteredProperties.filter((property) => {
-            return (
-              property.size < size + size * 0.05 &&
-              property.size > size - size * 0.05
-            );
-          });
-        }
-      }
-
-      this.filteredProperties = filteredProperties;
+      this.formSubmitted = false;
+      this.applyFilters();
     });
 
     this.selectedPctControl.setValue(10);
@@ -131,11 +136,13 @@ export class PropertiesComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.area = params.get('id') ?? '';
       this.fetchProperties(this.area, this.bedrooms);
+      this.getTotalCountOfProperties(this.area, this.bedrooms);
     });
 
-    this.selectedPctControl.valueChanges.subscribe((x) =>
-      this.fetchProperties(this.area, this.bedrooms)
-    );
+    this.selectedPctControl.valueChanges.subscribe((x) => {
+      this.fetchProperties(this.area, this.bedrooms);
+      this.getTotalCountOfProperties(this.area, this.bedrooms);
+    });
   }
 
   changeBedroomSelection(event: Event) {
@@ -144,6 +151,7 @@ export class PropertiesComponent implements OnInit {
     this.interestForm.patchValue({ bedrooms: selectElement.value });
     this.bedrooms = selectedValue as BRs;
     this.fetchProperties(this.area, this.bedrooms);
+    this.getTotalCountOfProperties(this.area, this.bedrooms);
   }
 
   fetchProperties(area: string, bedrooms: BRs) {
@@ -162,6 +170,20 @@ export class PropertiesComponent implements OnInit {
       .subscribe((x) => {
         this.properties = x.map((y) => new Property(y));
         this.filteredProperties = x.map((y) => new Property(y));
+        this.applyFilters();
+      });
+  }
+
+  getTotalCountOfProperties(area: string, bedrooms: BRs) {
+    this.firestoreService
+      .getProperties(
+        area,
+        this.pricePerSqm,
+        this.numOfBedroomsMapper(bedrooms),
+        0
+      )
+      .subscribe((x) => {
+        this.totalPropertyCountForBRs = x.length;
       });
   }
 
@@ -183,6 +205,7 @@ export class PropertiesComponent implements OnInit {
   }
 
   sendInterest() {
+    this.formSubmitted = true;
     if (!this.interestForm.valid) {
       this.interestForm.markAllAsTouched();
       return;
@@ -218,6 +241,53 @@ export class PropertiesComponent implements OnInit {
 
     // Navigate to the same page with the selected value as an ID in the URL
     this.router.navigate([`/properties/${selectedValue}`]);
+  }
+
+  applyFilters() {
+    const form = this.interestForm.value;
+
+    let filteredProperties = this.properties;
+
+    if (form['maxPrice'] != null && form['maxPrice'] > 0) {
+      const maxPrice = form['maxPrice'];
+      if (!isNaN(maxPrice)) {
+        filteredProperties = filteredProperties.filter(
+          (property) => property.price <= maxPrice
+        );
+      }
+    }
+
+    if (form['minPrice'] != null && form['minPrice'] > 0) {
+      const minPrice = form['minPrice'];
+      if (!isNaN(minPrice)) {
+        filteredProperties = filteredProperties.filter(
+          (property) => property.price >= minPrice
+        );
+      }
+    }
+
+    if (form['estimatedSize'] != null && form['estimatedSize'] > 0) {
+      const size = form['estimatedSize'];
+      if (!isNaN(size)) {
+        filteredProperties = filteredProperties.filter((property) => {
+          return (
+            property.size < size + size * 0.05 &&
+            property.size > size - size * 0.05
+          );
+        });
+      }
+    }
+
+    this.filteredProperties = filteredProperties;
+    const chancesOfFilter =
+      (this.filteredProperties.length / this.totalPropertyCountForBRs) * 100;
+    if (chancesOfFilter < 33) {
+      this.filterOds = 'Low';
+    } else if (chancesOfFilter >= 33 && chancesOfFilter <= 66) {
+      this.filterOds = 'Medium';
+    } else if (chancesOfFilter > 66 && chancesOfFilter <= 100) {
+      this.filterOds = 'High';
+    }
   }
 
   fireGtmEvent(eventName: string, eventParams: any = {}) {

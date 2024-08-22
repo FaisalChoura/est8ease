@@ -1,7 +1,10 @@
 <div class="container">
   <div class="column">
     <div class="d-flex justify-content-between">
-      <h1>Estate Ease</h1>
+      <div>
+        <h1 class="mb-0">Estate Ease</h1>
+        <p class="mt-0">Beta</p>
+      </div>
       <div class="col-md-2 pt-1">
         <p class="mb-0">Areas</p>
         <select id="inputState" class="form-select" (change)="onAreaChange($event)">
@@ -17,8 +20,8 @@
       </div>
     </div>
 
-    <div class="mb-4 mt-4">
-      We have found {{properties.length}} properties that have a price/sqmt that is at least
+    <div class="mb-4">
+      We have found {{properties.length}} properties that have a price/m² that is at least
       <select id="inputState" [formControl]="selectedPctControl">
         <option [selected]="selectedPctControl.value === 0" value=0>0% (View all)</option>
         <option [selected]="selectedPctControl.value === 5" value=5>5%</option>
@@ -32,8 +35,9 @@
         <option [selected]="selectedPctControl.value === 45" value=45>45%</option>
         <option [selected]="selectedPctControl.value === 50" value=50>50%</option>
       </select>
-      lower than the average price/sqmt {{pricePerSqm}} AED for a {{numOfBedroomsMapper(bedrooms)}} bedroom apartment in
+      lower than the average price/m² {{pricePerSqm}} AED for a {{numOfBedroomsMapper(bedrooms)}} bedroom apartment in
       {{title}}
+      <p>Currently showing {{filteredProperties.length}} out of {{properties.length}}</p>
     </div>
 
 
@@ -53,22 +57,27 @@
         <div class="input-group mb-2">
           <input id="exampleInputEmail1" [formControl]="interestForm.get('minPrice')" type="number" class="form-control"
             placeholder="Min Price" aria-label="Min Price" aria-describedby="basic-addon1"
-            [ngClass]="{'is-invalid': interestForm.controls['minPrice'].invalid && interestForm.controls['minPrice'].touched}">
+            [ngClass]="{'is-invalid': interestForm.controls['minPrice'].invalid && formSubmitted}">
         </div>
       </div>
       <div class="col-md-3 col-sm-4">
         <div class="input-group mb-2">
           <input [formControl]="interestForm.get('maxPrice')" type="number" class="form-control" placeholder="Max Price"
             aria-label="Max Price" aria-describedby="basic-addon1"
-            [ngClass]="{'is-invalid': interestForm.controls['maxPrice'].invalid && interestForm.controls['maxPrice'].touched}">
+            [ngClass]="{'is-invalid': interestForm.controls['maxPrice'].invalid && formSubmitted}">
         </div>
       </div>
-      <div class="col-md-3 col-sm-4">
+      <div class="col-md-2 col-sm-3">
         <div class="input-group mb-2">
           <input [formControl]="interestForm.get('estimatedSize')" type="number" class="form-control"
-            placeholder="Size (sqmt)" aria-label="Size (sqmt)" aria-describedby="basic-addon1"
-            [ngClass]="{'is-invalid': interestForm.controls['estimatedSize'].invalid && interestForm.controls['estimatedSize'].touched}">
+            placeholder="Size (m²)" aria-label="Size (sqmt)" aria-describedby="basic-addon1"
+            [ngClass]="{'is-invalid': interestForm.controls['estimatedSize'].invalid && formSubmitted}">
         </div>
+      </div>
+      <div
+        *ngIf="interestForm.controls['estimatedSize'].value && interestForm.controls['maxPrice'].value && interestForm.controls['minPrice'].value"
+        class="col-md-1 col-sm-1">
+        {{filterOds}} chance
       </div>
     </form>
     <div class="row">
@@ -79,7 +88,7 @@
         <div class="input-group">
           <input [formControl]="interestForm.get('email')" type="email" class="form-control" placeholder="Email"
             aria-label="email" aria-describedby="basic-addon1"
-            [ngClass]="{'is-invalid': interestForm.controls['email'].invalid && interestForm.controls['email'].touched}">
+            [ngClass]="{'is-invalid': interestForm.controls['email'].invalid && formSubmitted}">
           <button class="btn btn-outline-primary" type="button" id="button-addon2"
             (click)="sendInterest()">Submit</button>
         </div>
@@ -98,7 +107,7 @@
 
 
 
-    <ag-grid-angular class="ag-theme-quartz mt-2" style="width: 100%; height: 400px;" [rowData]="filteredProperties"
+    <ag-grid-angular class="ag-theme-quartz mt-2" style="width: 100%; height: 450px;" [rowData]="filteredProperties"
       [columnDefs]="colDefs" />
 
 
