@@ -77,7 +77,9 @@
       <div
         *ngIf="interestForm.controls['estimatedSize'].value && interestForm.controls['maxPrice'].value && interestForm.controls['minPrice'].value"
         class="col-md-1 col-sm-1">
-        {{filterOds}} chance
+        <p class="chance">
+          Settings: {{filterOds}} chance of finding a property
+        </p>
       </div>
     </form>
     <div class="row">
