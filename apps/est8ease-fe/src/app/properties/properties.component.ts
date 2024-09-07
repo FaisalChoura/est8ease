@@ -238,10 +238,10 @@ export class PropertiesComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
     this.fireGtmEvent(`Area changed to ${selectedValue}`);
-    this.title = this.area.replaceAll('_', ' ');
+
 
     // Navigate to the same page with the selected value as an ID in the URL
-    this.router.navigate([`/properties/${selectedValue}`]);
+    this.router.navigate([`/properties/${selectedValue}`]).then(x => this.title = this.area.replaceAll('_', ' '));
   }
 
   applyFilters() {
