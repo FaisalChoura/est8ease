@@ -56,7 +56,7 @@ export class PropertiesComponent implements OnInit {
   selectedPctControl = new FormControl();
 
   colDefs: ColDef[] = [
-    { field: 'address', flex: 2, filter: 'agTextColumnFilter' },
+    { field: 'address', filter: 'agTextColumnFilter' },
     {
       field: 'price',
       headerName: 'Price (AED)',
