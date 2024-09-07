@@ -129,7 +129,7 @@ export class PropertiesComponent implements OnInit {
       this.applyFilters();
     });
 
-    this.selectedPctControl.setValue(10);
+    this.selectedPctControl.setValue(0);
     this.area = this.route.snapshot.paramMap.get('id') ?? '';
     this.title = this.area.replaceAll('_', ' ');
 
