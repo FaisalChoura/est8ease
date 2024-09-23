@@ -18,6 +18,7 @@ import {
 import { Property } from '../models/property';
 import { Interest } from '../models/interest';
 import { FormattedNumberRendererComponent } from '../cell-renderers/formatted-number/formatted-number.component';
+import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
@@ -34,6 +35,7 @@ declare let dataLayer: any;
     RouterModule,
     ReactiveFormsModule,
     CommonModule,
+    PropertyFiltersComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.scss'],
@@ -239,9 +241,10 @@ export class PropertiesComponent implements OnInit {
     const selectedValue = selectElement.value;
     this.fireGtmEvent(`Area changed to ${selectedValue}`);
 
-
     // Navigate to the same page with the selected value as an ID in the URL
-    this.router.navigate([`/properties/${selectedValue}`]).then(x => this.title = this.area.replaceAll('_', ' '));
+    this.router
+      .navigate([`/properties/${selectedValue}`])
+      .then((x) => (this.title = this.area.replaceAll('_', ' ')));
   }
 
   applyFilters() {
