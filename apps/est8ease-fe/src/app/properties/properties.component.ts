@@ -55,6 +55,7 @@ export class PropertiesComponent implements OnInit {
   formSubmitted = false;
   filterOds = '';
   totalPropertyCountForBRs = 0;
+  filters: PropertyFilterChangeObject = {} as PropertyFilterChangeObject;
 
   selectedPctControl = new FormControl();
 
@@ -125,12 +126,12 @@ export class PropertiesComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     });
 
-    this.interestForm.valueChanges.subscribe((form) => {
-      this.interestSuccess = false;
-      this.interestExists = false;
-      this.formSubmitted = false;
-      this.applyFilters();
-    });
+    // this.interestForm.valueChanges.subscribe((form) => {
+    //   this.interestSuccess = false;
+    //   this.interestExists = false;
+    //   this.formSubmitted = false;
+    //   this.applyFilters();
+    // });
 
     this.selectedPctControl.setValue(0);
     this.area = this.route.snapshot.paramMap.get('id') ?? '';
@@ -149,14 +150,16 @@ export class PropertiesComponent implements OnInit {
   }
 
   filterChanged(event: PropertyFilterChangeObject) {
-    console.log(event);
+    this.interestSuccess = false;
+    this.interestExists = false;
+    this.formSubmitted = false;
+    this.applyFilters(event)
+
   }
 
-  changeBedroomSelection(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;
-    this.interestForm.patchValue({ bedrooms: selectElement.value });
-    this.bedrooms = selectedValue as BRs;
+  changeBedroomSelection(bedrooms: BRs) {
+    this.interestForm.patchValue({ bedrooms: bedrooms });
+    this.bedrooms = bedrooms;
     this.fetchProperties(this.area, this.bedrooms);
     this.getTotalCountOfProperties(this.area, this.bedrooms);
   }
@@ -177,7 +180,7 @@ export class PropertiesComponent implements OnInit {
       .subscribe((x) => {
         this.properties = x.map((y) => new Property(y));
         this.filteredProperties = x.map((y) => new Property(y));
-        this.applyFilters();
+        this.applyFilters(this.filters);
       });
   }
 
@@ -211,35 +214,7 @@ export class PropertiesComponent implements OnInit {
     }
   }
 
-  sendInterest() {
-    this.formSubmitted = true;
-    if (!this.interestForm.valid) {
-      this.interestForm.markAllAsTouched();
-      return;
-    }
 
-    const interest = new Interest(
-      this.interestForm.controls['email'].value,
-      this.area,
-      parseFloat(this.interestForm.controls['maxPrice'].value),
-      parseFloat(this.interestForm.controls['estimatedSize'].value),
-      this.numOfBedroomsMapper(this.bedrooms),
-      parseFloat(this.interestForm.controls['minPrice'].value)
-    );
-    this.fireGtmEvent(`Interest sent`);
-    this.firestoreService.addInterest(interest).subscribe({
-      next: () => {
-        this.interestSuccess = true;
-      },
-      error: (error) => {
-        if (error.message === 'Interest already exists') {
-          this.interestExists = true;
-        } else {
-          console.error('An unexpected error occurred:', error);
-        }
-      },
-    });
-  }
 
   onAreaChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
@@ -252,13 +227,20 @@ export class PropertiesComponent implements OnInit {
       .then((x) => (this.title = this.area.replaceAll('_', ' ')));
   }
 
-  applyFilters() {
-    const form = this.interestForm.value;
+  applyFilters(changes: PropertyFilterChangeObject) {
+    // const form = this.interestForm.value;
+    const form = changes;
+    this.filters = changes;
+
+    if (changes.bedrooms != this.bedrooms) {
+      this.changeBedroomSelection(changes.bedrooms)
+    }
+
 
     let filteredProperties = this.properties;
 
-    if (form['maxPrice'] != null && form['maxPrice'] > 0) {
-      const maxPrice = form['maxPrice'];
+    if (form.maxPrice != null && form.maxPrice > 0) {
+      const maxPrice = form.maxPrice;
       if (!isNaN(maxPrice)) {
         filteredProperties = filteredProperties.filter(
           (property) => property.price <= maxPrice

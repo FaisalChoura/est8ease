@@ -1,8 +1,10 @@
+type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
+
 export class PropertyFilterChangeObject {
   maxPrice: number;
   minPrice: number;
   estimatedSize: number;
-  bedrooms: number;
+  bedrooms: BRs;
   area: string;
   email: string;
   constructor(
@@ -11,7 +13,7 @@ export class PropertyFilterChangeObject {
     this.area = "";
     this.maxPrice = 0;
     this.estimatedSize = 0;
-    this.bedrooms = 0;
+    this.bedrooms = 'oneBR';
     this.minPrice = 0;
   }
 }
