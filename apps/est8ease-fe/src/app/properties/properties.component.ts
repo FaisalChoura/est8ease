@@ -19,6 +19,7 @@ import { Property } from '../models/property';
 import { Interest } from '../models/interest';
 import { FormattedNumberRendererComponent } from '../cell-renderers/formatted-number/formatted-number.component';
 import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
+import { PropertyFilterChangeObject } from '../models/property-filter-change-object';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
@@ -145,6 +146,10 @@ export class PropertiesComponent implements OnInit {
       this.fetchProperties(this.area, this.bedrooms);
       this.getTotalCountOfProperties(this.area, this.bedrooms);
     });
+  }
+
+  filterChanged(event: PropertyFilterChangeObject) {
+    console.log(event);
   }
 
   changeBedroomSelection(event: Event) {

@@ -41,7 +41,7 @@
     </div>
 
 
-    <app-property-filters></app-property-filters>
+    <app-property-filters (changes)="filterChanged($event)"></app-property-filters>
 
     <form class="row gx-2" [formGroup]="interestForm">
       <div class="col-md-3 col-sm-12 ">
