@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -14,6 +14,17 @@ export class HomeComponent {
   areas = ['Downtown', 'Uptown', 'Suburbs', 'Beachside', 'City Center', 'Hilltop'];
   filteredAreas: string[] = [];
   selectedArea: string | null = null;
+  isDropdownVisible = false;
+
+  // Close dropdown when clicking outside
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.search-bar')) {
+      this.isDropdownVisible = false;
+    }
+  }
+
 
   // Filter Chips
   filterChips = [
@@ -30,28 +41,30 @@ export class HomeComponent {
     { label: 'Gym Access', selected: false }
   ];
 
-  // Dropdown Filters
-  priceRanges = ['< $1,000', '$1,000 - $2,000', '$2,000 - $3,000', '> $3,000'];
-  selectedPriceRange: string = '';
-
-  bedroomOptions = ['Studio', '1 Bedroom', '2 Bedrooms', '3+ Bedrooms'];
-  selectedBedrooms: string = '';
+  // // Dropdown Filters
+  // priceRanges = ['< $1,000', '$1,000 - $2,000', '$2,000 - $3,000', '> $3,000'];
+  // selectedPriceRange: string = '';
+  //
+  // bedroomOptions = ['Studio', '1 Bedroom', '2 Bedrooms', '3+ Bedrooms'];
+  // selectedBedrooms: string = '';
 
   // Filter Panel State
   isFilterPanelOpen = false;
 
-  // Filter Area Autocomplete
+  // Update filteredAreas and show dropdown
   onSearchInput(): void {
     const query = this.searchControl.value?.toLowerCase() || '';
-    this.filteredAreas = this.areas.filter((area) =>
+    this.filteredAreas = this.areas.filter(area =>
       area.toLowerCase().includes(query)
     );
+    this.isDropdownVisible = this.filteredAreas.length > 0;
   }
 
+  // Select an area and close the dropdown
   onSelectArea(area: string): void {
     this.searchControl.setValue(area);
-    this.selectedArea = area;
     this.filteredAreas = [];
+    this.isDropdownVisible = false;
   }
 
   // Toggle Filter Chips
@@ -74,8 +87,8 @@ export class HomeComponent {
     const searchData = {
       area: this.selectedArea,
       filters: selectedChips,
-      priceRange: this.selectedPriceRange,
-      bedrooms: this.selectedBedrooms
+      // priceRange: this.selectedPriceRange,
+      // bedrooms: this.selectedBedrooms
     };
 
     console.log('Search Data:', searchData);

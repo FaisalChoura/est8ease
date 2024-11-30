@@ -11,7 +11,7 @@
         placeholder="Search by Area"
         class="search-input"
       />
-      <div *ngIf="filteredAreas.length > 0" class="autocomplete-dropdown">
+      <div *ngIf="isDropdownVisible" class="autocomplete-dropdown">
         <div
           *ngFor="let area of filteredAreas"
           class="autocomplete-item"
@@ -22,6 +22,7 @@
       </div>
       <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
+
 
 
     <!-- Filter Chips -->
