@@ -27,10 +27,10 @@ export class Interest {
   active: boolean;
 
   @Prop({ default: Date.now })
-  createdAt: Date;
+  created_at: Date;
 
   @Prop({ default: Date.now })
-  updatedAt: Date;
+  updated_at: Date;
 }
 
 export const InterestSchema = SchemaFactory.createForClass(Interest);

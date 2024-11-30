@@ -37,7 +37,7 @@ export class InterestsComponent implements OnInit {
     { field: 'min_price' },
     { field: 'size' },
     { field: 'number_of_bedrooms' },
-    { field: 'createdAt' },
+    { field: 'created_at' },
   ];
 
   ngOnInit(): void {

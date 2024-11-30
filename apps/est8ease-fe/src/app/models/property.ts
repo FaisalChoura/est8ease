@@ -19,7 +19,7 @@ export class Property {
     this.bedrooms = data.bedrooms;
     this.bathrooms = data.bathrooms;
     this.url = data.url;
-    this.sourceId = data.sourceId;
+    this.sourceId = data.source_id;
     this.size = data.size;
     this.source = data.source;
     this.nameOfArea = data.name_of_area;

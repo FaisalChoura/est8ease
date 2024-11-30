@@ -5,7 +5,7 @@ export interface Property extends Document {
   bedrooms: number;
   bathrooms: number;
   url: string;
-  sourceId: string;
+  source_id: string;
   size: number;
   source: string;
   nameOfArea: string;
