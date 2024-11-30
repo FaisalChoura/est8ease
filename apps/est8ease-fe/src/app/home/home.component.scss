@@ -59,7 +59,7 @@ header {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 16px 0;
+  padding: 0 16px;
 }
 
 .chip {
@@ -68,6 +68,7 @@ header {
   border-radius: 16px;
   background-color: #f9f9f9;
   cursor: pointer;
+  font-size: 12px;
 }
 
 .chip.selected {
