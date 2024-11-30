@@ -11,8 +11,18 @@
         placeholder="Search by Area"
         class="search-input"
       />
+      <div *ngIf="filteredAreas.length > 0" class="autocomplete-dropdown">
+        <div
+          *ngFor="let area of filteredAreas"
+          class="autocomplete-item"
+          (click)="onSelectArea(area)"
+        >
+          {{ area }}
+        </div>
+      </div>
       <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
+
 
     <!-- Filter Chips -->
     <div class="filter-chips">
@@ -25,11 +35,29 @@
         {{ chip.label }}
       </button>
 
-      <!-- More Filters Button -->
       <button (click)="toggleFilterPanel()" class="more-filters-button">
         More Filters
       </button>
     </div>
+
+    <div class="filter-panel" [class.open]="isFilterPanelOpen">
+      <div class="filter-panel-header">
+        <h3>More Filters</h3>
+        <button (click)="toggleFilterPanel()">✖</button>
+      </div>
+      <div class="filter-panel-body">
+        <h4>Additional Filters</h4>
+        <button
+          *ngFor="let chip of additionalChips"
+          [class.selected]="chip.selected"
+          (click)="toggleChip(chip)"
+          class="chip"
+        >
+          {{ chip.label }}
+        </button>
+      </div>
+    </div>
+
 
     <!-- Learn More Link -->
     <a (click)="scrollToSection('about-us')" class="learn-more">Learn more about us</a>
