@@ -22,13 +22,14 @@
     placeholder="Search by Area"
     class="search-input"
   />
-  <button (click)="toggleFilterPanel()" class="more-filters-button">
-    More Filters
-  </button>
+  <div class="submit-section">
+    <button (click)="submitFilters()" class="submit-button">Search</button>
+  </div>
 </div>
 
 <!-- Filter Chips -->
 <div class="filter-chips">
+  <!-- Chips -->
   <button
     *ngFor="let chip of filterChips"
     [class.selected]="chip.selected"
@@ -37,12 +38,13 @@
   >
     {{ chip.label }}
   </button>
+
+  <!-- More Filters Button -->
+  <button (click)="toggleFilterPanel()" class="more-filters-button">
+    More Filters
+  </button>
 </div>
 
-<!-- Submit Button -->
-<div class="submit-section">
-  <button (click)="submitFilters()" class="submit-button">Search</button>
-</div>
 
 <!-- Right-Side Filter Panel -->
 <div class="filter-panel" [class.open]="isFilterPanelOpen">
@@ -91,12 +93,12 @@
       <span><img src="icons/up-arrow.png" alt="High Floor Icon"> High Floor</span>
     </div>
     <div class="property-description">
-      15th floor apartment with city skyline views.
+      15th-floor apartment with city skyline views.
     </div>
     <div class="property-price-size">
       <strong>$1,500/month</strong> • 900 sqft
     </div>
-    <a href="#" class="view-details">View Details →</a>
+    <button class="view-details">View Details</button>
   </div>
 
   <!-- Repeat Property Card for additional listings -->
@@ -105,24 +107,24 @@
 </div>
 
 <!-- Footer Navigation -->
-<footer>
-  <a href="#">
-    <img src="icons/home.png" alt="Home">
-    <div>Home</div>
-  </a>
-  <a href="#">
-    <img src="icons/search.png" alt="Search">
-    <div>Search</div>
-  </a>
-  <a href="#">
-    <img src="icons/favorites.png" alt="Favorites">
-    <div>Favorites</div>
-  </a>
-  <a href="#">
-    <img src="icons/profile.png" alt="Profile">
-    <div>Profile</div>
-  </a>
-</footer>
+<!--<footer>-->
+<!--  <a href="#">-->
+<!--    <img src="icons/home.png" alt="Home">-->
+<!--    <div>Home</div>-->
+<!--  </a>-->
+<!--  <a href="#">-->
+<!--    <img src="icons/search.png" alt="Search">-->
+<!--    <div>Search</div>-->
+<!--  </a>-->
+<!--  <a href="#">-->
+<!--    <img src="icons/favorites.png" alt="Favorites">-->
+<!--    <div>Favorites</div>-->
+<!--  </a>-->
+<!--  <a href="#">-->
+<!--    <img src="icons/profile.png" alt="Profile">-->
+<!--    <div>Profile</div>-->
+<!--  </a>-->
+<!--</footer>-->
 
 </body>
 </html>
