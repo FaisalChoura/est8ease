@@ -1,130 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>PropertyScout - Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+<div class="main-section">
+  <div class="search-section">
+    <h1 class="search-title">Find your apartment with a detailed search</h1>
 
-<!-- Header Section -->
-<header>
-  <div class="logo">PropertyScout</div>
-</header>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (input)="onSearchInput()"
+        placeholder="Search by Area"
+        class="search-input"
+      />
+      <button (click)="submitFilters()" class="search-button">Search</button>
+    </div>
 
-<!-- Search Bar with Dropdown Filters -->
-<div class="search-bar">
-  <!-- Search Bar with Autocomplete -->
-  <input
-    type="text"
-    [formControl]="searchControl"
-    (input)="onSearchInput()"
-    placeholder="Search by Area"
-    class="search-input"
-  />
-  <div class="submit-section">
-    <button (click)="submitFilters()" class="submit-button">Search</button>
-  </div>
-</div>
-
-<!-- Filter Chips -->
-<div class="filter-chips">
-  <!-- Chips -->
-  <button
-    *ngFor="let chip of filterChips"
-    [class.selected]="chip.selected"
-    (click)="toggleChip(chip)"
-    class="chip"
-  >
-    {{ chip.label }}
-  </button>
-
-  <!-- More Filters Button -->
-  <button (click)="toggleFilterPanel()" class="more-filters-button">
-    More Filters
-  </button>
-</div>
-
-
-<!-- Right-Side Filter Panel -->
-<div class="filter-panel" [class.open]="isFilterPanelOpen">
-  <div class="filter-panel-header">
-    <h3>More Filters</h3>
-    <button (click)="toggleFilterPanel()">✖</button>
-  </div>
-  <div class="filter-panel-body">
-    <!-- Additional Chips -->
-    <div class="additional-chips">
-      <h4>Additional Filters</h4>
+    <!-- Filter Chips -->
+    <div class="filter-chips">
       <button
-        *ngFor="let chip of additionalChips"
+        *ngFor="let chip of filterChips"
         [class.selected]="chip.selected"
         (click)="toggleChip(chip)"
         class="chip"
       >
         {{ chip.label }}
       </button>
+
+      <!-- More Filters Button -->
+      <button (click)="toggleFilterPanel()" class="more-filters-button">
+        More Filters
+      </button>
     </div>
-    <!-- Dropdown Filters -->
-    <div class="dropdown-filters">
-      <h4>Filter by Price Range</h4>
-      <select [(ngModel)]="selectedPriceRange">
-        <option *ngFor="let range of priceRanges" [value]="range">{{ range }}</option>
-      </select>
-      <h4>Number of Bedrooms</h4>
-      <select [(ngModel)]="selectedBedrooms">
-        <option *ngFor="let option of bedroomOptions" [value]="option">{{ option }}</option>
-      </select>
-    </div>
+
+    <!-- Learn More Link -->
+    <a (click)="scrollToSection('about-us')" class="learn-more">Learn more about us</a>
   </div>
 </div>
 
-
-
-<!-- Featured Properties Section -->
-<div class="property-list">
-  <h2>Recommended for You</h2>
-
-  <!-- Property Card -->
-  <div class="property-card">
-    <div class="property-title">Spacious 2-bedroom Apartment</div>
-    <div class="property-details">
-      <span><img src="icons/eye.png" alt="Good View Icon"> Good View</span>
-      <span><img src="icons/up-arrow.png" alt="High Floor Icon"> High Floor</span>
-    </div>
-    <div class="property-description">
-      15th-floor apartment with city skyline views.
-    </div>
-    <div class="property-price-size">
-      <strong>$1,500/month</strong> • 900 sqft
-    </div>
-    <button class="view-details">View Details</button>
-  </div>
-
-  <!-- Repeat Property Card for additional listings -->
-  <!-- ... -->
-
+<!-- Detailed Description Section -->
+<div id="about-us" class="about-section">
+  <h2>About Us</h2>
+  <p>
+    We are a leading platform dedicated to helping you find the perfect apartment.
+    With a wide selection of properties and customizable search filters, we make
+    your property search simple and efficient.
+  </p>
+  <p>
+    Explore our advanced tools and filters to find apartments tailored to your
+    unique needs and preferences.
+  </p>
 </div>
-
-<!-- Footer Navigation -->
-<!--<footer>-->
-<!--  <a href="#">-->
-<!--    <img src="icons/home.png" alt="Home">-->
-<!--    <div>Home</div>-->
-<!--  </a>-->
-<!--  <a href="#">-->
-<!--    <img src="icons/search.png" alt="Search">-->
-<!--    <div>Search</div>-->
-<!--  </a>-->
-<!--  <a href="#">-->
-<!--    <img src="icons/favorites.png" alt="Favorites">-->
-<!--    <div>Favorites</div>-->
-<!--  </a>-->
-<!--  <a href="#">-->
-<!--    <img src="icons/profile.png" alt="Profile">-->
-<!--    <div>Profile</div>-->
-<!--  </a>-->
-<!--</footer>-->
-
-</body>
-</html>

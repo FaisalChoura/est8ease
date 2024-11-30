@@ -80,9 +80,17 @@ export class HomeComponent {
 
     console.log('Search Data:', searchData);
 
+
+
     // Example HTTP Request
     // this.http.post('/api/search', searchData).subscribe(response => {
     //   console.log('Search Response:', response);
     // });
+  }
+  scrollToSection(sectionId: string): void {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }

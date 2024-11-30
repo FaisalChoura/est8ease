@@ -1,38 +1,39 @@
-/* General Body Styling */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9; /* Light background for a clean look */
-  color: #333; /* Standard dark text */
-  line-height: 1.6;
+html {
+  scroll-behavior: smooth;
 }
 
-/* Header */
-header {
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
-  padding: 16px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-header .logo {
-  font-size: 24px;
-  font-weight: 600;
+/* Centering the main content */
+.main-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
   text-align: center;
-  color: #007aff; /* Apple blue */
+  background-color: #f9f9f9; /* Light background for clean look */
+}
+
+.search-section {
+  max-width: 600px;
+  padding: 20px;
+}
+
+/* Title */
+.search-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 24px;
 }
 
 /* Search Bar */
 .search-bar {
-  margin: 16px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.search-bar input {
+.search-input {
   flex: 1;
   padding: 12px 16px;
   font-size: 16px;
@@ -40,15 +41,15 @@ header .logo {
   border-radius: 24px;
   outline: none;
   background-color: white;
+  max-width: 400px;
   transition: box-shadow 0.2s ease;
 }
 
-.search-bar input:focus {
-  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Apple blue focus effect */
+.search-input:focus {
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Apple blue focus */
 }
 
-.search-bar button {
-  margin-left: 8px;
+.search-button {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
@@ -57,21 +58,22 @@ header .logo {
   border: none;
   border-radius: 24px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.search-bar button:hover {
-  background-color: #005bbb; /* Darker blue for hover */
+.search-button:hover {
+  background-color: #005bbb; /* Darker blue on hover */
 }
 
 /* Filter Chips */
 .filter-chips {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 16px;
 }
 
+/* Chips */
 .chip {
   padding: 8px 12px;
   border: 1px solid #dcdcdc;
@@ -89,156 +91,52 @@ header .logo {
   border-color: #007aff;
 }
 
-.chip:hover {
-  background-color: #f1f1f1; /* Light hover effect */
-}
-/* More filters button */
-
 .more-filters-button {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
   color: #007aff; /* Apple blue text */
-  background-color: white; /* White background to stand out */
-  border: 1px solid #007aff; /* Blue border to differentiate */
-  border-radius: 24px; /* Rounded corners to match the design */
+  background-color: white;
+  border: 1px solid #007aff; /* Blue border */
+  border-radius: 24px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .more-filters-button:hover {
-  background-color: #f1f1f1; /* Subtle grey for hover */
+  background-color: #f1f1f1; /* Light hover */
 }
 
-.more-filters-button:active {
-  background-color: #e0e0e0; /* Slightly darker grey for active state */
-  color: #005bbb; /* Darker blue text on active */
-}
-
-/* Property Cards */
-.property-list {
-  padding: 16px;
-}
-
-.property-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  margin-bottom: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.property-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-}
-
-.property-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.property-details {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+/* Learn More Link */
+.learn-more {
+  display: block;
+  margin-top: 20px;
   font-size: 14px;
-  color: #666;
-}
-
-.property-description {
-  font-size: 14px;
-  color: #444;
-  margin-bottom: 12px;
-}
-
-.property-price-size {
-  font-size: 16px;
-  font-weight: 500;
-  color: #111;
-  margin-bottom: 16px;
-}
-
-.view-details {
-  background-color: #007aff;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.view-details:hover {
-  background-color: #005bbb;
-}
-
-/* Filter Panel */
-.filter-panel {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  height: 100%;
-  width: 300px;
-  background-color: white;
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  overflow-y: auto;
-  transition: right 0.3s ease;
-}
-
-.filter-panel.open {
-  right: 0;
-}
-
-.filter-panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: #007aff;
-  color: white;
-}
-
-.filter-panel-body {
-  padding: 16px;
-}
-
-.dropdown-filters select {
-  width: 100%;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #dcdcdc;
-  border-radius: 4px;
-  margin-bottom: 16px;
-}
-
-/* Footer Navigation */
-footer {
-  background-color: white;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  padding: 12px 0;
-}
-
-footer a {
+  color: #007aff;
   text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  text-align: center;
+  cursor: pointer;
 }
 
-footer img {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 4px;
+.learn-more:hover {
+  text-decoration: underline;
+}
+
+/* About Us Section */
+.about-section {
+  padding: 40px 20px;
+  background-color: white;
+  text-align: left;
+  color: #333;
+}
+
+.about-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.about-section p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 12px;
 }
