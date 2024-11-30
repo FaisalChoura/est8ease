@@ -60,6 +60,14 @@ export class HomeComponent {
     this.isDropdownVisible = this.filteredAreas.length > 0;
   }
 
+  onSearchFocus(): void {
+    const query = this.searchControl.value?.toLowerCase() || '';
+    this.filteredAreas = this.areas.filter(area =>
+      area.toLowerCase().includes(query)
+    );
+    this.isDropdownVisible = true; // Show dropdown
+  }
+
   // Select an area and close the dropdown
   onSelectArea(area: string): void {
     this.searchControl.setValue(area);

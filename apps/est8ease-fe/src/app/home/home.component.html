@@ -7,6 +7,7 @@
       <input
         type="text"
         [formControl]="searchControl"
+        (focus)="onSearchFocus()"
         (input)="onSearchInput()"
         placeholder="Search by Area"
         class="search-input"
@@ -22,6 +23,8 @@
       </div>
       <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
+
+
 
 
 
