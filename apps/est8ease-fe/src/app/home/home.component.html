@@ -1,1 +1,128 @@
-<p>home works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PropertyScout - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+  <div class="logo">PropertyScout</div>
+</header>
+
+<!-- Search Bar with Dropdown Filters -->
+<div class="search-bar">
+  <!-- Search Bar with Autocomplete -->
+  <input
+    type="text"
+    [formControl]="searchControl"
+    (input)="onSearchInput()"
+    placeholder="Search by Area"
+    class="search-input"
+  />
+  <button (click)="toggleFilterPanel()" class="more-filters-button">
+    More Filters
+  </button>
+</div>
+
+<!-- Filter Chips -->
+<div class="filter-chips">
+  <button
+    *ngFor="let chip of filterChips"
+    [class.selected]="chip.selected"
+    (click)="toggleChip(chip)"
+    class="chip"
+  >
+    {{ chip.label }}
+  </button>
+</div>
+
+<!-- Submit Button -->
+<div class="submit-section">
+  <button (click)="submitFilters()" class="submit-button">Search</button>
+</div>
+
+<!-- Right-Side Filter Panel -->
+<div class="filter-panel" [class.open]="isFilterPanelOpen">
+  <div class="filter-panel-header">
+    <h3>More Filters</h3>
+    <button (click)="toggleFilterPanel()">✖</button>
+  </div>
+  <div class="filter-panel-body">
+    <!-- Additional Chips -->
+    <div class="additional-chips">
+      <h4>Additional Filters</h4>
+      <button
+        *ngFor="let chip of additionalChips"
+        [class.selected]="chip.selected"
+        (click)="toggleChip(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+    </div>
+    <!-- Dropdown Filters -->
+    <div class="dropdown-filters">
+      <h4>Filter by Price Range</h4>
+      <select [(ngModel)]="selectedPriceRange">
+        <option *ngFor="let range of priceRanges" [value]="range">{{ range }}</option>
+      </select>
+      <h4>Number of Bedrooms</h4>
+      <select [(ngModel)]="selectedBedrooms">
+        <option *ngFor="let option of bedroomOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Featured Properties Section -->
+<div class="property-list">
+  <h2>Recommended for You</h2>
+
+  <!-- Property Card -->
+  <div class="property-card">
+    <div class="property-title">Spacious 2-bedroom Apartment</div>
+    <div class="property-details">
+      <span><img src="icons/eye.png" alt="Good View Icon"> Good View</span>
+      <span><img src="icons/up-arrow.png" alt="High Floor Icon"> High Floor</span>
+    </div>
+    <div class="property-description">
+      15th floor apartment with city skyline views.
+    </div>
+    <div class="property-price-size">
+      <strong>$1,500/month</strong> • 900 sqft
+    </div>
+    <a href="#" class="view-details">View Details →</a>
+  </div>
+
+  <!-- Repeat Property Card for additional listings -->
+  <!-- ... -->
+
+</div>
+
+<!-- Footer Navigation -->
+<footer>
+  <a href="#">
+    <img src="icons/home.png" alt="Home">
+    <div>Home</div>
+  </a>
+  <a href="#">
+    <img src="icons/search.png" alt="Search">
+    <div>Search</div>
+  </a>
+  <a href="#">
+    <img src="icons/favorites.png" alt="Favorites">
+    <div>Favorites</div>
+  </a>
+  <a href="#">
+    <img src="icons/profile.png" alt="Profile">
+    <div>Profile</div>
+  </a>
+</footer>
+
+</body>
+</html>
