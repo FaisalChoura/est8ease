@@ -1,9 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
 import { FilterService } from '../filters.service';
+import { Chip } from '../models/chip';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ import { FilterService } from '../filters.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   searchControl = new FormControl('');
   areas = [
     'Downtown',
@@ -33,6 +34,14 @@ export class HomeComponent {
 
   constructor(private router: Router, private filterService: FilterService) {}
 
+  ngOnInit(): void {
+    this.filterService.getSelectedBedrooms().subscribe((bedrooms) => {
+      this.bedroomFilterChips.forEach((chip) => {
+        chip.selected = bedrooms.includes(chip.label);
+      });
+    })
+  }
+
   // Close dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent): void {
@@ -44,16 +53,16 @@ export class HomeComponent {
 
   // bedroom Chips
   bedroomFilterChips = [
-    { label: 'Studio', selected: false },
-    { label: '1 BR', selected: false },
-    { label: '2 BR', selected: false },
-    { label: '3 BR', selected: false },
+    new Chip('Studio', 0, false),
+    new Chip('1 BR', 1, false),
+    new Chip('2 BR', 2, false),
+    new Chip('3 BR', 3, false),
   ];
 
   // Filter Chips
   filterChips = [
-    { label: 'Good View',value: 'good_view' , selected: false },
-    { label: 'High Floor',value: 'high_floor', selected: false },
+    { label: 'Good View', value: 'good_view', selected: false },
+    { label: 'High Floor', value: 'high_floor', selected: false },
     { label: 'Chiller Free', value: 'chiller_free', selected: false },
     { label: 'Near Metro', value: 'near_metro', selected: false },
   ];

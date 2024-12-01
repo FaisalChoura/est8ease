@@ -4,6 +4,16 @@
     <button (click)="toggleFilterPanel()">✖</button>
   </div>
   <div class="filter-panel-body">
+    <div class="filter-chips">
+      <button
+        *ngFor="let chip of bedroomFilterChips"
+        [class.selected]="chip.selected"
+        (click)="selectBedroom(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+    </div>
     <h4>Additional Filters</h4>
     <button
       *ngFor="let chip of additionalChips"

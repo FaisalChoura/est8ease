@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PropertyFilterChangeObject } from '../models/property-filter-change-object';
 import { Interest } from '../models/interest';
 import { dbService } from '../db.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FilterService } from '../filters.service';
+import { Chip } from '../models/chip';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
@@ -16,8 +18,26 @@ declare let dataLayer: any;
   templateUrl: './property-filters.component.html',
   styleUrl: './property-filters.component.scss',
 })
-export class PropertyFiltersComponent {
+export class PropertyFiltersComponent implements OnInit {
   @Input() isFilterPanelOpen = false;
+
+  bedroomFilterChips = [
+    new Chip('Studio', 0, false),
+    new Chip('1 BR', 1, false),
+    new Chip('2 BR', 2, false),
+    new Chip('3 BR', 3, false),
+  ];
+
+  constructor(private router: Router, private filterService: FilterService) {}
+
+  ngOnInit(): void {
+    this.filterService.getSelectedBedrooms().subscribe((bedrooms) => {
+      this.bedroomFilterChips.forEach((chip) => {
+        chip.selected = bedrooms.includes(chip.label);
+      });
+    })
+  }
+
   // Additional Chips
   additionalChips = [
     { label: 'Good View',value: 'good_view' , selected: false },
@@ -39,6 +59,15 @@ export class PropertyFiltersComponent {
   // selectedBedrooms: string = '';
   toggleChip(chip: any): void {
     chip.selected = !chip.selected;
+  }
+
+  selectBedroom(chip: any): void {
+    chip.selected = !chip.selected;
+    if (chip.selected) {
+      this.filterService.addBedroom(chip.label);
+    } else {
+      this.filterService.removeBedroom(chip.label);
+    }
   }
 
   toggleFilterPanel(): void {
