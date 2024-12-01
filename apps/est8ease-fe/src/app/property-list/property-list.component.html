@@ -1,4 +1,17 @@
 <div class="property-list">
+  <!-- Wide Button at the Top -->
+  <div class="wide-button-container">
+    <button class="wide-button" (click)="toggleFilterPanel()">Filter Properties</button>
+  </div>
+
+  <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen"></app-property-filters>
+
+  <!-- Search Summary -->
+<!--  <div class="search-summary" *ngIf="searchQuery">-->
+<!--    <p>Search Results for: <strong>{{ searchQuery }}</strong></p>-->
+<!--  </div>-->
+
+  <!-- Property Cards -->
   <div *ngFor="let property of properties" class="property-card">
     <div class="property-title">{{ property.title }}</div>
     <div class="property-details">

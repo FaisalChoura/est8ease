@@ -95,3 +95,34 @@ body {
 .view-details:hover {
   background-color: #005bbb; /* Darker blue for hover */
 }
+
+/* Wide Button Container */
+.wide-button-container {
+  text-align: center; /* Center the button horizontally */
+  margin-bottom: 20px; /* Space below the button */
+}
+
+/* Wide Button */
+.wide-button {
+  width: 100%; /* Full width of the container */
+  max-width: 400px; /* Limit width for larger screens */
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: #007aff; /* Apple blue */
+  border: none;
+  border-radius: 24px; /* Rounded corners for a smooth look */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+.wide-button:hover {
+  background-color: #005bbb; /* Darker blue for hover */
+}
+
+.wide-button:active {
+  background-color: #003f7f; /* Even darker blue for active click */
+  transform: scale(0.98); /* Slight "press" effect */
+}
+
