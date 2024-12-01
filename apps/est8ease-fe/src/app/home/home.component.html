@@ -2,6 +2,17 @@
   <div class="search-section">
     <h1 class="search-title">Find your apartment with a detailed search</h1>
 
+    <div class="filter-chips">
+      <button
+        *ngFor="let chip of bedroomFilterChips"
+        [class.selected]="chip.selected"
+        (click)="toggleChip(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+    </div>
+
     <!-- Search Bar -->
     <div class="search-bar" style="position: relative;">
       <input
@@ -21,7 +32,7 @@
           {{ area }}
         </div>
       </div>
-      <button (click)="submitFilters()" class="search-button">Search</button>
+<!--      <button (click)="submitFilters()" class="search-button">Search</button>-->
     </div>
 
 
@@ -43,6 +54,10 @@
       <button (click)="toggleFilterPanel()" class="more-filters-button">
         More Filters
       </button>
+    </div>
+
+    <div class="search-button-container">
+      <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
 
     <div class="filter-panel" [class.open]="isFilterPanelOpen">

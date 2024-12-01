@@ -25,6 +25,13 @@ export class HomeComponent {
     }
   }
 
+  // bedroom Chips
+  bedroomFilterChips = [
+    { label: 'Studio', selected: false },
+    { label: '1 BR', selected: false },
+    { label: '2 BR', selected: false },
+    { label: '3 BR', selected: false }
+  ];
 
   // Filter Chips
   filterChips = [

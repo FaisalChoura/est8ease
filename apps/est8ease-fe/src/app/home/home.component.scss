@@ -49,21 +49,21 @@ html {
   box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Apple blue focus */
 }
 
-.search-button {
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  background-color: #007aff; /* Apple blue */
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.search-button:hover {
-  background-color: #005bbb; /* Darker blue on hover */
-}
+//.search-button {
+//  padding: 10px 16px;
+//  font-size: 14px;
+//  font-weight: 600;
+//  color: white;
+//  background-color: #007aff; /* Apple blue */
+//  border: none;
+//  border-radius: 24px;
+//  cursor: pointer;
+//  transition: background-color 0.2s ease, transform 0.2s ease;
+//}
+//
+//.search-button:hover {
+//  background-color: #005bbb; /* Darker blue on hover */
+//}
 /* Autocomplete. */
 .autocomplete-dropdown {
   position: absolute;
@@ -217,5 +217,36 @@ html {
 .chip.selected {
   background-color: #007aff;
   color: white;
+}
+
+/* Search Button Container */
+.search-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px; /* Space between chips and button */
+}
+
+/* Search Button */
+.search-button {
+  width: 100%; /* Full width of the container */
+  max-width: 400px; /* Limit width for larger screens */
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: #007aff; /* Apple blue */
+  border: none;
+  border-radius: 24px; /* Rounded corners for a smooth look */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: #005bbb; /* Darker blue for hover */
+}
+
+.search-button:active {
+  background-color: #003f7f; /* Even darker blue for active click */
+  transform: scale(0.98); /* Slight "press" effect */
 }
 
