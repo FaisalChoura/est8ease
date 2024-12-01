@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +16,8 @@ export class HomeComponent {
   filteredAreas: string[] = [];
   selectedArea: string | null = null;
   isDropdownVisible = false;
+
+  constructor(private router: Router) {}
 
   // Close dropdown when clicking outside
   @HostListener('document:click', ['$event'])
@@ -107,7 +110,7 @@ export class HomeComponent {
     };
 
     console.log('Search Data:', searchData);
-
+    this.router.navigate(['/property_list'], { queryParams: { search: searchData } });
 
 
     // Example HTTP Request
@@ -121,4 +124,5 @@ export class HomeComponent {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
 }
