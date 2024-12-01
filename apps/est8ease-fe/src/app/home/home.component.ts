@@ -39,7 +39,12 @@ export class HomeComponent implements OnInit {
       this.bedroomFilterChips.forEach((chip) => {
         chip.selected = bedrooms.includes(chip.label);
       });
-    })
+    });
+    this.filterService.getSelectedFilters().subscribe((filters) => {
+      this.filterChips.forEach((chip) => {
+        chip.selected = filters.includes(chip.value);
+      });
+    });
   }
 
   // Close dropdown when clicking outside
@@ -98,9 +103,9 @@ export class HomeComponent implements OnInit {
   toggleChip(chip: any): void {
     chip.selected = !chip.selected;
     if (chip.selected) {
-      this.filterService.addFilter(chip.label);
+      this.filterService.addFilter(chip.value);
     } else {
-      this.filterService.removeFilter(chip.label);
+      this.filterService.removeFilter(chip.value);
     }
   }
 

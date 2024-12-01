@@ -36,6 +36,12 @@ export class PropertyFiltersComponent implements OnInit {
         chip.selected = bedrooms.includes(chip.label);
       });
     })
+
+    this.filterService.getSelectedFilters().subscribe((filters) => {
+      this.additionalChips.forEach((chip) => {
+        chip.selected = filters.includes(chip.value);
+      });
+    });
   }
 
   // Additional Chips
@@ -59,6 +65,11 @@ export class PropertyFiltersComponent implements OnInit {
   // selectedBedrooms: string = '';
   toggleChip(chip: any): void {
     chip.selected = !chip.selected;
+    if (chip.selected) {
+      this.filterService.addFilter(chip.value);
+    } else {
+      this.filterService.removeFilter(chip.value);
+    }
   }
 
   selectBedroom(chip: any): void {
