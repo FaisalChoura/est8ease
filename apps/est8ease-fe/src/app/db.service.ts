@@ -3,6 +3,7 @@ import { Observable, of, switchMap, throwError } from 'rxjs';
 import { Interest } from './models/interest';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/env';
+import { FiltersPayload } from './models/filters-payload';
 
 @Injectable({
   providedIn: 'root',
@@ -12,20 +13,17 @@ export class dbService {
   constructor(private http: HttpClient) {}
 
   getProperties(
-    area: string,
-    pricePerSqm: number,
-    numOfBedrooms: number,
-    percentageLower: number
+    payload: FiltersPayload
   ): Observable<any[]> {
-    let params = new HttpParams();
-    if (area != null) params = params.append('area', area);
-    if (numOfBedrooms != null)
-      params = params.append('bedrooms', numOfBedrooms);
-    if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
-    if (percentageLower != null)
-      params = params.append('pctLower', percentageLower);
+    // let params = new HttpParams();
+    // if (area != null) params = params.append('area', area);
+    // if (numOfBedrooms != null)
+    //   params = params.append('bedrooms', numOfBedrooms);
+    // if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
+    // if (percentageLower != null)
+    //   params = params.append('pctLower', percentageLower);
     return this.http.get<any[]>(this.apiUrl + '/properties', {
-      params: params,
+      params: payload.toHttpParams(),
     });
   }
 

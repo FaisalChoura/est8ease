@@ -170,31 +170,31 @@ export class PropertiesComponent implements OnInit {
         ? 0
         : areaPricePerSqm.get(area)![bedrooms];
 
-    this.firestoreService
-      .getProperties(
-        area,
-        this.pricePerSqm,
-        this.numOfBedroomsMapper(bedrooms),
-        this.selectedPctControl.value / 100
-      )
-      .subscribe((x) => {
-        this.properties = x.map((y) => new Property(y));
-        this.filteredProperties = x.map((y) => new Property(y));
-        this.applyFilters(this.filters);
-      });
+    // this.firestoreService
+    //   .getProperties(
+    //     area,
+    //     this.pricePerSqm,
+    //     this.numOfBedroomsMapper(bedrooms),
+    //     this.selectedPctControl.value / 100
+    //   )
+    //   .subscribe((x) => {
+    //     this.properties = x.map((y) => new Property(y));
+    //     this.filteredProperties = x.map((y) => new Property(y));
+    //     this.applyFilters(this.filters);
+    //   });
   }
 
   getTotalCountOfProperties(area: string, bedrooms: BRs) {
-    this.firestoreService
-      .getProperties(
-        area,
-        this.pricePerSqm,
-        this.numOfBedroomsMapper(bedrooms),
-        0
-      )
-      .subscribe((x) => {
-        this.totalPropertyCountForBRs = x.length;
-      });
+    // this.firestoreService
+    //   .getProperties(
+    //     area,
+    //     this.pricePerSqm,
+    //     this.numOfBedroomsMapper(bedrooms),
+    //     0
+    //   )
+    //   .subscribe((x) => {
+    //     this.totalPropertyCountForBRs = x.length;
+    //   });
   }
 
   numOfBedroomsMapper(bedroomsSelection: BRs): number {

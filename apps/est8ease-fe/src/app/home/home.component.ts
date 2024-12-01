@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   searchControl = new FormControl('');
   areas = [
     'Downtown',
-    'Uptown',
+    'Marina',
     'Suburbs',
     'Beachside',
     'City Center',
@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
   // Select an area and close the dropdown
   onSelectArea(area: string): void {
     this.searchControl.setValue(area);
+    this.filterService.setAreaName(area);
     this.filteredAreas = [];
     this.isDropdownVisible = false;
   }
@@ -138,7 +139,7 @@ export class HomeComponent implements OnInit {
       // bedrooms: this.selectedBedrooms
     };
 
-    console.log('Search Data:', searchData);
+    console.log('Search Data:', this.filterService.generateFiltersPayload());
     this.router.navigate(['/property_list'], {
       queryParams: { search: searchData },
     });

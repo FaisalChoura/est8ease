@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { dbService } from './db.service';
+import { FiltersPayload } from './models/filters-payload';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,12 @@ export class FilterService {
   private selectedBedroomsSubject = new BehaviorSubject<string[]>([]);
   private selectedBedrooms$ = this.selectedBedroomsSubject.asObservable();
 
+  private selectedAreaNameSubject = new BehaviorSubject<string>('');
+  private selectedAreaName$ = this.selectedAreaNameSubject.asObservable();
+
+  constructor(private dbService: dbService) {
+  }
+
   getSelectedBedrooms(): Observable<string[]> {
     return this.selectedBedrooms$;
   }
@@ -19,6 +27,10 @@ export class FilterService {
   // Get the observable to listen for filter changes
   getSelectedFilters(): Observable<string[]> {
     return this.selectedExtraDetailsFilter$;
+  }
+
+  getAreaName(): Observable<string> {
+    return this.selectedAreaName$;
   }
 
   // Add a filter to the list
@@ -52,4 +64,20 @@ export class FilterService {
   clearFilters(): void {
     this.selectedExtraDetailsFiltersSubject.next([]);
   }
+
+  setAreaName(areaName: string): void {
+    this.selectedAreaNameSubject.next(areaName);
+  }
+
+  generateFiltersPayload(): FiltersPayload {
+    return new FiltersPayload(
+      this.selectedBedroomsSubject.value.map(bedroom => parseInt(bedroom)),
+      this.selectedAreaNameSubject.value,
+      this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
+        acc.set(filter, true);
+        return acc;
+      }, new Map<string,boolean>)
+    );
+  }
+
 }
