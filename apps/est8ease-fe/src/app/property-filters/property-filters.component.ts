@@ -20,9 +20,15 @@ export class PropertyFiltersComponent {
   @Input() isFilterPanelOpen = false;
   // Additional Chips
   additionalChips = [
-    { label: 'Furnished', selected: false },
-    { label: 'Parking Included', selected: false },
-    { label: 'Gym Access', selected: false }
+    { label: 'Good View',value: 'good_view' , selected: false },
+    { label: 'High Floor',value: 'high_floor', selected: false },
+    { label: 'Chiller Free', value: 'chiller_free', selected: false },
+    { label: 'Near Metro', value: 'near_metro', selected: false },
+    { label: 'Corner Unit', value: 'corner_unit', selected: false },
+    { label: 'Recently Renovated', value: 'recently_renovated', selected: false },
+    { label: 'Big Terrace', value: 'big_terrace', selected: false},
+    { label: 'Brand New Unit', value: 'brand_new_unit', selected: false },
+    { label: 'Easy Sheikh Zayed Road Access', value: 'easy_access_to_sheikh_zayed_road', selected: false },
   ];
 
   // // Dropdown Filters

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
+import { FilterService } from '../filters.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent {
   selectedArea: string | null = null;
   isDropdownVisible = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private filterService: FilterService) {}
 
   // Close dropdown when clicking outside
   @HostListener('document:click', ['$event'])
@@ -51,10 +52,10 @@ export class HomeComponent {
 
   // Filter Chips
   filterChips = [
-    { label: 'Good View', selected: false },
-    { label: 'High Floor', selected: false },
-    { label: 'Near Public Transport', selected: false },
-    { label: 'Pet Friendly', selected: false },
+    { label: 'Good View',value: 'good_view' , selected: false },
+    { label: 'High Floor',value: 'high_floor', selected: false },
+    { label: 'Chiller Free', value: 'chiller_free', selected: false },
+    { label: 'Near Metro', value: 'near_metro', selected: false },
   ];
 
   // Filter Panel State
@@ -87,6 +88,21 @@ export class HomeComponent {
   // Toggle Filter Chips
   toggleChip(chip: any): void {
     chip.selected = !chip.selected;
+    if (chip.selected) {
+      this.filterService.addFilter(chip.label);
+    } else {
+      this.filterService.removeFilter(chip.label);
+    }
+  }
+
+  // Toggle Filter Chips
+  selectBedroom(chip: any): void {
+    chip.selected = !chip.selected;
+    if (chip.selected) {
+      this.filterService.addBedroom(chip.label);
+    } else {
+      this.filterService.removeBedroom(chip.label);
+    }
   }
 
   // Toggle Filter Panel
