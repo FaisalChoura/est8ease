@@ -42,4 +42,39 @@ export class PropertiesService {
     // );
     return this.propertyModel.find(query);
   }
+
+  async findPropertiesByCriteria(
+    numOfBedrooms: number[],
+    nameOfArea: string,
+    extraDetails: object,
+    size: number
+  ): Promise<Property[]> {
+    const extraDetailsKey = 'extra_details';
+    const transformed = this.spreadObjectToDotNotation(extraDetails, extraDetailsKey);
+
+    const query = {
+      name_of_area: nameOfArea,
+      bedrooms: { $in: numOfBedrooms },
+      soft_delete: false,
+      size: size ? { $gte: size } : { $gte: 0 },
+      ...(Object.keys(transformed).length && transformed),
+    };
+    return this.propertyModel.find(query).exec();
+  }
+
+  private spreadObjectToDotNotation(obj, parentKey = '') {
+    if (obj === undefined) {
+      return {};
+    }
+
+    const result = {};
+    const entries = Object.entries(obj)
+
+    for (const [key, value] of entries) {
+      const newKey = parentKey ? `${parentKey}.${key}` : key;
+        result[newKey] = value == 'true' ? true : value == 'false' ? false : value;
+    }
+
+    return result;
+  }
 }

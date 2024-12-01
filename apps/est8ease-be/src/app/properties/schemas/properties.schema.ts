@@ -50,6 +50,9 @@ export class Property {
   @Prop()
   name_of_area: string;
 
+  @Prop({ type: Object })
+  extra_details: Record<string, boolean>;
+
   @Prop({ default: Date.now })
   created_at: Date;
 
