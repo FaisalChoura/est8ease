@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PropertyFilterChangeObject } from '../models/property-filter-change-object';
 import { Interest } from '../models/interest';
-import { FirestoreService } from '../firestore.service';
+import { dbService } from '../db.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';

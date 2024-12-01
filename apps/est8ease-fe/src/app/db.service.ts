@@ -7,7 +7,7 @@ import { environment } from '../environments/env';
 @Injectable({
   providedIn: 'root',
 })
-export class FirestoreService {
+export class dbService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 

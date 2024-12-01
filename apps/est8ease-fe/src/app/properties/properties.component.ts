@@ -5,7 +5,7 @@ import { AsyncPipe, CommonModule, JsonPipe, NgFor } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import { ColDef } from 'ag-grid-community';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { FirestoreService } from '../firestore.service';
+import { dbService } from '../db.service';
 import { LinkComponent } from '../cell-renderers/link/link.component';
 import { areaPricePerSqm } from '../average_price_per_sqm';
 import {
@@ -111,7 +111,7 @@ export class PropertiesComponent implements OnInit {
   ];
 
   constructor(
-    private firestoreService: FirestoreService,
+    private firestoreService: dbService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder
