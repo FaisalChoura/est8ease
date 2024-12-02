@@ -24,17 +24,20 @@ export class PropertiesController {
 
   @Get()
   async findByCriteria(
-    @Query('area') area: string,
-    @Query('bedrooms') bedrooms: string[],
-    @Query('extraDetails') extraDetails: object,
-    @Query('size') size: string
+    @Query() queryParams: Record<string, any> // Retrieve all query parameters
   ): Promise<Property[]> {
-    console.log(extraDetails)
-    return this.propertiesService.findPropertiesByCriteria(
-      bedrooms.map((b) => parseInt(b)),
-      area,
-      extraDetails,
-      parseFloat(size)
-    );
+    const { area, bedrooms, size, ...rest } = queryParams;
+
+    // Convert bedrooms to an array
+    const parsedBedrooms = Array.isArray(bedrooms) ? bedrooms.map((b) => parseInt(b)) : [parseInt(bedrooms)];
+
+    // Construct extraDetails object from remaining query params
+    const extraDetails = Object.keys(rest).reduce((acc, key) => {
+      acc[key] = rest[key];
+      return acc;
+    }, {} as Record<string, any>);
+
+    // Call the service with parsed criteria
+    return this.propertiesService.findPropertiesByCriteria(parsedBedrooms, area, extraDetails, parseFloat(size));
   }
 }
