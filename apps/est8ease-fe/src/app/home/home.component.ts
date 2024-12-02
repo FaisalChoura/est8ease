@@ -138,10 +138,6 @@ export class HomeComponent implements OnInit {
       queryParams: searchData.toQueryParams(),
     });
 
-    // Example HTTP Request
-    // this.http.post('/api/search', searchData).subscribe(response => {
-    //   console.log('Search Response:', response);
-    // });
   }
   scrollToSection(sectionId: string): void {
     const section = document.getElementById(sectionId);
