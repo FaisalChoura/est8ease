@@ -13,13 +13,11 @@
 
   <!-- Property Cards -->
   <div *ngFor="let property of properties" class="property-card">
-    <div class="property-title">{{ property.title }}</div>
     <div class="property-details">
-      <span><img src="icons/eye.png" alt="Good View Icon"> {{ property.features.view }}</span>
-      <span><img src="icons/up-arrow.png" alt="High Floor Icon"> {{ property.features.floor }}</span>
+
     </div>
     <div class="property-description">
-      {{ property.description }}
+      {{ property.address }}
     </div>
     <div class="property-price-size">
       <strong>{{ property.price }}</strong> • {{ property.size }}
