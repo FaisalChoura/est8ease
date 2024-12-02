@@ -4,6 +4,7 @@ import { PropertyFiltersComponent } from '../property-filters/property-filters.c
 import { FilterService } from '../filters.service';
 import { dbService } from '../db.service';
 import { Property } from '../models/property';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-property-list',
@@ -14,12 +15,13 @@ import { Property } from '../models/property';
 })
 export class PropertyListComponent implements OnInit {
 
-  constructor(private filterService: FilterService, private dbService: dbService) {
+  constructor(private filterService: FilterService, private dbService: dbService, private activatedRoute: ActivatedRoute) {
   }
 
 
   ngOnInit(): void {
-    const payload = this.filterService.generateFiltersPayload();
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    const payload = this.filterService.generateFiltersPayload(queryParams);
     this.dbService.getProperties(payload).subscribe((properties) => {
       this.properties = properties;
     });

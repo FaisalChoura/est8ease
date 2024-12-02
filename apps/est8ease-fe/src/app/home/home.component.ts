@@ -132,16 +132,10 @@ export class HomeComponent implements OnInit {
       // ...this.additionalChips.filter((chip) => chip.selected)
     ].map((chip) => chip.label);
 
-    const searchData = {
-      area: this.selectedArea,
-      filters: selectedChips,
-      // priceRange: this.selectedPriceRange,
-      // bedrooms: this.selectedBedrooms
-    };
+    const searchData = this.filterService.generateFiltersPayload({})
 
-    console.log('Search Data:', this.filterService.generateFiltersPayload());
     this.router.navigate(['/property_list'], {
-      queryParams: { search: searchData },
+      queryParams: searchData.toQueryParams(),
     });
 
     // Example HTTP Request

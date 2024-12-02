@@ -1,4 +1,5 @@
 import { HttpParams } from '@angular/common/http';
+import { Params } from '@angular/router';
 
 export class FiltersPayload {
   bedrooms: number[];
@@ -26,4 +27,17 @@ export class FiltersPayload {
     }
     return params;
   }
+
+  toQueryParams(): Params {
+    const params: Params = {};
+    if (this.area)  params['area'] =  this.area;
+    if (this.bedrooms) params['bedrooms'] = this.bedrooms
+    if (this.extraDetails) {
+      this.extraDetails.forEach((value, key) => {
+        params[key] =  value ? 'true' : 'false';
+      });
+    }
+    return params;
+  }
+
 }

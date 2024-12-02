@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { dbService } from './db.service';
 import { FiltersPayload } from './models/filters-payload';
+import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -69,7 +70,14 @@ export class FilterService {
     this.selectedAreaNameSubject.next(areaName);
   }
 
-  generateFiltersPayload(): FiltersPayload {
+  generateFiltersPayload(params: Params): FiltersPayload {
+    // if all behaviour subjects are empty then populate from filters
+    if (this.selectedBedroomsSubject.value.length === 0 &&
+      !this.selectedAreaNameSubject.value &&
+      this.selectedExtraDetailsFiltersSubject.value.length === 0) {
+        this.populateFiltersFromParams(params);
+      }
+
     return new FiltersPayload(
       this.selectedBedroomsSubject.value.map(bedroom => parseInt(bedroom)),
       this.selectedAreaNameSubject.value,
@@ -78,6 +86,28 @@ export class FilterService {
         return acc;
       }, new Map<string,boolean>)
     );
+  }
+
+  private populateFiltersFromParams(params: Params): void {
+    // Set area name
+    if (params['area']) {
+      this.setAreaName(params['area']);
+    }
+
+    // Set bedrooms (multiple possible)
+    if (params['bedrooms']) {
+      const bedrooms = Array.isArray(params['bedrooms'])
+        ? params['bedrooms']
+        : [params['bedrooms']];
+      bedrooms.forEach(bedroom => this.addBedroom(bedroom));
+    }
+
+    // Set other filters (all keys except 'area' and 'bedrooms')
+    Object.keys(params).forEach(key => {
+      if (key !== 'area' && key !== 'bedrooms') {
+        this.addFilter(key);
+      }
+    });
   }
 
 }
