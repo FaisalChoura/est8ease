@@ -34,4 +34,17 @@ export class PropertyListComponent implements OnInit {
   toggleFilterPanel(): void {
     this.isFilterPanelOpen = !this.isFilterPanelOpen;
   }
+
+  getTrueKeys(extraDetails: Record<string, boolean>): string[] {
+    if (!extraDetails) return [];
+    return Object.keys(extraDetails).filter(key => extraDetails[key]);
+  }
+
+  openDetails(url: string): void {
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      console.error('URL is not available');
+    }
+  }
 }

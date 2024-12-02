@@ -17,12 +17,18 @@
       <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>
     <div class="property-description">
-      Special Features: {{ property.extraDetails }}
+      Special Features:
+      <ul>
+        <li *ngFor="let key of getTrueKeys(property.extraDetails)">
+          {{ key | titlecase }}
+        </li>
+      </ul>
     </div>
+
     <div class="property-price-size">
       <strong>{{ property.price }}</strong> • {{ property.size }} m2
       {{property.priceM2}}
     </div>
-    <button class="view-details">View Details</button>
+    <button class="view-details" (click)="openDetails(property.url)">View Details</button>
   </div>
 </div>
