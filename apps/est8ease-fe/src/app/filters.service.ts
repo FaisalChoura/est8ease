@@ -70,11 +70,12 @@ export class FilterService {
     this.selectedAreaNameSubject.next(areaName);
   }
 
-  generateFiltersPayload(params: Params): FiltersPayload {
+  generateFiltersPayload(params: Params = {}): FiltersPayload {
     // if all behaviour subjects are empty then populate from filters
     if (this.selectedBedroomsSubject.value.length === 0 &&
       !this.selectedAreaNameSubject.value &&
-      this.selectedExtraDetailsFiltersSubject.value.length === 0) {
+      this.selectedExtraDetailsFiltersSubject.value.length === 0 &&
+      Object.keys(params).length > 0) {
         this.populateFiltersFromParams(params);
       }
 

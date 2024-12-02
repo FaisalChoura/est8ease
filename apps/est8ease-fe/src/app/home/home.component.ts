@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit {
       // ...this.additionalChips.filter((chip) => chip.selected)
     ].map((chip) => chip.label);
 
-    const searchData = this.filterService.generateFiltersPayload({})
+    const searchData = this.filterService.generateFiltersPayload()
 
     this.router.navigate(['/property_list'], {
       queryParams: searchData.toQueryParams(),
