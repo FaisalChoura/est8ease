@@ -16,7 +16,7 @@ export class FiltersPayload {
     let params = new HttpParams();
     if (this.area) params = params.append('area', this.area);
     if (this.bedrooms) {
-      for( const bedroom in this.bedrooms) {
+      for( const bedroom of this.bedrooms) {
         params = params.append('bedrooms', bedroom.toString());
       }
     }
