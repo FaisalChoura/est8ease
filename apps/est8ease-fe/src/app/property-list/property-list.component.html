@@ -14,13 +14,14 @@
   <!-- Property Cards -->
   <div *ngFor="let property of properties" class="property-card">
     <div class="property-details">
-
+      <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>
     <div class="property-description">
-      {{ property.address }}
+      Special Features: {{ property.extraDetails }}
     </div>
     <div class="property-price-size">
-      <strong>{{ property.price }}</strong> • {{ property.size }}
+      <strong>{{ property.price }}</strong> • {{ property.size }} m2
+      {{property.priceM2}}
     </div>
     <button class="view-details">View Details</button>
   </div>

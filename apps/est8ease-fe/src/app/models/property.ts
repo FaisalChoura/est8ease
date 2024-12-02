@@ -10,6 +10,7 @@ export class Property {
   size: number;
   source: string;
   nameOfArea: string;
+  extraDetails: object;
 
   constructor(data: any) {
     this.id = data.id;
@@ -23,5 +24,6 @@ export class Property {
     this.size = data.size;
     this.source = data.source;
     this.nameOfArea = data.name_of_area;
+    this.extraDetails = data.extra_details;
   }
 }
