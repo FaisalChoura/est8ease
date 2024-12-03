@@ -17,10 +17,31 @@
     <button class="wide-button" (click)="toggleFilterPanel()">Filter Properties</button>
   </div>
 
+  <!-- Sort Dropdowns -->
+  <div class="sort-container">
+    <div class="sort-group">
+      <label for="sort-select" class="sort-label">Sort by:</label>
+      <select id="sort-select" class="sort-dropdown" [(ngModel)]="sortOption" (change)="sortProperties()">
+        <option value="price">Price</option>
+        <option value="size">Size</option>
+        <option value="pricePerSqm">Price per ㎡</option>
+      </select>
+    </div>
+
+    <div class="sort-group">
+      <label for="sort-order" class="sort-label">Order:</label>
+      <select id="sort-order" class="sort-dropdown" [(ngModel)]="sortOrder" (change)="sortProperties()">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+  </div>
+
+
   <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen"></app-property-filters>
 
   <!-- Property Cards -->
-  <div *ngFor="let property of (properties | async)?.list" class="property-card">
+  <div *ngFor="let property of (sortedProperties | async)" class="property-card">
     <div class="property-details">
       <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>
