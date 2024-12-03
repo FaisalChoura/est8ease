@@ -46,14 +46,13 @@ body {
   font-size: 18px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8px;
 }
 
 /* Property Details */
 .property-details {
   display: flex;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   font-size: 14px;
   color: #666; /* Secondary text color */
 }
@@ -71,12 +70,37 @@ body {
   margin-bottom: 12px;
 }
 
-/* Price and Size */
-.property-price-size {
+.property-description .description-title {
+  font-weight: bold;
+  margin-bottom: 4px;
   font-size: 16px;
-  font-weight: 500;
+}
+
+/* Price and Size */
+.property-price {
+  font-size: 16px;
   color: #111;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.property-price .price {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.property-price .currency {
+  font-size: 0.8em;
+  margin-right: 4px;
+}
+
+.property-size {
+  margin-bottom: 8px;
+  .size {
+    font-weight: bold;
+  }
 }
 
 /* View Details Button */

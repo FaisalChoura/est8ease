@@ -16,13 +16,20 @@
     <div class="property-details">
       <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>
-    <div class="property-price-size">
-      <strong> <sub>AED</sub> {{ property.price | number }}</strong> • <sub>AED</sub>{{property.priceM2 | number}}/㎡
-      <br/>
-      <strong>Size: {{ property.size }} ㎡</strong>
+    <div class="property-price">
+      <div>
+        <span class="currency">AED</span> <span class="price">{{ property.price | number }}</span>
+      </div>
+      <div>
+        <span class="currency">AED</span>{{property.priceM2 | number}}/㎡
+      </div>
+
+    </div>
+    <div class="property-size">
+      Size: <span class="size">{{ property.size }} ㎡</span>
     </div>
     <div class="property-description">
-      Special Features:
+      <div class="description-title">Property Features:</div>
       <ul class="features-list">
         <li *ngFor="let feature of ExtraDetails.userFriendlyExtraDetails(property)" class="feature-item">
           <i class="fa" [class]="feature.icon"></i> {{ feature.text }}
