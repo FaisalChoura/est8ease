@@ -25,9 +25,11 @@ export class PropertyListComponent implements OnInit {
   properties: Observable<Properties> = of(new Properties([]));
   sortedProperties: Observable<Property[]> = of([]);
 
+
   // Sorting variables
+  showSortFields = false; // Track visibility of sort fields
   sortOption = 'price'; // Default sort option
-  sortOrder = 'asc';    // Default sort order
+  sortOrder = 'asc'; // Default sort order
   private sortOptionSubject = new BehaviorSubject<string>(this.sortOption);
   private sortOrderSubject = new BehaviorSubject<string>(this.sortOrder);
 
@@ -101,6 +103,11 @@ export class PropertyListComponent implements OnInit {
     this.sortOrderSubject.next(this.sortOrder);
   }
 
+  // Toggle visibility of sort fields
+  toggleSortFields(): void {
+    this.showSortFields = !this.showSortFields;
+  }
+
   // Subscribe to alerts
   subscribeToAlerts(): void {
     if (this.isEmailValid(this.email)) {
@@ -132,4 +139,6 @@ export class PropertyListComponent implements OnInit {
       this.closeModal();
     }
   }
+
+
 }

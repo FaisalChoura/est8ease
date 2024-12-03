@@ -118,7 +118,7 @@ body {
 /* Wide Button Container */
 .wide-button-container {
   text-align: center; /* Center the button horizontally */
-  margin-bottom: 20px; /* Space below the button */
+  margin-bottom: 8px; /* Space below the button */
 }
 
 /* Wide Button */
@@ -375,6 +375,32 @@ body {
 .sort-label,
 .sort-dropdown {
   white-space: nowrap;
+}
+
+
+/* Sort Toggle Link */
+.sort-toggle {
+  display: flex;
+  justify-content: flex-end; /* Align the link to the right */
+  margin-bottom: 8px; /* Space below the toggle link */
+}
+
+.sort-toggle a {
+  font-size: 16px;
+  font-weight: 600;
+  color: #007aff; /* Apple blue */
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sort-toggle a:hover {
+  color: #005bbb; /* Darker blue on hover */
+}
+
+/* Sort Container */
+.sort-container {
+  margin-top: 12px; /* Add space above sort fields */
 }
 
 

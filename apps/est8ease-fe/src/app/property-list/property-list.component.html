@@ -17,8 +17,15 @@
     <button class="wide-button" (click)="toggleFilterPanel()">Filter Properties</button>
   </div>
 
-  <!-- Sort Dropdowns -->
-  <div class="sort-container">
+  <!-- Sort Toggle Link -->
+  <div class="sort-toggle">
+    <a href="javascript:void(0);" (click)="toggleSortFields()">
+      {{ showSortFields ? 'Hide Sort' : 'Sort' }}
+    </a>
+  </div>
+
+  <!-- Sort Fields -->
+  <div class="sort-container" *ngIf="showSortFields">
     <div class="sort-group">
       <label for="sort-select" class="sort-label">Sort by:</label>
       <select id="sort-select" class="sort-dropdown" [(ngModel)]="sortOption" (change)="sortProperties()">
@@ -36,6 +43,7 @@
       </select>
     </div>
   </div>
+
 
 
   <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen"></app-property-filters>
