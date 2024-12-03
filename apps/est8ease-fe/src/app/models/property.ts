@@ -11,6 +11,8 @@ export class Property {
   source: string;
   nameOfArea: string;
   extraDetails: object;
+  score = 0;
+  scoreLevel = '';
 
   constructor(data: any) {
     this.id = data.id;

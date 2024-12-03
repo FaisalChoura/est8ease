@@ -6,9 +6,9 @@ import { dbService } from '../db.service';
 import { Property } from '../models/property';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ExtraDetails } from '../ui-models/extra-details';
+import { ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-property-list',
@@ -34,7 +34,7 @@ export class PropertyListComponent implements OnInit {
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
-    this.properties = this.dbService.getProperties(payload);
+    this.properties = this.dbService.getProperties(payload).pipe(map((p) => p));
 
     setTimeout(() => {
       this.showAlertModal = true;

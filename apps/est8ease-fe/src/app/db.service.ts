@@ -6,6 +6,7 @@ import { environment } from '../environments/env';
 import { FiltersPayload } from './models/filters-payload';
 import { Property } from './models/property';
 import { Properties } from './models/properties';
+import { ExtraDetails } from './models/extra-details';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +23,17 @@ export class dbService {
         params: payload.toHttpParams(),
       })
       .pipe(
+        map((properties) =>
+          properties.map((p) => {
+            const property = new Property(p);
+            property.score = ExtraDetails.getScore(property)
+            // TODO does this make sense to be here ?
+            property.scoreLevel = ExtraDetails.scoreLevel(property.score)
+            return property;
+          })
+        ),
         map((properties) => {
-          const propertyList = properties.map((p) => new Property(p));
-          return new Properties(propertyList);
+          return new Properties(properties);
         })
       );
   }
