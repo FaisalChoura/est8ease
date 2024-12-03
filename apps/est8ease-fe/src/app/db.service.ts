@@ -17,13 +17,6 @@ export class dbService {
   getProperties(
     payload: FiltersPayload
   ): Observable<Properties> {
-    // let params = new HttpParams();
-    // if (area != null) params = params.append('area', area);
-    // if (numOfBedrooms != null)
-    //   params = params.append('bedrooms', numOfBedrooms);
-    // if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
-    // if (percentageLower != null)
-    //   params = params.append('pctLower', percentageLower);
     return this.http
       .get<Property[]>(this.apiUrl + '/properties', {
         params: payload.toHttpParams(),
