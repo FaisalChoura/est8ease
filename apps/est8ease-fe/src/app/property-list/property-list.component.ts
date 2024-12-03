@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExtraDetails } from '../ui-models/extra-details';
 import { Properties } from '../models/properties';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-property-list',
@@ -20,7 +21,7 @@ export class PropertyListComponent implements OnInit {
   showAlertModal = false; // Control the visibility of the modal
   email = ''; // Store the user's email address
   isFilterPanelOpen = false;
-  properties: Properties = new Properties([]);
+  properties: Observable<Properties> = of(new Properties([]));
 
   ExtraDetails = ExtraDetails;
   constructor(
@@ -33,9 +34,7 @@ export class PropertyListComponent implements OnInit {
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
-    this.dbService.getProperties(payload).subscribe((properties) => {
-      this.properties = properties;
-    });
+    this.properties = this.dbService.getProperties(payload);
 
     setTimeout(() => {
       this.showAlertModal = true;

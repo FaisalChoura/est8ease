@@ -15,6 +15,11 @@ export class Properties {
   }
 
   private calculateAveragePricePerSqm(): void {
+    this.list.forEach((property) => {
+      this.totalPrice += property.price;
+      this.totalArea += property.size;
+    });
+
     this.averagePricePerSqm = this.totalPrice / this.totalArea;
   }
 }

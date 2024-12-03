@@ -1,3 +1,16 @@
+<div class="property-summary">
+  <div class="summary-item">
+    <div class="summary-label">Total Properties:</div>
+    <span class="summary-value">{{ (properties | async)?.count }}</span>
+  </div>
+  <div class="summary-item">
+    <div class="summary-label">Average Cost per ㎡:</div>
+    <div class="summary-value">
+      <span class="currency">AED</span>{{ (properties | async)?.averagePricePerSqm | number }}
+    </div>
+  </div>
+</div>
+
 <div class="property-list">
   <!-- Wide Button at the Top -->
   <div class="wide-button-container">
@@ -6,13 +19,8 @@
 
   <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen"></app-property-filters>
 
-  <!-- Search Summary -->
-<!--  <div class="search-summary" *ngIf="searchQuery">-->
-<!--    <p>Search Results for: <strong>{{ searchQuery }}</strong></p>-->
-<!--  </div>-->
-
   <!-- Property Cards -->
-  <div *ngFor="let property of properties.list" class="property-card">
+  <div *ngFor="let property of (properties | async)?.list" class="property-card">
     <div class="property-details">
       <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>
@@ -23,7 +31,6 @@
       <div>
         <span class="currency">AED</span>{{property.priceM2 | number}}/㎡
       </div>
-
     </div>
     <div class="property-size">
       Size: <span class="size">{{ property.size }} ㎡</span>
@@ -39,21 +46,3 @@
     <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
   </div>
 </div>
-
-
-<div *ngIf="showAlertModal" class="modal-backdrop">
-  <div class="modal-popup">
-    <h3>Get Alerts</h3>
-    <p>Would you like to receive alerts when a property matching your search gets added?</p>
-    <input
-      type="email"
-      [(ngModel)]="email"
-      class="email-input"
-      placeholder="Enter your email"
-      required
-    />
-    <button class="modal-button" (click)="subscribeToAlerts()">Yes, Notify Me</button>
-    <button class="modal-close" (click)="closeModal()">No, Thanks</button>
-  </div>
-</div>
-
