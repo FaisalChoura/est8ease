@@ -126,3 +126,91 @@ body {
   transform: scale(0.98); /* Slight "press" effect */
 }
 
+
+/* Backdrop for the modal */
+.modal-backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align modal to the bottom */
+  z-index: 1000;
+}
+
+/* Modal Popup */
+.modal-popup {
+  background-color: white;
+  width: 90%;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 16px 16px 0 0; /* Rounded top corners */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: slide-up 0.3s ease; /* Slide-up animation */
+}
+
+/* Animation for sliding the modal up */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Modal Buttons */
+.modal-button {
+  background-color: #007aff; /* Apple blue */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.modal-button:hover {
+  background-color: #005bbb;
+}
+
+.modal-close {
+  background-color: transparent;
+  color: #007aff;
+  border: none;
+  font-size: 16px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  text-decoration: underline;
+}
+
+
+/* Email Input */
+.email-input {
+  width: 100%;
+  padding: 12px 16px; /* Match search input padding */
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 16px; /* Match search input font size */
+  border: 1px solid #dcdcdc;
+  border-radius: 24px; /* Rounded corners to match */
+  outline: none;
+  background-color: white;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.email-input:focus {
+  border-color: #007aff; /* Apple blue border on focus */
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Subtle blue glow on focus */
+}
+

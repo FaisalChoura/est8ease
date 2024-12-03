@@ -32,3 +32,21 @@
     <button class="view-details" (click)="openDetails(property.url)">View Details</button>
   </div>
 </div>
+
+
+<div *ngIf="showAlertModal" class="modal-backdrop">
+  <div class="modal-popup">
+    <h3>Get Alerts</h3>
+    <p>Would you like to receive alerts when a property matching your search gets added?</p>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      class="email-input"
+      placeholder="Enter your email"
+      required
+    />
+    <button class="modal-button" (click)="subscribeToAlerts()">Yes, Notify Me</button>
+    <button class="modal-close" (click)="closeModal()">No, Thanks</button>
+  </div>
+</div>
+
