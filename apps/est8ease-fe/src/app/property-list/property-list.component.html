@@ -83,8 +83,10 @@
   (click)="closeModal()"
 >
   <div class="modal-popup" (click)="$event.stopPropagation()">
-    <h2>Get Notified</h2>
-    <p>Subscribe to alerts to stay updated!</p>
+    <h2>Get Notified!</h2>
+    <p>You will receive an email when a property that matches your search gets added</p>
+    <p>Bedrooms: {{filterService.getSelectedBedrooms() | async}}</p>
+    <p>Filters: {{transformedFilters$ | async}}</p>
     <input
       type="email"
       [(ngModel)]="email"

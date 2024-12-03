@@ -28,7 +28,7 @@ interface PropertyFeatures {
   easy_access_to_sheikh_zayed_road: ExtraDetail;
 }
 
-interface ExtraDetail {
+export interface ExtraDetail {
   text: string;
   icon: string;
   score: number;
@@ -56,5 +56,9 @@ export class ExtraDetails {
       return 'medium';
     }
     return 'high';
+  }
+
+  static getExtraDetail(key: string): ExtraDetail {
+    return extraDetailsMap[key as keyof typeof extraDetailsMap];
   }
 }

@@ -6,7 +6,7 @@ import { dbService } from '../db.service';
 import { Property } from '../models/property';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ExtraDetails } from '../models/extra-details';
+import { ExtraDetail, ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -31,6 +31,7 @@ export class PropertyListComponent implements OnInit {
   sortOrder = 'asc'; // Default sort order
   private sortOptionSubject = new BehaviorSubject<string>(this.sortOption);
   private sortOrderSubject = new BehaviorSubject<string>(this.sortOrder);
+  transformedFilters$: Observable<string[]> = of([])
 
   @ViewChild('filterButton', { static: true }) filterButton!: ElementRef;
   showFloatingFilterButton = false;
@@ -39,7 +40,7 @@ export class PropertyListComponent implements OnInit {
   ExtraDetails = ExtraDetails;
 
   constructor(
-    private filterService: FilterService,
+    public filterService: FilterService,
     private dbService: dbService,
     private activatedRoute: ActivatedRoute,
     private elementRef: ElementRef
@@ -48,6 +49,10 @@ export class PropertyListComponent implements OnInit {
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
+
+    this.transformedFilters$ = this.filterService.getSelectedFilters().pipe(
+      map(filters => filters.map(filter => ExtraDetails.getExtraDetail(filter).text) )
+    )
 
     // Fetch properties
     this.properties = this.dbService.getProperties(payload).pipe(map((p) => p));
