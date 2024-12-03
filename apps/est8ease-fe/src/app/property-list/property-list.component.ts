@@ -25,7 +25,6 @@ export class PropertyListComponent implements OnInit {
   properties: Observable<Properties> = of(new Properties([]));
   sortedProperties: Observable<Property[]> = of([]);
 
-
   // Sorting variables
   showSortFields = false; // Track visibility of sort fields
   sortOption = 'price'; // Default sort option
@@ -82,9 +81,9 @@ export class PropertyListComponent implements OnInit {
     );
 
     // Show alert modal after 2 seconds
-    setTimeout(() => {
-      this.showAlertModal = true;
-    }, 2000);
+    // setTimeout(() => {
+    //   this.showAlertModal = true;
+    // }, 2000);
   }
 
   // Toggle filter panel visibility
@@ -116,7 +115,7 @@ export class PropertyListComponent implements OnInit {
   subscribeToAlerts(): void {
     if (this.isEmailValid(this.email)) {
       alert(`You are now subscribed to alerts with email: ${this.email}`);
-      this.showAlertModal = false;
+      // this.showAlertModal = false;
     } else {
       alert('Please enter a valid email address.');
     }
@@ -125,6 +124,7 @@ export class PropertyListComponent implements OnInit {
   // Open modal
   openNotificationModal(): void {
     this.showAlertModal = true;
+    console.log(this.showAlertModal)
   }
 
   // Close modal
@@ -136,17 +136,6 @@ export class PropertyListComponent implements OnInit {
   isEmailValid(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  }
-
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (
-      this.showAlertModal && // Check if the modal is open
-      !this.elementRef.nativeElement.querySelector('.modal-popup')?.contains(target)
-    ) {
-      this.closeModal();
-    }
   }
 
   @HostListener('window:scroll', [])

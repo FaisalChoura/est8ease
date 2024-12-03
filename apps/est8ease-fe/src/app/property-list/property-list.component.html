@@ -76,9 +76,39 @@
   </div>
 </div>
 
+<!-- Notification Modal -->
+<div
+  class="modal-backdrop"
+  *ngIf="showAlertModal"
+  (click)="closeModal()"
+>
+  <div class="modal-popup" (click)="$event.stopPropagation()">
+    <h2>Get Notified</h2>
+    <p>Subscribe to alerts to stay updated!</p>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      class="email-input"
+      placeholder="Enter your email"
+    />
+    <button class="modal-button" (click)="subscribeToAlerts()">Subscribe</button>
+    <button class="modal-close" (click)="closeModal()">Close</button>
+  </div>
+</div>
 
+<!-- Notification Button (always visible) -->
 <button
-  class="floating-button"
+  class="fixed-button notification-button"
+  *ngIf="!showAlertModal"
+  (click)="openNotificationModal()"
+>
+  <i class="fa fa-bell"></i>
+  <span class="button-text">Get an email when a property that matches your search gets added</span>
+</button>
+
+<!-- Filter Button (conditionally shown) -->
+<button
+  class="fixed-button floating-button"
   *ngIf="showFloatingFilterButton"
   (click)="toggleFilterPanel()"
 >

@@ -403,35 +403,85 @@ body {
   margin-top: 12px; /* Add space above sort fields */
 }
 
-/* Floating Button */
-.floating-button {
+/* Base styles for fixed buttons */
+.fixed-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 60px;
-  height: 60px;
-  background-color: #007aff; /* Apple blue */
-  color: white;
+  padding: 16px 20px; /* Add padding for text */
   border: none;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-  font-size: 24px;
+  border-radius: 50px; /* Circular shape */
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 16px; /* Icon and text size */
   cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  z-index: 1000; /* Ensure it stays above other content */
+  z-index: 1000;
 }
 
-.floating-button:hover {
-  transform: scale(1.1); /* Slightly enlarge on hover */
+/* Notification Button */
+.notification-button {
+  background-color: white; /* White background */
+  color: #007aff; /* Apple blue text and icon */
+  gap: 10px; /* Space between icon and text */
+  font-weight: 600; /* Bold text */
+}
+
+.notification-button:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
 }
 
-.floating-button:active {
+.notification-button:active {
   transform: scale(0.95); /* Slight press effect on click */
 }
+
+/* Icon Styling */
+.notification-button i {
+  font-size: 20px; /* Adjust icon size */
+  color: #007aff; /* Match text color */
+}
+
+/* Text Styling */
+.notification-button .button-text {
+  font-size: 14px; /* Text size */
+  white-space: wrap; /* Prevent wrapping */
+  color: #007aff; /* Match text color */
+}
+
+/* Filter Button */
+.floating-button {
+  background-color: #007aff;
+  color: white;
+  z-index: 1001; /* Ensure it is above the notification button */
+  bottom: calc(20px + 60px + 8px); /* 20px + height of notification button + 8px gap */
+}
+
+.floating-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.floating-button:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 300px) {
+  .notification-button .button-text {
+    display: none; /* Hide text on small screens */
+  }
+
+  .notification-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Make it fully circular */
+    justify-content: center;
+    padding: 0; /* Remove extra padding */
+  }
+}
+
 
 
 
