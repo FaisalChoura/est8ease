@@ -10,20 +10,19 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-property-list',
   standalone: true,
-  imports: [CommonModule, PropertyFiltersComponent, FormsModule,
-  ],
+  imports: [CommonModule, PropertyFiltersComponent, FormsModule],
   templateUrl: './property-list.component.html',
   styleUrl: './property-list.component.scss',
 })
 export class PropertyListComponent implements OnInit {
   showAlertModal = false; // Control the visibility of the modal
-  email  = ''; // Store the user's email address
-  constructor(private filterService: FilterService,
-              private dbService: dbService,
-              private activatedRoute: ActivatedRoute,
-              private elementRef: ElementRef) {
-  }
-
+  email = ''; // Store the user's email address
+  constructor(
+    private filterService: FilterService,
+    private dbService: dbService,
+    private activatedRoute: ActivatedRoute,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit(): void {
     const queryParams = this.activatedRoute.snapshot.queryParams;
@@ -46,7 +45,7 @@ export class PropertyListComponent implements OnInit {
 
   getTrueKeys(extraDetails: Record<string, boolean>): string[] {
     if (!extraDetails) return [];
-    return Object.keys(extraDetails).filter(key => extraDetails[key]);
+    return Object.keys(extraDetails).filter((key) => extraDetails[key]);
   }
 
   openDetails(url: string): void {
@@ -82,7 +81,9 @@ export class PropertyListComponent implements OnInit {
     const target = event.target as HTMLElement;
     if (
       this.showAlertModal && // Check if the modal is open
-      !this.elementRef.nativeElement.querySelector('.modal-popup').contains(target)
+      !this.elementRef.nativeElement
+        .querySelector('.modal-popup')
+        .contains(target)
     ) {
       this.closeModal();
     }
