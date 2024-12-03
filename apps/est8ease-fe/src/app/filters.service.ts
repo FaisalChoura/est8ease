@@ -12,7 +12,7 @@ export class FilterService {
   private selectedExtraDetailsFiltersSubject = new BehaviorSubject<string[]>([]);
   private selectedExtraDetailsFilter$ = this.selectedExtraDetailsFiltersSubject.asObservable();
 
-  private selectedBedroomsSubject = new BehaviorSubject<string[]>([]);
+  private selectedBedroomsSubject = new BehaviorSubject<number[]>([]);
   private selectedBedrooms$ = this.selectedBedroomsSubject.asObservable();
 
   private selectedAreaNameSubject = new BehaviorSubject<string>('');
@@ -21,7 +21,7 @@ export class FilterService {
   constructor(private dbService: dbService) {
   }
 
-  getSelectedBedrooms(): Observable<string[]> {
+  getSelectedBedrooms(): Observable<number[]> {
     return this.selectedBedrooms$;
   }
 
@@ -48,7 +48,7 @@ export class FilterService {
     this.selectedExtraDetailsFiltersSubject.next(currentFilters.filter(f => f !== filter));
   }
 
-  addBedroom(filter: string): void {
+  addBedroom(filter: number): void {
     const currentFilters = this.selectedBedroomsSubject.value;
     if (!currentFilters.includes(filter)) {
       this.selectedBedroomsSubject.next([...currentFilters, filter]);
@@ -56,7 +56,7 @@ export class FilterService {
   }
 
   // Remove a filter from the list
-  removeBedroom(filter: string): void {
+  removeBedroom(filter: number): void {
     const currentFilters = this.selectedBedroomsSubject.value;
     this.selectedBedroomsSubject.next(currentFilters.filter(f => f !== filter));
   }
@@ -80,7 +80,7 @@ export class FilterService {
       }
 
     return new FiltersPayload(
-      this.selectedBedroomsSubject.value.map(bedroom => parseInt(bedroom)),
+      this.selectedBedroomsSubject.value.map(bedroom => bedroom),
       this.selectedAreaNameSubject.value,
       this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
         acc.set(filter, true);

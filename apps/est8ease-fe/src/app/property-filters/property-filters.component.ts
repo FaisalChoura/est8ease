@@ -33,7 +33,7 @@ export class PropertyFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.filterService.getSelectedBedrooms().subscribe((bedrooms) => {
       this.bedroomFilterChips.forEach((chip) => {
-        chip.selected = bedrooms.includes(chip.value.toString());
+        chip.selected = bedrooms.includes(typeof chip.value === 'number' ? chip.value : 10);
       });
     })
 
@@ -75,9 +75,9 @@ export class PropertyFiltersComponent implements OnInit {
   selectBedroom(chip: any): void {
     chip.selected = !chip.selected;
     if (chip.selected) {
-      this.filterService.addBedroom(chip.label);
+      this.filterService.addBedroom(chip.value);
     } else {
-      this.filterService.removeBedroom(chip.label);
+      this.filterService.removeBedroom(chip.value);
     }
   }
 
