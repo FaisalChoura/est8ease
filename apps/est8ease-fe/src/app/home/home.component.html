@@ -60,7 +60,7 @@
       <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
 
-    <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" ></app-property-filters>
+    <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()" ></app-property-filters>
 
 
     <!-- Learn More Link -->

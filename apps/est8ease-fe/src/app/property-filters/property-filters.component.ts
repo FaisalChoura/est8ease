@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -17,6 +17,8 @@ declare let dataLayer: any;
 })
 export class PropertyFiltersComponent implements OnInit {
   @Input() isFilterPanelOpen = false;
+  // TODO might need to get clean up, the logic is a bit messy for the filter open state
+  @Output() filterClosed = new EventEmitter<boolean>();
 
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
@@ -80,5 +82,6 @@ export class PropertyFiltersComponent implements OnInit {
 
   toggleFilterPanel(): void {
     this.isFilterPanelOpen = !this.isFilterPanelOpen;
+    this.filterClosed.emit(this.isFilterPanelOpen);
   }
 }

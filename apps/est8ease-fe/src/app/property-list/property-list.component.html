@@ -46,7 +46,7 @@
 
 
 
-  <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen"></app-property-filters>
+  <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()"></app-property-filters>
 
   <!-- Property Cards -->
   <div *ngFor="let property of (sortedProperties | async)" class="property-card">
