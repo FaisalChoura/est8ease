@@ -7,6 +7,7 @@ import { Property } from '../models/property';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExtraDetails } from '../ui-models/extra-details';
+import { Properties } from '../models/properties';
 
 @Component({
   selector: 'app-property-list',
@@ -18,6 +19,9 @@ import { ExtraDetails } from '../ui-models/extra-details';
 export class PropertyListComponent implements OnInit {
   showAlertModal = false; // Control the visibility of the modal
   email = ''; // Store the user's email address
+  isFilterPanelOpen = false;
+  properties: Properties = new Properties([]);
+
   ExtraDetails = ExtraDetails;
   constructor(
     private filterService: FilterService,
@@ -37,9 +41,6 @@ export class PropertyListComponent implements OnInit {
       this.showAlertModal = true;
     }, 2000);
   }
-
-  isFilterPanelOpen = false;
-  properties: Property[] = [];
 
   toggleFilterPanel(): void {
     this.isFilterPanelOpen = !this.isFilterPanelOpen;

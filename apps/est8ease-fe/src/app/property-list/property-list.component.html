@@ -12,7 +12,7 @@
 <!--  </div>-->
 
   <!-- Property Cards -->
-  <div *ngFor="let property of properties" class="property-card">
+  <div *ngFor="let property of properties.list" class="property-card">
     <div class="property-details">
       <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
     </div>

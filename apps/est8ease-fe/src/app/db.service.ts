@@ -5,6 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/env';
 import { FiltersPayload } from './models/filters-payload';
 import { Property } from './models/property';
+import { Properties } from './models/properties';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class dbService {
 
   getProperties(
     payload: FiltersPayload
-  ): Observable<Property[]> {
+  ): Observable<Properties> {
     // let params = new HttpParams();
     // if (area != null) params = params.append('area', area);
     // if (numOfBedrooms != null)
@@ -23,11 +24,16 @@ export class dbService {
     // if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
     // if (percentageLower != null)
     //   params = params.append('pctLower', percentageLower);
-    return this.http.get<Property[]>(this.apiUrl + '/properties', {
-      params: payload.toHttpParams(),
-    }).pipe(
-      map((properties) => properties.map((p) => new Property(p)))
-    );
+    return this.http
+      .get<Property[]>(this.apiUrl + '/properties', {
+        params: payload.toHttpParams(),
+      })
+      .pipe(
+        map((properties) => {
+          const propertyList = properties.map((p) => new Property(p));
+          return new Properties(propertyList);
+        })
+      );
   }
 
   addInterest(interest: Interest): Observable<any> {
