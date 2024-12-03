@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PropertyFilterChangeObject } from '../models/property-filter-change-object';
-import { Interest } from '../models/interest';
-import { dbService } from '../db.service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { FilterService } from '../filters.service';
 import { Chip } from '../models/chip';
 
