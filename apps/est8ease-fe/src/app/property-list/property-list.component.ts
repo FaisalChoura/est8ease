@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
 import { FilterService } from '../filters.service';
@@ -32,6 +32,10 @@ export class PropertyListComponent implements OnInit {
   sortOrder = 'asc'; // Default sort order
   private sortOptionSubject = new BehaviorSubject<string>(this.sortOption);
   private sortOrderSubject = new BehaviorSubject<string>(this.sortOrder);
+
+  @ViewChild('filterButton', { static: true }) filterButton!: ElementRef;
+  showFloatingFilterButton = false;
+
 
   ExtraDetails = ExtraDetails;
 
@@ -118,6 +122,11 @@ export class PropertyListComponent implements OnInit {
     }
   }
 
+  // Open modal
+  openNotificationModal(): void {
+    this.showAlertModal = true;
+  }
+
   // Close modal
   closeModal(): void {
     this.showAlertModal = false;
@@ -140,5 +149,13 @@ export class PropertyListComponent implements OnInit {
     }
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const filterButton = this.filterButton.nativeElement;
+    const rect = filterButton.getBoundingClientRect();
+
+    // Check if the "Filter Properties" button is out of view
+    this.showFloatingFilterButton = rect.top + rect.height < 0;
+  }
 
 }

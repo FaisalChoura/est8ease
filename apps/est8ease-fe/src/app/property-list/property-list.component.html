@@ -14,7 +14,7 @@
 <div class="property-list">
   <!-- Wide Button at the Top -->
   <div class="wide-button-container">
-    <button class="wide-button" (click)="toggleFilterPanel()">Filter Properties</button>
+    <button class="wide-button" (click)="toggleFilterPanel()" #filterButton>Filter Properties</button>
   </div>
 
   <!-- Sort Toggle Link -->
@@ -75,3 +75,12 @@
     <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
   </div>
 </div>
+
+
+<button
+  class="floating-button"
+  *ngIf="showFloatingFilterButton"
+  (click)="toggleFilterPanel()"
+>
+  <i class="fa fa-filter"></i>
+</button>
