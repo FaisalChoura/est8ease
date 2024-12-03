@@ -419,10 +419,12 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   z-index: 1000;
+  margin-left: 20px;
 }
 
 /* Notification Button */
 .notification-button {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
   background-color: white; /* White background */
   color: #007aff; /* Apple blue text and icon */
   gap: 10px; /* Space between icon and text */
@@ -456,7 +458,7 @@ body {
   background-color: #007aff;
   color: white;
   z-index: 1001; /* Ensure it is above the notification button */
-  bottom: calc(20px + 60px + 8px); /* 20px + height of notification button + 8px gap */
+  bottom: calc(20px + 60px + 20px); /* 20px + height of notification button + 8px gap */
 }
 
 .floating-button:hover {
