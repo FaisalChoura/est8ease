@@ -22,7 +22,8 @@ export class PropertyListComponent implements OnInit {
   showAlertModal = false;
   email = '';
   isFilterPanelOpen = false;
-  properties: Observable<Properties> = of(new Properties([]));
+  private propertiesSubject = new BehaviorSubject<Properties>(new Properties([]));
+  properties: Observable<Properties> = this.propertiesSubject
   sortedProperties: Observable<Property[]> = of([]);
 
   // Sorting variables
@@ -46,16 +47,23 @@ export class PropertyListComponent implements OnInit {
     private elementRef: ElementRef
   ) {}
 
-  ngOnInit(): void {
+  fetchProperties() {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
+    // Fetch properties
+    this.dbService.getProperties(payload).pipe(
+      map((p) => p)
+    ).subscribe((properties) => {
+      this.propertiesSubject.next(properties); // Emit new properties
+    });
+  }
+
+  ngOnInit(): void {
+    this.fetchProperties();
 
     this.transformedFilters$ = this.filterService.getSelectedFilters().pipe(
       map(filters => filters.map(filter => ExtraDetails.getExtraDetail(filter).text) )
     )
-
-    // Fetch properties
-    this.properties = this.dbService.getProperties(payload).pipe(map((p) => p));
 
     // Combine properties with sorting options
     this.sortedProperties = combineLatest([
@@ -141,6 +149,10 @@ export class PropertyListComponent implements OnInit {
   isEmailValid(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  onFilterChange() {
+    this.fetchProperties();
   }
 
   @HostListener('window:scroll', [])

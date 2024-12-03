@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FilterService } from '../filters.service';
 import { Chip } from '../models/chip';
 
-type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
 
 @Component({
@@ -19,6 +18,7 @@ export class PropertyFiltersComponent implements OnInit {
   @Input() isFilterPanelOpen = false;
   // TODO might need to get clean up, the logic is a bit messy for the filter open state
   @Output() filterClosed = new EventEmitter<boolean>();
+  @Output() filtersChanged = new EventEmitter<void>();
 
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
@@ -27,7 +27,7 @@ export class PropertyFiltersComponent implements OnInit {
     new Chip('3 BR', 3, false),
   ];
 
-  constructor(private router: Router, private filterService: FilterService) {}
+  constructor(private router: Router, private route: ActivatedRoute, private filterService: FilterService) {}
 
   ngOnInit(): void {
     this.filterService.getSelectedBedrooms().subscribe((bedrooms) => {
@@ -69,6 +69,8 @@ export class PropertyFiltersComponent implements OnInit {
     } else {
       this.filterService.removeFilter(chip.value);
     }
+    this.updateQueryParams();
+    this.filtersChanged.emit();
   }
 
   selectBedroom(chip: any): void {
@@ -78,10 +80,21 @@ export class PropertyFiltersComponent implements OnInit {
     } else {
       this.filterService.removeBedroom(chip.value);
     }
+    this.updateQueryParams();
+    this.filtersChanged.emit();
   }
 
   toggleFilterPanel(): void {
     this.isFilterPanelOpen = !this.isFilterPanelOpen;
     this.filterClosed.emit(this.isFilterPanelOpen);
+  }
+
+  private updateQueryParams() {
+    const filterData = this.filterService.generateFiltersPayload()
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: filterData.toQueryParams(),
+    });
   }
 }
