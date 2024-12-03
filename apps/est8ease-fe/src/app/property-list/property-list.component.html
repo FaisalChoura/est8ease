@@ -23,9 +23,9 @@
     </div>
     <div class="property-description">
       Special Features:
-      <ul>
-        <li *ngFor="let key of getTrueKeys(property.extraDetails)">
-          {{ key | titlecase }}
+      <ul class="features-list">
+        <li *ngFor="let feature of ExtraDetails.userFriendlyExtraDetails(property)" class="feature-item">
+          <i class="fa" [class]="feature.icon"></i> {{ feature.text }}
         </li>
       </ul>
     </div>

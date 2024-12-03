@@ -27,3 +27,5 @@ export class Property {
     this.extraDetails = data.extra_details;
   }
 }
+
+

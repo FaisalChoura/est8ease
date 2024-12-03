@@ -6,6 +6,7 @@ import { dbService } from '../db.service';
 import { Property } from '../models/property';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ExtraDetails } from '../ui-models/extra-details';
 
 @Component({
   selector: 'app-property-list',
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class PropertyListComponent implements OnInit {
   showAlertModal = false; // Control the visibility of the modal
   email = ''; // Store the user's email address
+  ExtraDetails = ExtraDetails;
   constructor(
     private filterService: FilterService,
     private dbService: dbService,
@@ -41,11 +43,6 @@ export class PropertyListComponent implements OnInit {
 
   toggleFilterPanel(): void {
     this.isFilterPanelOpen = !this.isFilterPanelOpen;
-  }
-
-  getTrueKeys(extraDetails: Record<string, boolean>): string[] {
-    if (!extraDetails) return [];
-    return Object.keys(extraDetails).filter((key) => extraDetails[key]);
   }
 
   openDetails(url: string): void {

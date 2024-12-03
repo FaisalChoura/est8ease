@@ -25,7 +25,8 @@
         "styles": [
           "node_modules/ag-grid-community/styles/ag-grid.css",
           "node_modules/ag-grid-community/styles/ag-theme-quartz.css",
-          "apps/est8ease-fe/src/styles.scss"
+          "apps/est8ease-fe/src/styles.scss",
+          "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
         ],
         "scripts": []
       },

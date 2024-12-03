@@ -214,3 +214,27 @@ body {
   box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Subtle blue glow on focus */
 }
 
+.features-list {
+  list-style: none;
+  display: flex; /* Enable flexbox */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  padding: 0;
+  margin: 0;
+}
+
+.feature-item {
+  display: flex;
+  //align-items: center;
+  margin-right: 16px; /* Add spacing between items */
+}
+
+.feature-item i {
+  margin-right: 8px; /* Space between icon and text */
+  font-size: 1.2rem;
+}
+
+/* Remove the right margin for the and last item */
+
+.feature-item:last-child {
+  margin-right: 0;
+}
