@@ -7,13 +7,16 @@ export class Interest {
   size: number;
   bedrooms: number;
   active: boolean;
+  extraDetails: object = {};
+
   constructor(
     email: string,
     nameOfArea: string,
     maxPrice: number,
     size: number,
     bedrooms: number,
-    minPrice: number
+    minPrice: number,
+    extraDetails: object = {}
   ) {
     this.email = email;
     this.nameOfArea = nameOfArea;
@@ -22,6 +25,7 @@ export class Interest {
     this.bedrooms = bedrooms;
     this.minPrice = minPrice;
     this.active = true;
+    this.extraDetails = extraDetails;
   }
 
   toJsonBE() {
@@ -33,6 +37,7 @@ export class Interest {
       number_of_bedrooms: this.bedrooms,
       min_price: this.minPrice,
       active: this.active,
+      extra_details: this.extraDetails
     };
   }
 }

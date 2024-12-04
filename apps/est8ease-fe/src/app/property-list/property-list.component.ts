@@ -127,7 +127,9 @@ export class PropertyListComponent implements OnInit {
   // Subscribe to alerts
   subscribeToAlerts(): void {
     if (this.isEmailValid(this.email)) {
-      alert(`You are now subscribed to alerts with email: ${this.email}`);
+      const interest = this.filterService.generateInterest(this.email);
+      console.log(interest);
+      this.dbService.addInterest(interest).subscribe();
       // this.showAlertModal = false;
     } else {
       alert('Please enter a valid email address.');

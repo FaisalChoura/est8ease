@@ -3,14 +3,18 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { dbService } from './db.service';
 import { FiltersPayload } from './models/filters-payload';
 import { Params } from '@angular/router';
+import { Interest } from './models/interest';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
   // BehaviorSubject to store selected filters
-  private selectedExtraDetailsFiltersSubject = new BehaviorSubject<string[]>([]);
-  private selectedExtraDetailsFilter$ = this.selectedExtraDetailsFiltersSubject.asObservable();
+  private selectedExtraDetailsFiltersSubject = new BehaviorSubject<string[]>(
+    []
+  );
+  private selectedExtraDetailsFilter$ =
+    this.selectedExtraDetailsFiltersSubject.asObservable();
 
   private selectedBedroomsSubject = new BehaviorSubject<number[]>([]);
   private selectedBedrooms$ = this.selectedBedroomsSubject.asObservable();
@@ -18,8 +22,7 @@ export class FilterService {
   private selectedAreaNameSubject = new BehaviorSubject<string>('');
   private selectedAreaName$ = this.selectedAreaNameSubject.asObservable();
 
-  constructor(private dbService: dbService) {
-  }
+  constructor(private dbService: dbService) {}
 
   getSelectedBedrooms(): Observable<number[]> {
     return this.selectedBedrooms$;
@@ -45,7 +48,9 @@ export class FilterService {
   // Remove a filter from the list
   removeFilter(filter: string): void {
     const currentFilters = this.selectedExtraDetailsFiltersSubject.value;
-    this.selectedExtraDetailsFiltersSubject.next(currentFilters.filter(f => f !== filter));
+    this.selectedExtraDetailsFiltersSubject.next(
+      currentFilters.filter((f) => f !== filter)
+    );
   }
 
   addBedroom(filter: number): void {
@@ -58,7 +63,9 @@ export class FilterService {
   // Remove a filter from the list
   removeBedroom(filter: number): void {
     const currentFilters = this.selectedBedroomsSubject.value;
-    this.selectedBedroomsSubject.next(currentFilters.filter(f => f !== filter));
+    this.selectedBedroomsSubject.next(
+      currentFilters.filter((f) => f !== filter)
+    );
   }
 
   // Clear all filters
@@ -72,20 +79,37 @@ export class FilterService {
 
   generateFiltersPayload(params: Params = {}): FiltersPayload {
     // if all behaviour subjects are empty then populate from filters
-    if (this.selectedBedroomsSubject.value.length === 0 &&
+    if (
+      this.selectedBedroomsSubject.value.length === 0 &&
       !this.selectedAreaNameSubject.value &&
       this.selectedExtraDetailsFiltersSubject.value.length === 0 &&
-      Object.keys(params).length > 0) {
-        this.populateFiltersFromParams(params);
-      }
+      Object.keys(params).length > 0
+    ) {
+      this.populateFiltersFromParams(params);
+    }
 
     return new FiltersPayload(
-      this.selectedBedroomsSubject.value.map(bedroom => bedroom),
+      this.selectedBedroomsSubject.value.map((bedroom) => bedroom),
       this.selectedAreaNameSubject.value,
       this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
         acc.set(filter, true);
         return acc;
-      }, new Map<string,boolean>)
+      }, new Map<string, boolean>())
+    );
+  }
+
+  generateInterest(email: string): Interest {
+    return new Interest(
+      email,
+      this.selectedAreaNameSubject.value,
+      10000000,
+      0,
+      this.selectedBedroomsSubject.value[0],
+      0,
+      this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
+        acc.set(filter, true);
+        return acc;
+      }, new Map<string, boolean>())
     );
   }
 
@@ -100,15 +124,14 @@ export class FilterService {
       const bedrooms = Array.isArray(params['bedrooms'])
         ? params['bedrooms']
         : [params['bedrooms']];
-      bedrooms.forEach(bedroom => this.addBedroom(bedroom));
+      bedrooms.forEach((bedroom) => this.addBedroom(bedroom));
     }
 
     // Set other filters (all keys except 'area' and 'bedrooms')
-    Object.keys(params).forEach(key => {
+    Object.keys(params).forEach((key) => {
       if (key !== 'area' && key !== 'bedrooms') {
         this.addFilter(key);
       }
     });
   }
-
 }
