@@ -425,8 +425,8 @@ body {
 /* Notification Button */
 .notification-button {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
-  background-color: white; /* White background */
-  color: #007aff; /* Apple blue text and icon */
+  background-color: #007aff;
+  color: #fff; /* Apple blue text and icon */
   gap: 10px; /* Space between icon and text */
   font-weight: 600; /* Bold text */
 }
@@ -443,20 +443,20 @@ body {
 /* Icon Styling */
 .notification-button i {
   font-size: 20px; /* Adjust icon size */
-  color: #007aff; /* Match text color */
+  color: #fff; /* Match text color */
 }
 
 /* Text Styling */
 .notification-button .button-text {
   font-size: 14px; /* Text size */
   white-space: wrap; /* Prevent wrapping */
-  color: #007aff; /* Match text color */
+  color: #fff; /* Match text color */
 }
 
 /* Filter Button */
 .floating-button {
-  background-color: #007aff;
-  color: white;
+  background-color: #fff;
+  color: #007aff;
   z-index: 1001; /* Ensure it is above the notification button */
   bottom: calc(20px + 60px + 20px); /* 20px + height of notification button + 8px gap */
 }
