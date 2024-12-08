@@ -6,7 +6,7 @@ import { dbService } from '../db.service';
 import { Property } from '../models/property';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ExtraDetail, ExtraDetails } from '../models/extra-details';
+import { ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -7,6 +7,7 @@ import { FiltersPayload } from './models/filters-payload';
 import { Property } from './models/property';
 import { Properties } from './models/properties';
 import { ExtraDetails } from './models/extra-details';
+import { PropertiesResponseInterface } from './models/properties-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,21 +20,19 @@ export class dbService {
     payload: FiltersPayload
   ): Observable<Properties> {
     return this.http
-      .get<Property[]>(this.apiUrl + '/properties', {
+      .get<PropertiesResponseInterface>(this.apiUrl + '/properties', {
         params: payload.toHttpParams(),
       })
       .pipe(
-        map((properties) =>
-          properties.map((p) => {
+        map((response) => {
+          const properties = response.data.map((p) => {
             const property = new Property(p);
-            property.score = ExtraDetails.getScore(property)
+            property.score = ExtraDetails.getScore(property);
             // TODO does this make sense to be here ?
-            property.scoreLevel = ExtraDetails.scoreLevel(property.score)
+            property.scoreLevel = ExtraDetails.scoreLevel(property.score);
             return property;
-          })
-        ),
-        map((properties) => {
-          return new Properties(properties);
+          });
+          return new Properties(properties, response.total, response.avgCostPerSqm);
         })
       );
   }
