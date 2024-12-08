@@ -124,7 +124,7 @@ export class FilterService {
       const bedrooms = Array.isArray(params['bedrooms'])
         ? params['bedrooms']
         : [params['bedrooms']];
-      bedrooms.forEach((bedroom) => this.addBedroom(bedroom));
+      bedrooms.forEach((bedroom) => this.addBedroom(parseInt(bedroom, 10)));
     }
 
     // Set other filters (all keys except 'area' and 'bedrooms')
