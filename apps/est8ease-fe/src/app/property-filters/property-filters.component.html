@@ -14,12 +14,25 @@
         {{ chip.label }}
       </button>
     </div>
-    <input
-      type="text"
-      [formControl]="sizeControl"
-      placeholder="Min Size (sqm)"
-      class="search-input"
-    />
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="minSizeControl"
+        placeholder="Min Size (sqm)"
+        class="search-input"
+      />
+      <label>Min Size (sqm)</label>
+    </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="maxSizeControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Max Size (sqm)</label>
+    </div>
     <h4>Additional Filters</h4>
     <button
       *ngFor="let chip of additionalChips"

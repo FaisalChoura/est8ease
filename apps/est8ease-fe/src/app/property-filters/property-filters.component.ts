@@ -24,7 +24,8 @@ export class PropertyFiltersComponent implements OnInit {
   // TODO might need to get clean up, the logic is a bit messy for the filter open state
   @Output() filterClosed = new EventEmitter<boolean>();
   @Output() filtersChanged = new EventEmitter<void>();
-  sizeControl: FormControl = new FormControl('');
+  minSizeControl: FormControl = new FormControl('');
+  maxSizeControl: FormControl = new FormControl('');
 
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
@@ -48,22 +49,42 @@ export class PropertyFiltersComponent implements OnInit {
       });
     });
 
-    this.filterService.size.subscribe((size) => {
-      const currentSize = this.sizeControl.value;
+    this.filterService.minSize.subscribe((size) => {
+      const currentSize = this.minSizeControl.value;
       const newSize = size ? size.toString() : '';
       if (currentSize !== newSize) {
-        this.sizeControl.setValue(newSize, { emitEvent: false }); // Prevent triggering valueChanges
+        this.minSizeControl.setValue(newSize, { emitEvent: false }); // Prevent triggering valueChanges
       }
     });
 
     // Listen to changes in the size control
-    this.sizeControl.valueChanges
+    this.minSizeControl.valueChanges
       .pipe(
         skip(1), // Skip the first emission (initial value setting)
         distinctUntilChanged() // Prevent handling the same value multiple times
       )
       .subscribe((value: string) => {
-        this.filterService.setSize(parseFloat(value));
+        this.filterService.setMinSize(parseFloat(value));
+        this.updateQueryParams();
+        this.filtersChanged.emit();
+      });
+
+    this.filterService.maxSize.subscribe((size) => {
+      const currentSize = this.minSizeControl.value;
+      const newSize = size ? size.toString() : '';
+      if (currentSize !== newSize) {
+        this.maxSizeControl.setValue(newSize, { emitEvent: false }); // Prevent triggering valueChanges
+      }
+    });
+
+    // Listen to changes in the size control
+    this.maxSizeControl.valueChanges
+      .pipe(
+        skip(1), // Skip the first emission (initial value setting)
+        distinctUntilChanged() // Prevent handling the same value multiple times
+      )
+      .subscribe((value: string) => {
+        this.filterService.setMaxSize(parseFloat(value));
         this.updateQueryParams();
         this.filtersChanged.emit();
       });

@@ -28,6 +28,10 @@
   padding: 16px;
 }
 
+.filter-chips {
+  margin-bottom: 8px;
+}
+
 .chip {
   margin-bottom: 8px;
   display: inline-block;
@@ -50,10 +54,14 @@
   margin-bottom: 16px;
 }
 
-.search-input {
+.floating-label-input {
+  position: relative;
+  width: 100%;
+}
+
+.floating-label-input input {
   width: 100%;
   padding: 12px 16px; /* Match search input padding */
-  margin-top: 12px;
   margin-bottom: 12px;
   font-size: 16px; /* Match search input font size */
   border: 1px solid #dcdcdc;
@@ -63,3 +71,25 @@
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+.floating-label-input label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+/* When input is focused or has value, move the label up */
+.floating-label-input input:focus + label,
+.floating-label-input input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%) scale(0.8);
+  background-color: white;
+  padding: 0 4px;
+  color: #333;
+}
+

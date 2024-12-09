@@ -25,6 +25,9 @@ export class FilterService {
   private minSizeSubject = new BehaviorSubject<number>(0);
   private minSize$ = this.minSizeSubject.asObservable();
 
+  private maxSizeSubject = new BehaviorSubject<number>(0);
+  private maxSize$ = this.maxSizeSubject.asObservable();
+
   constructor(private dbService: dbService) {}
 
   getSelectedBedrooms(): Observable<number[]> {
@@ -40,12 +43,20 @@ export class FilterService {
     return this.selectedAreaName$;
   }
 
-  get size(): Observable<number> {
+  get minSize(): Observable<number> {
     return this.minSize$;
   }
 
-  setSize(size: number): void {
+  setMinSize(size: number): void {
     this.minSizeSubject.next(size);
+  }
+
+  get maxSize(): Observable<number> {
+    return this.maxSize$;
+  }
+
+  setMaxSize(size: number): void {
+    this.maxSizeSubject.next(size);
   }
 
   // Add a filter to the list
@@ -106,7 +117,8 @@ export class FilterService {
         acc.set(filter, true);
         return acc;
       }, new Map<string, boolean>()),
-      this.minSizeSubject.value
+      this.minSizeSubject.value,
+      this.maxSizeSubject.value
     );
   }
 
@@ -140,13 +152,17 @@ export class FilterService {
     }
 
     if (params['minSize']) {
-      this.setSize(parseInt(params['minSize'], 10));
+      this.setMinSize(parseInt(params['minSize'], 10));
+    }
+
+    if (params['maxSize']) {
+      this.setMaxSize(parseInt(params['maxSize'], 10));
     }
 
     // Set other filters (all keys except 'area' and 'bedrooms')
     Object.keys(params).forEach((key) => {
       // TODO reduce points of changed needed to add a filter
-      if (key !== 'area' && key !== 'bedrooms' && key !== 'minSize') {
+      if (key !== 'area' && key !== 'bedrooms' && key !== 'minSize' && key !== 'maxSize') {
         this.addFilter(key);
       }
     });

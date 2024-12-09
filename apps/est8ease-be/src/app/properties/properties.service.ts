@@ -19,17 +19,23 @@ export class PropertiesService {
     nameOfArea: string,
     extraDetails: object,
     minSize: number,
+    maxSize: number,
     page = 1, // default to page 1
     limit = 25 // default to 10 items per page
   ): Promise<PropertiesResponseInterface> {
     const extraDetailsKey = 'extra_details';
     const transformed = this.spreadObjectToDotNotation(extraDetails, extraDetailsKey);
 
+    const sizeQuery = {
+      $gte: minSize ? minSize : 0,
+      $lte: maxSize ? maxSize : Infinity,
+    }
+
     const query = {
       name_of_area: nameOfArea,
       bedrooms: { $in: numOfBedrooms },
       soft_delete: false,
-      size: minSize ? { $gte: minSize } : { $gte: 0 },
+      size: sizeQuery,
       ...(Object.keys(transformed).length && transformed),
     };
 
