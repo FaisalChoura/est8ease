@@ -91,7 +91,7 @@ export class PropertyFiltersComponent implements OnInit {
       const currentPrice = this.minPriceControl.value;
       const newPrice = size ? size.toString() : '';
       if (currentPrice !== newPrice) {
-        this.maxPriceControl.setValue(newPrice, { emitEvent: false }); // Prevent triggering valueChanges
+        this.minPriceControl.setValue(newPrice, { emitEvent: false }); // Prevent triggering valueChanges
       }
     });
 
