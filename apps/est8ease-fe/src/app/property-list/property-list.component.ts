@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, fromEvent, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -25,6 +25,8 @@ export class PropertyListComponent implements OnInit {
   private propertiesSubject = new BehaviorSubject<Properties>(new Properties([]));
   properties: Observable<Properties> = this.propertiesSubject
   sortedProperties: Observable<Property[]> = of([]);
+  currentPage = 1; // Current page number
+  isLoading = false; // Track loading state
 
   // Sorting variables
   showSortFields = false; // Track visibility of sort fields
@@ -48,13 +50,19 @@ export class PropertyListComponent implements OnInit {
   ) {}
 
   fetchProperties() {
+    this.isLoading = true;
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
     // Fetch properties
-    this.dbService.getProperties(payload).pipe(
+    this.dbService.getProperties(payload, this.currentPage).pipe(
       map((p) => p)
     ).subscribe((properties) => {
-      this.propertiesSubject.next(properties); // Emit new properties
+      // TODO change the is loading to finally
+      this.isLoading = false;
+      // this.propertiesSubject.next(properties);
+      const concatenatedList = [...this.propertiesSubject.value.list, ...properties.list];
+      const newPropertyAggregate = new Properties(concatenatedList, properties.count, properties.avgCostPerSqm);
+      this.propertiesSubject.next(newPropertyAggregate); // Emit new properties
     });
   }
 
@@ -64,6 +72,10 @@ export class PropertyListComponent implements OnInit {
     this.transformedFilters$ = this.filterService.getSelectedFilters().pipe(
       map(filters => filters.map(filter => ExtraDetails.getExtraDetail(filter).text) )
     )
+
+    fromEvent(window, 'scroll')
+      .pipe(debounceTime(200))
+      .subscribe(() => this.onScroll());
 
     // Combine properties with sorting options
     this.sortedProperties = combineLatest([
@@ -97,6 +109,26 @@ export class PropertyListComponent implements OnInit {
     // setTimeout(() => {
     //   this.showAlertModal = true;
     // }, 2000);
+  }
+
+  // @HostListener('window:mousewheel', [])
+  // @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    const isBottomReached = scrollTop + clientHeight >= scrollHeight - 200;
+
+    if (isBottomReached && !this.isLoading) {
+      const properties = this.propertiesSubject.value;
+
+      if (properties.list.length < properties.count) {
+        console.log('Loading more properties...');
+        this.currentPage++;
+        this.fetchProperties();
+      }
+    }
   }
 
   // Toggle filter panel visibility

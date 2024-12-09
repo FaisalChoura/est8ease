@@ -10,4 +10,8 @@ export class Properties {
     this.count = count;
     this.avgCostPerSqm = avgCostPerSqm;
   }
+
+  append(list: Property[]): void {
+    this.list = [...this.list, ...list];
+  }
 }

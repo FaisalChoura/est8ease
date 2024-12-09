@@ -17,11 +17,14 @@ export class dbService {
   constructor(private http: HttpClient) {}
 
   getProperties(
-    payload: FiltersPayload
+    payload: FiltersPayload,
+    page = 1
   ): Observable<Properties> {
+    let params = payload.toHttpParams();
+    params = params.append('page', page.toString());
     return this.http
       .get<PropertiesResponseInterface>(this.apiUrl + '/properties', {
-        params: payload.toHttpParams(),
+        params: params,
       })
       .pipe(
         map((response) => {

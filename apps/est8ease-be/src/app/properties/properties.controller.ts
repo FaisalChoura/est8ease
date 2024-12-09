@@ -23,6 +23,6 @@ export class PropertiesController {
     }, {} as Record<string, any>);
 
     // Call the service with parsed criteria
-    return this.propertiesService.findPropertiesByCriteria(parsedBedrooms, area, extraDetails, parseFloat(size), page );
+    return this.propertiesService.findPropertiesByCriteria(parsedBedrooms, area, extraDetails, parseFloat(size), parseInt(page) );
   }
 }

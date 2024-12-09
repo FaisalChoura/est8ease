@@ -49,32 +49,39 @@
   <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()" (filtersChanged)="onFilterChange()"></app-property-filters>
 
   <!-- Property Cards -->
-  <div *ngFor="let property of (sortedProperties | async)" class="property-card">
-    <div class="property-details">
-      <div class="property-title">{{property.bedrooms}} bedroom in {{ property.address }}</div>
-    </div>
-    <div class="property-price">
-      <div>
-        <span class="currency">AED</span> <span class="price">{{ property.price | number }}</span>
+  <div class="property-list">
+    <!-- Property Cards -->
+    <div *ngFor="let property of (properties | async).list" class="property-card">
+      <div class="property-details">
+        <div class="property-title">{{ property.bedrooms }} bedroom in {{ property.address }}</div>
       </div>
-      <div>
-        <span class="currency">AED</span>{{property.priceM2 | number}}/㎡
+      <div class="property-price">
+        <div>
+          <span class="currency">AED</span> <span class="price">{{ property.price | number }}</span>
+        </div>
+        <div>
+          <span class="currency">AED</span>{{ property.priceM2 | number }}/㎡
+        </div>
       </div>
+      <div class="property-size">
+        Size: <span class="size">{{ property.size }} ㎡</span>
+      </div>
+      <div class="property-description">
+        <div class="description-title">Property Features: {{ property.scoreLevel }}</div>
+        <ul class="features-list">
+          <li *ngFor="let feature of ExtraDetails.userFriendlyExtraDetails(property)" class="feature-item">
+            <i class="fa" [class]="feature.icon"></i> {{ feature.text }}
+          </li>
+        </ul>
+      </div>
+      <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
     </div>
-    <div class="property-size">
-      Size: <span class="size">{{ property.size }} ㎡</span>
+
+    <!-- Loader -->
+    <div class="loader" *ngIf="isLoading">
+      <p>Loading more properties...</p>
     </div>
-    <div class="property-description">
-      <div class="description-title">Property Features: {{property.scoreLevel}}</div>
-      <ul class="features-list">
-        <li *ngFor="let feature of ExtraDetails.userFriendlyExtraDetails(property)" class="feature-item">
-          <i class="fa" [class]="feature.icon"></i> {{ feature.text }}
-        </li>
-      </ul>
-    </div>
-    <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
   </div>
-</div>
 
 <!-- Notification Modal -->
 <div
