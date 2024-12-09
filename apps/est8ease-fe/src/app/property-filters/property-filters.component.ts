@@ -26,6 +26,8 @@ export class PropertyFiltersComponent implements OnInit {
   @Output() filtersChanged = new EventEmitter<void>();
   minSizeControl: FormControl = new FormControl('');
   maxSizeControl: FormControl = new FormControl('');
+  minPriceControl: FormControl = new FormControl('');
+  maxPriceControl: FormControl = new FormControl('');
 
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
@@ -77,6 +79,22 @@ export class PropertyFiltersComponent implements OnInit {
       }
     });
 
+    this.filterService.maxPrice.subscribe((size) => {
+      const currentPrice = this.maxPriceControl.value;
+      const newPrice = size ? size.toString() : '';
+      if (currentPrice !== newPrice) {
+        this.maxPriceControl.setValue(newPrice, { emitEvent: false }); // Prevent triggering valueChanges
+      }
+    });
+
+    this.filterService.minPrice.subscribe((size) => {
+      const currentPrice = this.minPriceControl.value;
+      const newPrice = size ? size.toString() : '';
+      if (currentPrice !== newPrice) {
+        this.maxPriceControl.setValue(newPrice, { emitEvent: false }); // Prevent triggering valueChanges
+      }
+    });
+
     // Listen to changes in the size control
     this.maxSizeControl.valueChanges
       .pipe(
@@ -85,6 +103,29 @@ export class PropertyFiltersComponent implements OnInit {
       )
       .subscribe((value: string) => {
         this.filterService.setMaxSize(parseFloat(value));
+        this.updateQueryParams();
+        this.filtersChanged.emit();
+      });
+
+
+    this.maxPriceControl.valueChanges
+      .pipe(
+        skip(1), // Skip the first emission (initial value setting)
+        distinctUntilChanged() // Prevent handling the same value multiple times
+      )
+      .subscribe((value: string) => {
+        this.filterService.setMaxPrice(parseFloat(value));
+        this.updateQueryParams();
+        this.filtersChanged.emit();
+      });
+
+    this.minPriceControl.valueChanges
+      .pipe(
+        skip(1), // Skip the first emission (initial value setting)
+        distinctUntilChanged() // Prevent handling the same value multiple times
+      )
+      .subscribe((value: string) => {
+        this.filterService.setMinPrice(parseFloat(value));
         this.updateQueryParams();
         this.filtersChanged.emit();
       });

@@ -20,6 +20,8 @@ export class PropertiesService {
     extraDetails: object,
     minSize: number,
     maxSize: number,
+    minPrice: number,
+    maxPrice: number,
     page = 1, // default to page 1
     limit = 25 // default to 10 items per page
   ): Promise<PropertiesResponseInterface> {
@@ -31,11 +33,17 @@ export class PropertiesService {
       $lte: maxSize ? maxSize : Infinity,
     }
 
+    const priceQuery = {
+      $gte: minPrice ? minPrice : 0,
+      $lte: maxPrice ? maxPrice : Infinity,
+    }
+
     const query = {
       name_of_area: nameOfArea,
       bedrooms: { $in: numOfBedrooms },
       soft_delete: false,
       size: sizeQuery,
+      price: priceQuery,
       ...(Object.keys(transformed).length && transformed),
     };
 

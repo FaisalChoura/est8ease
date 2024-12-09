@@ -33,6 +33,28 @@
       />
       <label>Max Size (sqm)</label>
     </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="minPriceControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Min Price (AED)</label>
+    </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="maxPriceControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Max Price (AED)</label>
+    </div>
+
+
     <h4>Additional Filters</h4>
     <button
       *ngFor="let chip of additionalChips"

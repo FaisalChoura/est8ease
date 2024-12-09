@@ -28,6 +28,12 @@ export class FilterService {
   private maxSizeSubject = new BehaviorSubject<number>(0);
   private maxSize$ = this.maxSizeSubject.asObservable();
 
+  private minPriceSubject = new BehaviorSubject<number>(0);
+  private minPrice$ = this.minPriceSubject.asObservable();
+
+  private maxPriceSubject = new BehaviorSubject<number>(0);
+  private maxPrice$ = this.maxPriceSubject.asObservable();
+
   constructor(private dbService: dbService) {}
 
   getSelectedBedrooms(): Observable<number[]> {
@@ -57,6 +63,22 @@ export class FilterService {
 
   setMaxSize(size: number): void {
     this.maxSizeSubject.next(size);
+  }
+
+  get minPrice(): Observable<number> {
+    return this.minPrice$;
+  }
+
+  get maxPrice(): Observable<number> {
+    return this.maxPrice$;
+  }
+
+  setMinPrice(price: number): void {
+    this.minPriceSubject.next(price);
+  }
+
+  setMaxPrice(price: number): void {
+    this.maxPriceSubject.next(price);
   }
 
   // Add a filter to the list
@@ -118,7 +140,9 @@ export class FilterService {
         return acc;
       }, new Map<string, boolean>()),
       this.minSizeSubject.value,
-      this.maxSizeSubject.value
+      this.maxSizeSubject.value,
+      this.minPriceSubject.value,
+      this.maxPriceSubject.value
     );
   }
 
@@ -159,10 +183,18 @@ export class FilterService {
       this.setMaxSize(parseInt(params['maxSize'], 10));
     }
 
+    if (params['minPrice']) {
+      this.setMinPrice(parseInt(params['minPrice'], 10));
+    }
+
+    if (params['maxPrice']) {
+      this.setMaxPrice(parseInt(params['maxPrice'], 10));
+    }
+
     // Set other filters (all keys except 'area' and 'bedrooms')
     Object.keys(params).forEach((key) => {
       // TODO reduce points of changed needed to add a filter
-      if (key !== 'area' && key !== 'bedrooms' && key !== 'minSize' && key !== 'maxSize') {
+      if (key !== 'area' && key !== 'bedrooms' && key !== 'minSize' && key !== 'maxSize' && key !== 'minPrice' && key !== 'maxPrice') {
         this.addFilter(key);
       }
     });
