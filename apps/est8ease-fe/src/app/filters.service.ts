@@ -145,7 +145,8 @@ export class FilterService {
 
     // Set other filters (all keys except 'area' and 'bedrooms')
     Object.keys(params).forEach((key) => {
-      if (key !== 'area' && key !== 'bedrooms') {
+      // TODO reduce points of changed needed to add a filter
+      if (key !== 'area' && key !== 'bedrooms' && key !== 'minSize') {
         this.addFilter(key);
       }
     });

@@ -4,6 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FilterService } from '../filters.service';
 import { Chip } from '../models/chip';
+import { distinctUntilChanged, skip } from 'rxjs';
 
 declare let dataLayer: any;
 
@@ -47,11 +48,25 @@ export class PropertyFiltersComponent implements OnInit {
       });
     });
 
-    this.sizeControl.valueChanges.subscribe((value: string) => {
-      this.filterService.setSize(parseFloat(value));
-      this.updateQueryParams();
-      this.filtersChanged.emit();
+    this.filterService.size.subscribe((size) => {
+      const currentSize = this.sizeControl.value;
+      const newSize = size ? size.toString() : '';
+      if (currentSize !== newSize) {
+        this.sizeControl.setValue(newSize, { emitEvent: false }); // Prevent triggering valueChanges
+      }
     });
+
+    // Listen to changes in the size control
+    this.sizeControl.valueChanges
+      .pipe(
+        skip(1), // Skip the first emission (initial value setting)
+        distinctUntilChanged() // Prevent handling the same value multiple times
+      )
+      .subscribe((value: string) => {
+        this.filterService.setSize(parseFloat(value));
+        this.updateQueryParams();
+        this.filtersChanged.emit();
+      });
   }
 
   // Additional Chips
