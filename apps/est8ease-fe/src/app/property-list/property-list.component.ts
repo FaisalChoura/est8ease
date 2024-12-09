@@ -111,6 +111,11 @@ export class PropertyListComponent implements OnInit {
     // }, 2000);
   }
 
+  resetProperties(): void {
+    this.propertiesSubject.next(new Properties([]));
+    this.currentPage = 1;
+  }
+
   // @HostListener('window:mousewheel', [])
   // @HostListener('window:scroll', [])
   onScroll(): void {
@@ -186,6 +191,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.resetProperties();
     this.fetchProperties();
   }
 

@@ -18,7 +18,7 @@ export class PropertiesService {
     numOfBedrooms: number[],
     nameOfArea: string,
     extraDetails: object,
-    size: number,
+    minSize: number,
     page = 1, // default to page 1
     limit = 25 // default to 10 items per page
   ): Promise<PropertiesResponseInterface> {
@@ -29,7 +29,7 @@ export class PropertiesService {
       name_of_area: nameOfArea,
       bedrooms: { $in: numOfBedrooms },
       soft_delete: false,
-      size: size ? { $gte: size } : { $gte: 0 },
+      size: minSize ? { $gte: minSize } : { $gte: 0 },
       ...(Object.keys(transformed).length && transformed),
     };
 

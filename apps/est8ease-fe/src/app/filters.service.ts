@@ -22,6 +22,9 @@ export class FilterService {
   private selectedAreaNameSubject = new BehaviorSubject<string>('');
   private selectedAreaName$ = this.selectedAreaNameSubject.asObservable();
 
+  private minSizeSubject = new BehaviorSubject<number>(0);
+  private minSize$ = this.minSizeSubject.asObservable();
+
   constructor(private dbService: dbService) {}
 
   getSelectedBedrooms(): Observable<number[]> {
@@ -35,6 +38,14 @@ export class FilterService {
 
   getAreaName(): Observable<string> {
     return this.selectedAreaName$;
+  }
+
+  get size(): Observable<number> {
+    return this.minSize$;
+  }
+
+  setSize(size: number): void {
+    this.minSizeSubject.next(size);
   }
 
   // Add a filter to the list
@@ -94,7 +105,8 @@ export class FilterService {
       this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
         acc.set(filter, true);
         return acc;
-      }, new Map<string, boolean>())
+      }, new Map<string, boolean>()),
+      this.minSizeSubject.value
     );
   }
 
@@ -125,6 +137,10 @@ export class FilterService {
         ? params['bedrooms']
         : [params['bedrooms']];
       bedrooms.forEach((bedroom) => this.addBedroom(parseInt(bedroom, 10)));
+    }
+
+    if (params['minSize']) {
+      this.setSize(parseInt(params['minSize'], 10));
     }
 
     // Set other filters (all keys except 'area' and 'bedrooms')

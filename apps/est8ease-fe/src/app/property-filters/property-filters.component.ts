@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FilterService } from '../filters.service';
 import { Chip } from '../models/chip';
@@ -10,7 +10,11 @@ declare let dataLayer: any;
 @Component({
   selector: 'app-property-filters',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    FormsModule,
+  ],
   templateUrl: './property-filters.component.html',
   styleUrl: './property-filters.component.scss',
 })
@@ -19,6 +23,7 @@ export class PropertyFiltersComponent implements OnInit {
   // TODO might need to get clean up, the logic is a bit messy for the filter open state
   @Output() filterClosed = new EventEmitter<boolean>();
   @Output() filtersChanged = new EventEmitter<void>();
+  sizeControl: FormControl = new FormControl('');
 
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
@@ -40,6 +45,12 @@ export class PropertyFiltersComponent implements OnInit {
       this.additionalChips.forEach((chip) => {
         chip.selected = filters.includes(chip.value);
       });
+    });
+
+    this.sizeControl.valueChanges.subscribe((value: string) => {
+      this.filterService.setSize(parseFloat(value));
+      this.updateQueryParams();
+      this.filtersChanged.emit();
     });
   }
 
