@@ -18,10 +18,14 @@ export class dbService {
 
   getProperties(
     payload: FiltersPayload,
-    page = 1
+    page = 1,
+    sortOption: string,
+    sortOrder: string,
   ): Observable<Properties> {
     let params = payload.toHttpParams();
     params = params.append('page', page.toString());
+    if (sortOrder.length > 0) params = params.append('sortOrder', sortOrder);
+    if (sortOption.length > 0) params = params.append('sortOption', sortOption);
     return this.http
       .get<PropertiesResponseInterface>(this.apiUrl + '/properties', {
         params: params,

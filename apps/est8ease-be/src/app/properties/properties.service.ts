@@ -22,6 +22,8 @@ export class PropertiesService {
     maxSize: number,
     minPrice: number,
     maxPrice: number,
+    sortOption: string,
+    sortOrder: string,
     page = 1, // default to page 1
     limit = 25 // default to 10 items per page
   ): Promise<PropertiesResponseInterface> {
@@ -31,12 +33,12 @@ export class PropertiesService {
     const sizeQuery = {
       $gte: minSize ? minSize : 0,
       $lte: maxSize ? maxSize : Infinity,
-    }
+    };
 
     const priceQuery = {
       $gte: minPrice ? minPrice : 0,
       $lte: maxPrice ? maxPrice : Infinity,
-    }
+    };
 
     const query = {
       name_of_area: nameOfArea,
@@ -46,10 +48,16 @@ export class PropertiesService {
       price: priceQuery,
       ...(Object.keys(transformed).length && transformed),
     };
+    let sort: { [key: string]: 1 | -1 } = { [sortOption]: sortOrder === 'desc' ? -1 : 1 };
+
+    if (sortOption && sortOption.length === 0) {
+      sort = {}
+    }
 
     const total = await this.propertyModel.countDocuments(query).exec(); // Total count of matching documents
     const data = await this.propertyModel
       .find(query)
+      .sort(sort) // Apply sorting
       .skip((page - 1) * limit) // Calculate the number of documents to skip
       .limit(limit) // Limit the number of documents returned
       .exec();
@@ -80,9 +88,10 @@ export class PropertiesService {
       total,
       page,
       limit,
-      avgCostPerSqm
+      avgCostPerSqm,
     };
   }
+
 
   private spreadObjectToDotNotation(obj, parentKey = '') {
     if (obj === undefined) {

@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
-import { BehaviorSubject, combineLatest, debounceTime, fromEvent, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, fromEvent, Observable, of, switchMap } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -30,8 +30,8 @@ export class PropertyListComponent implements OnInit {
 
   // Sorting variables
   showSortFields = false; // Track visibility of sort fields
-  sortOption = 'price'; // Default sort option
-  sortOrder = 'asc'; // Default sort order
+  sortOption = ''; // Default sort option
+  sortOrder = ''; // Default sort order
   private sortOptionSubject = new BehaviorSubject<string>(this.sortOption);
   private sortOrderSubject = new BehaviorSubject<string>(this.sortOrder);
   transformedFilters$: Observable<string[]> = of([])
@@ -54,8 +54,13 @@ export class PropertyListComponent implements OnInit {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     const payload = this.filterService.generateFiltersPayload(queryParams);
     // Fetch properties
-    this.dbService.getProperties(payload, this.currentPage).pipe(
-      map((p) => p)
+    combineLatest([
+      this.sortOptionSubject,
+      this.sortOrderSubject,
+    ]).pipe(
+      switchMap(([sortOption, sortOrder]) => {
+        return this.dbService.getProperties(payload, this.currentPage, sortOption, sortOrder)
+      })
     ).subscribe((properties) => {
       // TODO change the is loading to finally
       this.isLoading = false;
@@ -76,39 +81,6 @@ export class PropertyListComponent implements OnInit {
     fromEvent(window, 'scroll')
       .pipe(debounceTime(200))
       .subscribe(() => this.onScroll());
-
-    // Combine properties with sorting options
-    this.sortedProperties = combineLatest([
-      this.properties,
-      this.sortOptionSubject,
-      this.sortOrderSubject,
-    ]).pipe(
-      map(([properties, sortOption, sortOrder]) => {
-        const list = properties.list.slice(); // Create a copy of the list
-
-        // Sort the list based on the selected option and order
-        list.sort((a, b) => {
-          let comparison = 0;
-          if (sortOption === 'price') {
-            comparison = a.price - b.price;
-          } else if (sortOption === 'size') {
-            comparison = a.size - b.size;
-          } else if (sortOption === 'pricePerSqm') {
-            comparison = a.priceM2 - b.priceM2;
-          }
-
-          // Reverse the order if descending
-          return sortOrder === 'desc' ? -comparison : comparison;
-        });
-
-        return list;
-      })
-    );
-
-    // Show alert modal after 2 seconds
-    // setTimeout(() => {
-    //   this.showAlertModal = true;
-    // }, 2000);
   }
 
   resetProperties(): void {
@@ -152,6 +124,7 @@ export class PropertyListComponent implements OnInit {
 
   // Update sorting options
   sortProperties(): void {
+    this.resetProperties();
     this.sortOptionSubject.next(this.sortOption);
     this.sortOrderSubject.next(this.sortOrder);
   }

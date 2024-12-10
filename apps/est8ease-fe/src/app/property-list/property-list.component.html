@@ -29,15 +29,17 @@
     <div class="sort-group">
       <label for="sort-select" class="sort-label">Sort by:</label>
       <select id="sort-select" class="sort-dropdown" [(ngModel)]="sortOption" (change)="sortProperties()">
+        <option value="">Default</option>
         <option value="price">Price</option>
         <option value="size">Size</option>
-        <option value="pricePerSqm">Price per ㎡</option>
+        <option value="price_m2">Price per ㎡</option>
       </select>
     </div>
 
     <div class="sort-group">
       <label for="sort-order" class="sort-label">Order:</label>
       <select id="sort-order" class="sort-dropdown" [(ngModel)]="sortOrder" (change)="sortProperties()">
+        <option value="">Default</option>
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>

@@ -19,6 +19,8 @@ export class PropertiesController {
       minPrice,
       maxPrice,
       page,
+      sortOrder,
+      sortOption,
       ...rest
     } = queryParams;
 
@@ -42,7 +44,9 @@ export class PropertiesController {
       parseFloat(maxSize),
       parseFloat(minPrice),
       parseFloat(maxPrice),
-      parseInt(page)
+      sortOption,
+      sortOrder,
+      parseInt(page),
     );
   }
 }
