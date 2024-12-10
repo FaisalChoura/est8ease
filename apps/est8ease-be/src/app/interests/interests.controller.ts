@@ -11,6 +11,7 @@ export class InterestsController {
   async create(
     @Body() createInterestDto: CreateInterestDto
   ): Promise<Interest> {
+    console.log(createInterestDto);
     return this.interestsService.create(createInterestDto);
   }
 

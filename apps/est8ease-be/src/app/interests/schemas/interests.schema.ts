@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 
 export type InterestDocument = HydratedDocument<Interest>;
 
-@Schema({ timestamps: true })
+@Schema()
 export class Interest {
   @Prop()
   email: string;
@@ -18,13 +18,19 @@ export class Interest {
   number_of_bedrooms: number;
 
   @Prop()
-  size: number;
+  min_size: number;
+
+  @Prop()
+  max_size: number;
 
   @Prop()
   name_of_area: string;
 
   @Prop()
   active: boolean;
+
+  @Prop({ type: Object })
+  extra_details: Record<string, boolean>;
 
   @Prop({ default: Date.now })
   created_at: Date;

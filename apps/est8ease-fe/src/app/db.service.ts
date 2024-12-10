@@ -60,11 +60,12 @@ export class dbService {
   }
 
   private checkIfInterestExists(interest: Interest): Observable<boolean> {
+    return of(false);
     let params = new HttpParams();
     if (interest.email) params = params.append('email', interest.email);
     if (interest.bedrooms)
       params = params.append('numOfBedrooms', interest.bedrooms);
-    if (interest.size) params = params.append('size', interest.size);
+    // if (interest.size) params = params.append('size', interest.size);
     if (interest.nameOfArea)
       params = params.append('nameOfArea', interest.nameOfArea);
     if (interest.maxPrice)

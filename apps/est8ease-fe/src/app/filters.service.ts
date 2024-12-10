@@ -150,14 +150,15 @@ export class FilterService {
     return new Interest(
       email,
       this.selectedAreaNameSubject.value,
-      10000000,
-      0,
+      this.maxPriceSubject.value,
+      this.minPriceSubject.value,
+      this.minSizeSubject.value,
+      this.maxSizeSubject.value,
       this.selectedBedroomsSubject.value[0],
-      0,
       this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
-        acc.set(filter, true);
+        acc[filter] = true;
         return acc;
-      }, new Map<string, boolean>())
+      }, {} as Record<string, boolean>)
     );
   }
 
