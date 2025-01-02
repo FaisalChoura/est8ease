@@ -12,10 +12,10 @@ export class Click {
   meta_data: Map<string, string>;
 
   @Prop({ default: Date.now })
-  createdAt: Date;
+  created_at: Date;
 
   @Prop({ default: Date.now })
-  updatedAt: Date;
+  updated_at: Date;
 }
 
 export const ClickSchema = SchemaFactory.createForClass(Click);

@@ -1,0 +1,139 @@
+<div class="property-summary">
+  <div class="summary-item">
+    <a class="home-link" href="/home">
+      <i class="fa fa-home"></i>
+    </a>
+  </div>
+  <div class="summary-item">
+    <div class="summary-label">Total Properties:</div>
+    <span class="summary-value">{{ (properties | async)?.count }}</span>
+  </div>
+  <div class="summary-item">
+    <div class="summary-label">Average Cost per ㎡:</div>
+    <div class="summary-value">
+      <span class="currency">AED</span>{{ (properties | async)?.avgCostPerSqm | number }}
+    </div>
+  </div>
+</div>
+
+<div class="property-list">
+  <!-- Wide Button at the Top -->
+  <div class="wide-button-container">
+    <button class="wide-button" (click)="toggleFilterPanel()" #filterButton>Filter Properties</button>
+  </div>
+
+  <!-- Sort Toggle Link -->
+  <div class="sort-toggle">
+    <a href="javascript:void(0);" (click)="toggleSortFields()">
+      {{ showSortFields ? 'Hide Sort' : 'Sort' }}
+    </a>
+  </div>
+
+  <!-- Sort Fields -->
+  <div class="sort-container" *ngIf="showSortFields">
+    <div class="sort-group">
+      <label for="sort-select" class="sort-label">Sort by:</label>
+      <select id="sort-select" class="sort-dropdown" [(ngModel)]="sortOption" (change)="sortProperties()">
+        <option value="">Default</option>
+        <option value="price">Price</option>
+        <option value="size">Size</option>
+        <option value="price_m2">Price per ㎡</option>
+      </select>
+    </div>
+
+    <div class="sort-group">
+      <label for="sort-order" class="sort-label">Order:</label>
+      <select id="sort-order" class="sort-dropdown" [(ngModel)]="sortOrder" (change)="sortProperties()">
+        <option value="">Default</option>
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+
+  <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()" (filtersChanged)="onFilterChange()"></app-property-filters>
+
+  <!-- Property Cards -->
+  <div class="property-list">
+    <!-- Property Cards -->
+    <div *ngFor="let property of (properties | async).list" class="property-card">
+      <div class="property-details">
+        <div class="property-title">{{ property.bedrooms }} bedroom in {{ property.address }}</div>
+      </div>
+      <div class="property-price">
+        <div>
+          <span class="currency">AED</span> <span class="price">{{ property.price | number }}</span>
+        </div>
+        <div>
+          <span class="currency">AED</span>{{ property.priceM2 | number }}/㎡
+        </div>
+      </div>
+      <div class="property-size">
+        Size: <span class="size">{{ property.size }} ㎡</span>
+      </div>
+      <div class="property-description">
+        <div class="description-title">Property Features: {{ property.scoreLevel }}</div>
+        <ul class="features-list">
+          <li *ngFor="let feature of ExtraDetails.userFriendlyExtraDetails(property)" class="feature-item">
+            <i class="fa" [class]="feature.icon"></i> {{ feature.text }}
+          </li>
+        </ul>
+      </div>
+      <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div class="skeleton-container" *ngIf="isLoading">
+      <div class="skeleton-card" *ngFor="let item of [].constructor(3)">
+        <div class="skeleton-title"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+
+  </div>
+
+<!-- Notification Modal -->
+<div
+  class="modal-backdrop"
+  *ngIf="showAlertModal"
+  (click)="closeModal()"
+>
+  <div class="modal-popup" (click)="$event.stopPropagation()">
+    <h2>Get Notified!</h2>
+    <p>You will receive an email when a property that matches your search gets added</p>
+    <p>Bedrooms: {{filterService.getSelectedBedrooms() | async}}</p>
+    <p>Filters: {{transformedFilters$ | async}}</p>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      class="email-input"
+      placeholder="Enter your email"
+    />
+    <button class="modal-button" (click)="subscribeToAlerts()">Subscribe</button>
+    <button class="modal-close" (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- Notification Button (always visible) -->
+<button
+  class="fixed-button notification-button"
+  *ngIf="!showAlertModal"
+  (click)="openNotificationModal()"
+>
+  <i class="fa fa-bell"></i>
+  <span class="button-text">Get an email when a property that matches your search gets added</span>
+</button>
+
+<!-- Filter Button (conditionally shown) -->
+<button
+  class="fixed-button floating-button"
+  *ngIf="showFloatingFilterButton"
+  (click)="toggleFilterPanel()"
+>
+  <i class="fa fa-filter"></i>
+</button>

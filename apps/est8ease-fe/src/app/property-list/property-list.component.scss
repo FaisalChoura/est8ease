@@ -1,0 +1,542 @@
+/* General Body Styling */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9; /* Light background */
+  color: #333; /* Dark text */
+  line-height: 1.6;
+}
+
+/* Search Summary */
+.search-summary {
+  padding: 20px;
+  background-color: white;
+  border-bottom: 1px solid #dcdcdc;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+  height: 100%;
+}
+
+/* Property List */
+.property-list {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto; /* Center content */
+}
+
+/* Property Card */
+.property-card {
+  border: 1px solid #e0e0e0; /* Light border for separation */
+  border-radius: 20px; /* Rounded corners */
+  background-color: white; /* Clean white background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+  padding: 20px;
+  margin-bottom: 16px; /* Space between cards */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+}
+
+.property-card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Slightly darker shadow */
+}
+
+/* Property Title */
+.property-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Property Details */
+.property-details {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666; /* Secondary text color */
+}
+
+.property-details img {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px; /* Space between icon and text */
+}
+
+/* Property Description */
+.property-description {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.property-description .description-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+/* Price and Size */
+.property-price {
+  font-size: 16px;
+  color: #111;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.property-price .price {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.property-size {
+  margin-bottom: 8px;
+  .size {
+    font-weight: bold;
+  }
+}
+
+/* View Details Button */
+.view-details {
+  background-color: #007aff; /* Apple blue */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.view-details:hover {
+  background-color: #005bbb; /* Darker blue for hover */
+}
+
+/* Wide Button Container */
+.wide-button-container {
+  text-align: center; /* Center the button horizontally */
+  margin-bottom: 8px; /* Space below the button */
+}
+
+/* Wide Button */
+.wide-button {
+  width: 100%; /* Full width of the container */
+  max-width: 400px; /* Limit width for larger screens */
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background-color: #007aff; /* Apple blue */
+  border: none;
+  border-radius: 24px; /* Rounded corners for a smooth look */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Smooth hover effect */
+}
+
+.wide-button:hover {
+  background-color: #005bbb; /* Darker blue for hover */
+}
+
+.wide-button:active {
+  background-color: #003f7f; /* Even darker blue for active click */
+  transform: scale(0.98); /* Slight "press" effect */
+}
+
+
+/* Backdrop for the modal */
+.modal-backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align modal to the bottom */
+  z-index: 1000;
+}
+
+/* Modal Popup */
+.modal-popup {
+  background-color: white;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 16px 16px 0 0; /* Rounded top corners */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: slide-up 0.3s ease; /* Slide-up animation */
+}
+
+/* Animation for sliding the modal up */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Modal Buttons */
+.modal-button {
+  background-color: #007aff; /* Apple blue */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.modal-button:hover {
+  background-color: #005bbb;
+}
+
+.modal-close {
+  background-color: transparent;
+  color: #007aff;
+  border: none;
+  font-size: 16px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  text-decoration: underline;
+}
+
+
+/* Email Input */
+.email-input {
+  width: 100%;
+  padding: 12px 16px; /* Match search input padding */
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 16px; /* Match search input font size */
+  border: 1px solid #dcdcdc;
+  border-radius: 24px; /* Rounded corners to match */
+  outline: none;
+  background-color: white;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.email-input:focus {
+  border-color: #007aff; /* Apple blue border on focus */
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3); /* Subtle blue glow on focus */
+}
+
+.features-list {
+  list-style: none;
+  display: flex; /* Enable flexbox */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  padding: 0;
+  margin: 0;
+}
+
+.feature-item {
+  display: flex;
+  //align-items: center;
+  margin-right: 16px; /* Add spacing between items */
+}
+
+.feature-item i {
+  margin-right: 8px; /* Space between icon and text */
+  font-size: 1.2rem;
+}
+
+/* Remove the right margin for the and last item */
+
+.feature-item:last-child {
+  margin-right: 0;
+}
+
+.property-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9f9f9; /* Light grey background */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Keeps the element in view */
+  top: 0; /* Sticks to the top of the viewport */
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+
+.summary-item {
+  font-size: 16px;
+  color: #333;
+}
+
+.summary-label {
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.summary-value {
+  font-weight: 600;
+  color: #007aff; /* Apple blue */
+  font-size: 18px;
+}
+
+/* Existing styles ... */
+
+/* Sort Container */
+.sort-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent items from wrapping */
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+/* Sort Labels */
+.sort-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  /* Remove margin-bottom to keep labels aligned horizontally */
+  margin-right: 8px;
+}
+
+/* Sort Dropdowns */
+.sort-dropdown {
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #333;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  border-radius: 24px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  appearance: none;
+  position: relative;
+  min-width: 150px;
+  flex-shrink: 0; /* Prevent the dropdown from shrinking */
+}
+
+/* Custom Arrow for Dropdown */
+.sort-dropdown::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+  pointer-events: none;
+}
+
+/* Adjust padding to accommodate the custom arrow */
+.sort-dropdown {
+  padding-right: 40px;
+}
+
+/* Focus State */
+.sort-dropdown:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3);
+}
+
+/* Remove Responsive Adjustments */
+/* Comment out or remove the media query that changes flex-direction */
+/*
+@media (max-width: 600px) {
+  .sort-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sort-label {
+    margin-bottom: 4px;
+  }
+
+  .sort-dropdown {
+    width: 100%;
+  }
+}
+*/
+
+/* Optional: Adjustments for Very Small Screens */
+/* If needed, allow text to wrap within labels and dropdowns */
+.sort-label,
+.sort-dropdown {
+  white-space: nowrap;
+}
+
+
+/* Sort Toggle Link */
+.sort-toggle {
+  display: flex;
+  justify-content: flex-end; /* Align the link to the right */
+  margin-bottom: 8px; /* Space below the toggle link */
+}
+
+.sort-toggle a {
+  font-size: 16px;
+  font-weight: 600;
+  color: #007aff; /* Apple blue */
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sort-toggle a:hover {
+  color: #005bbb; /* Darker blue on hover */
+}
+
+/* Sort Container */
+.sort-container {
+  margin-top: 12px; /* Add space above sort fields */
+}
+
+/* Base styles for fixed buttons */
+.fixed-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 16px 20px; /* Add padding for text */
+  border: none;
+  border-radius: 50px; /* Circular shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px; /* Icon and text size */
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1000;
+  margin-left: 20px;
+}
+
+/* Notification Button */
+.notification-button {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+  background-color: #007aff;
+  color: #fff; /* Apple blue text and icon */
+  gap: 10px; /* Space between icon and text */
+  font-weight: 600; /* Bold text */
+}
+
+.notification-button:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+.notification-button:active {
+  transform: scale(0.95); /* Slight press effect on click */
+}
+
+/* Icon Styling */
+.notification-button i {
+  font-size: 20px; /* Adjust icon size */
+  color: #fff; /* Match text color */
+}
+
+/* Text Styling */
+.notification-button .button-text {
+  font-size: 14px; /* Text size */
+  white-space: wrap; /* Prevent wrapping */
+  color: #fff; /* Match text color */
+}
+
+/* Filter Button */
+.floating-button {
+  background-color: #fff;
+  color: #007aff;
+  z-index: 1001; /* Ensure it is above the notification button */
+  bottom: calc(20px + 60px + 20px); /* 20px + height of notification button + 8px gap */
+}
+
+.floating-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.floating-button:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 300px) {
+  .notification-button .button-text {
+    display: none; /* Hide text on small screens */
+  }
+
+  .notification-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Make it fully circular */
+    justify-content: center;
+    padding: 0; /* Remove extra padding */
+  }
+}
+
+
+/* Skeleton Container */
+.skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Skeleton Card */
+.skeleton-card {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* Skeleton Title */
+.skeleton-title {
+  width: 70%;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+/* Skeleton Row */
+.skeleton-row {
+  width: 90%;
+  height: 16px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-color: #f0f0f0;
+  }
+  50% {
+    background-color: #e6e6e6;
+  }
+  100% {
+    background-color: #f0f0f0;
+  }
+}
+
+
+
+
+
+
+

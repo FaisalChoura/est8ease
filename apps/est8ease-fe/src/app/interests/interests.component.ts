@@ -4,14 +4,11 @@ import { InterestsService } from './interests.service';
 import { ActivatedRoute } from '@angular/router';
 import { Interest } from '../models/interest';
 import { Observable, of } from 'rxjs';
-import { ColDef } from 'ag-grid-community';
-import { AgGridAngular } from 'ag-grid-angular';
-import { CheckBoxRendererComponent } from '../cell-renderers/check-box/check-box-renderer.component';
 
 @Component({
   selector: 'app-interests',
   standalone: true,
-  imports: [CommonModule, AgGridAngular],
+  imports: [CommonModule],
   templateUrl: './interests.component.html',
   styleUrl: './interests.component.css',
 })
@@ -22,23 +19,6 @@ export class InterestsComponent implements OnInit {
     private interestsService: InterestsService,
     private activatedRoute: ActivatedRoute
   ) {}
-  colDefs: ColDef[] = [
-    {
-      headerName: 'Active',
-      field: 'active',
-      cellRenderer: CheckBoxRendererComponent,
-      width: 100,
-      cellRendererParams: {
-        onChange: this.onCheckboxChange.bind(this),
-      },
-    },
-    { field: 'name_of_area', width: 200 },
-    { field: 'max_price' },
-    { field: 'min_price' },
-    { field: 'size' },
-    { field: 'number_of_bedrooms' },
-    { field: 'createdAt' },
-  ];
 
   ngOnInit(): void {
     this.email = this.activatedRoute.snapshot.queryParams['email'];

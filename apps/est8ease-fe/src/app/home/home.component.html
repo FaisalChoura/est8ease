@@ -1,0 +1,83 @@
+<div class="main-section">
+  <div class="search-section">
+    <h1 class="search-title">Find your apartment with a detailed search</h1>
+
+    <div class="filter-chips">
+      <button
+        *ngFor="let chip of bedroomFilterChips"
+        [class.selected]="chip.selected"
+        (click)="selectBedroom(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar" style="position: relative;">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        (focus)="onSearchFocus()"
+        (input)="onSearchInput()"
+        placeholder="Search by Area"
+        class="search-input"
+      />
+      <div *ngIf="isDropdownVisible" class="autocomplete-dropdown">
+        <div
+          *ngFor="let area of filteredAreas"
+          class="autocomplete-item"
+          (click)="onSelectArea(area)"
+        >
+          {{ area }}
+        </div>
+      </div>
+<!--      <button (click)="submitFilters()" class="search-button">Search</button>-->
+    </div>
+
+
+
+
+
+
+    <!-- Filter Chips -->
+    <div class="filter-chips">
+      <button
+        *ngFor="let chip of filterChips"
+        [class.selected]="chip.selected"
+        (click)="toggleChip(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+
+      <button (click)="toggleFilterPanel()" class="more-filters-button">
+        More Filters
+      </button>
+    </div>
+
+    <div class="search-button-container">
+      <button (click)="submitFilters()" class="search-button">Search</button>
+    </div>
+
+    <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()" ></app-property-filters>
+
+
+    <!-- Learn More Link -->
+    <a (click)="scrollToSection('about-us')" class="learn-more">Learn more about us</a>
+  </div>
+</div>
+
+<!-- Detailed Description Section -->
+<div id="about-us" class="about-section">
+  <h2>About Us</h2>
+  <p>
+    We are a leading platform dedicated to helping you find the perfect apartment.
+    With a wide selection of properties and customizable search filters, we make
+    your property search simple and efficient.
+  </p>
+  <p>
+    Explore our advanced tools and filters to find apartments tailored to your
+    unique needs and preferences.
+  </p>
+</div>

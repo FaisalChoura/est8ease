@@ -7,7 +7,7 @@
 //   bedrooms: Number,
 //   bathrooms: Number,
 //   url: String,
-//   sourceId: String,
+//   source_id: String,
 //   size: Number,
 //   source: String,
 //   name_of_area: String,
@@ -39,7 +39,7 @@ export class Property {
   url: string;
 
   @Prop()
-  sourceId: string;
+  source_id: string;
 
   @Prop()
   size: number;
@@ -50,11 +50,14 @@ export class Property {
   @Prop()
   name_of_area: string;
 
-  @Prop({ default: Date.now })
-  createdAt: Date;
+  @Prop({ type: Object })
+  extra_details: Record<string, boolean>;
 
   @Prop({ default: Date.now })
-  updatedAt: Date;
+  created_at: Date;
+
+  @Prop({ default: Date.now })
+  updated_at: Date;
 }
 
-export const PropertySchema = SchemaFactory.createForClass(Property);
+export const PropertySchema = SchemaFactory.createForClass(Property).set('collection', 'properties');

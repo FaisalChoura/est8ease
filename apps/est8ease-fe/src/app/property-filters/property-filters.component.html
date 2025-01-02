@@ -1,0 +1,68 @@
+<div class="filter-panel" [class.open]="isFilterPanelOpen">
+  <div class="filter-panel-header">
+    <h3>More Filters</h3>
+    <button (click)="toggleFilterPanel()">✖</button>
+  </div>
+  <div class="filter-panel-body">
+    <div class="filter-chips">
+      <button
+        *ngFor="let chip of bedroomFilterChips"
+        [class.selected]="chip.selected"
+        (click)="selectBedroom(chip)"
+        class="chip"
+      >
+        {{ chip.label }}
+      </button>
+    </div>
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="minSizeControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Min Size (sqm)</label>
+    </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="maxSizeControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Max Size (sqm)</label>
+    </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="minPriceControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Min Price (AED)</label>
+    </div>
+
+    <div class="floating-label-input">
+      <input
+        type="text"
+        [formControl]="maxPriceControl"
+        placeholder=" "
+        class="search-input"
+      />
+      <label>Max Price (AED)</label>
+    </div>
+
+
+    <h4>Additional Filters</h4>
+    <button
+      *ngFor="let chip of additionalChips"
+      [class.selected]="chip.selected"
+      (click)="toggleChip(chip)"
+      class="chip"
+    >
+      {{ chip.label }}
+    </button>
+  </div>
+</div>

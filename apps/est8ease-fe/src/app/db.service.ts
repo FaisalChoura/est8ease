@@ -1,32 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, switchMap, throwError } from 'rxjs';
+import { map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Interest } from './models/interest';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../environments/env';
+import { FiltersPayload } from './models/filters-payload';
+import { Property } from './models/property';
+import { Properties } from './models/properties';
+import { ExtraDetails } from './models/extra-details';
+import { PropertiesResponseInterface } from './models/properties-response.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FirestoreService {
+export class dbService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getProperties(
-    area: string,
-    pricePerSqm: number,
-    numOfBedrooms: number,
-    percentageLower: number
-  ): Observable<any[]> {
-    let params = new HttpParams();
-    if (area != null) params = params.append('area', area);
-    if (numOfBedrooms != null)
-      params = params.append('bedrooms', numOfBedrooms);
-    if (pricePerSqm != null) params = params.append('priceM2', pricePerSqm);
-    if (percentageLower != null)
-      params = params.append('pctLower', percentageLower);
-    return this.http.get<any[]>(this.apiUrl + '/properties', {
-      params: params,
-    });
+    payload: FiltersPayload,
+    page = 1,
+    sortOption: string,
+    sortOrder: string,
+  ): Observable<Properties> {
+    let params = payload.toHttpParams();
+    params = params.append('page', page.toString());
+    if (sortOrder.length > 0) params = params.append('sortOrder', sortOrder);
+    if (sortOption.length > 0) params = params.append('sortOption', sortOption);
+    return this.http
+      .get<PropertiesResponseInterface>(this.apiUrl + '/properties', {
+        params: params,
+      })
+      .pipe(
+        map((response) => {
+          const properties = response.data.map((p) => {
+            const property = new Property(p);
+            property.score = ExtraDetails.getScore(property);
+            // TODO does this make sense to be here ?
+            property.scoreLevel = ExtraDetails.scoreLevel(property.score);
+            return property;
+          });
+          return new Properties(properties, response.total, response.avgCostPerSqm);
+        })
+      );
   }
 
   addInterest(interest: Interest): Observable<any> {
@@ -45,11 +60,12 @@ export class FirestoreService {
   }
 
   private checkIfInterestExists(interest: Interest): Observable<boolean> {
+    return of(false);
     let params = new HttpParams();
     if (interest.email) params = params.append('email', interest.email);
     if (interest.bedrooms)
       params = params.append('numOfBedrooms', interest.bedrooms);
-    if (interest.size) params = params.append('size', interest.size);
+    // if (interest.size) params = params.append('size', interest.size);
     if (interest.nameOfArea)
       params = params.append('nameOfArea', interest.nameOfArea);
     if (interest.maxPrice)

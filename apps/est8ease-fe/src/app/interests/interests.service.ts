@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Interest } from '../models/interest';
 import { environment } from '../../environments/env';
 
@@ -15,9 +15,15 @@ export class InterestsService {
     const url = this.apiUrl + '/interests';
     let params = new HttpParams();
     params = params.append('email', email);
-    return this.http.get<Interest[]>(url, {
+    return this.http.get<Record<any, any>[]>(url, {
       params,
-    });
+    }).pipe(
+      map((interests) => {
+        return interests.map((interest) => {
+          return Interest.fromJsonBE(interest);
+        });
+      })
+    );
   }
 
   update(interest: Interest): Observable<Interest> {

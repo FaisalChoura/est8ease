@@ -5,7 +5,7 @@ import { AsyncPipe, CommonModule, JsonPipe, NgFor } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import { ColDef } from 'ag-grid-community';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { FirestoreService } from '../firestore.service';
+import { dbService } from '../db.service';
 import { LinkComponent } from '../cell-renderers/link/link.component';
 import { areaPricePerSqm } from '../average_price_per_sqm';
 import {
@@ -18,6 +18,8 @@ import {
 import { Property } from '../models/property';
 import { Interest } from '../models/interest';
 import { FormattedNumberRendererComponent } from '../cell-renderers/formatted-number/formatted-number.component';
+import { PropertyFiltersComponent } from '../property-filters/property-filters.component';
+import { PropertyFilterChangeObject } from '../models/property-filter-change-object';
 
 type BRs = 'oneBR' | 'twoBR' | 'threeBR' | 'studio';
 declare let dataLayer: any;
@@ -34,6 +36,7 @@ declare let dataLayer: any;
     RouterModule,
     ReactiveFormsModule,
     CommonModule,
+    PropertyFiltersComponent,
   ],
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.scss'],
@@ -52,6 +55,7 @@ export class PropertiesComponent implements OnInit {
   formSubmitted = false;
   filterOds = '';
   totalPropertyCountForBRs = 0;
+  filters: PropertyFilterChangeObject = {} as PropertyFilterChangeObject;
 
   selectedPctControl = new FormControl();
 
@@ -107,7 +111,7 @@ export class PropertiesComponent implements OnInit {
   ];
 
   constructor(
-    private firestoreService: FirestoreService,
+    private firestoreService: dbService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder
@@ -122,12 +126,12 @@ export class PropertiesComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     });
 
-    this.interestForm.valueChanges.subscribe((form) => {
-      this.interestSuccess = false;
-      this.interestExists = false;
-      this.formSubmitted = false;
-      this.applyFilters();
-    });
+    // this.interestForm.valueChanges.subscribe((form) => {
+    //   this.interestSuccess = false;
+    //   this.interestExists = false;
+    //   this.formSubmitted = false;
+    //   this.applyFilters();
+    // });
 
     this.selectedPctControl.setValue(0);
     this.area = this.route.snapshot.paramMap.get('id') ?? '';
@@ -145,11 +149,17 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
-  changeBedroomSelection(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = selectElement.value;
-    this.interestForm.patchValue({ bedrooms: selectElement.value });
-    this.bedrooms = selectedValue as BRs;
+  filterChanged(event: PropertyFilterChangeObject) {
+    this.interestSuccess = false;
+    this.interestExists = false;
+    this.formSubmitted = false;
+    this.applyFilters(event)
+
+  }
+
+  changeBedroomSelection(bedrooms: BRs) {
+    this.interestForm.patchValue({ bedrooms: bedrooms });
+    this.bedrooms = bedrooms;
     this.fetchProperties(this.area, this.bedrooms);
     this.getTotalCountOfProperties(this.area, this.bedrooms);
   }
@@ -160,31 +170,31 @@ export class PropertiesComponent implements OnInit {
         ? 0
         : areaPricePerSqm.get(area)![bedrooms];
 
-    this.firestoreService
-      .getProperties(
-        area,
-        this.pricePerSqm,
-        this.numOfBedroomsMapper(bedrooms),
-        this.selectedPctControl.value / 100
-      )
-      .subscribe((x) => {
-        this.properties = x.map((y) => new Property(y));
-        this.filteredProperties = x.map((y) => new Property(y));
-        this.applyFilters();
-      });
+    // this.firestoreService
+    //   .getProperties(
+    //     area,
+    //     this.pricePerSqm,
+    //     this.numOfBedroomsMapper(bedrooms),
+    //     this.selectedPctControl.value / 100
+    //   )
+    //   .subscribe((x) => {
+    //     this.properties = x.map((y) => new Property(y));
+    //     this.filteredProperties = x.map((y) => new Property(y));
+    //     this.applyFilters(this.filters);
+    //   });
   }
 
   getTotalCountOfProperties(area: string, bedrooms: BRs) {
-    this.firestoreService
-      .getProperties(
-        area,
-        this.pricePerSqm,
-        this.numOfBedroomsMapper(bedrooms),
-        0
-      )
-      .subscribe((x) => {
-        this.totalPropertyCountForBRs = x.length;
-      });
+    // this.firestoreService
+    //   .getProperties(
+    //     area,
+    //     this.pricePerSqm,
+    //     this.numOfBedroomsMapper(bedrooms),
+    //     0
+    //   )
+    //   .subscribe((x) => {
+    //     this.totalPropertyCountForBRs = x.length;
+    //   });
   }
 
   numOfBedroomsMapper(bedroomsSelection: BRs): number {
@@ -204,53 +214,33 @@ export class PropertiesComponent implements OnInit {
     }
   }
 
-  sendInterest() {
-    this.formSubmitted = true;
-    if (!this.interestForm.valid) {
-      this.interestForm.markAllAsTouched();
-      return;
-    }
 
-    const interest = new Interest(
-      this.interestForm.controls['email'].value,
-      this.area,
-      parseFloat(this.interestForm.controls['maxPrice'].value),
-      parseFloat(this.interestForm.controls['estimatedSize'].value),
-      this.numOfBedroomsMapper(this.bedrooms),
-      parseFloat(this.interestForm.controls['minPrice'].value)
-    );
-    this.fireGtmEvent(`Interest sent`);
-    this.firestoreService.addInterest(interest).subscribe({
-      next: () => {
-        this.interestSuccess = true;
-      },
-      error: (error) => {
-        if (error.message === 'Interest already exists') {
-          this.interestExists = true;
-        } else {
-          console.error('An unexpected error occurred:', error);
-        }
-      },
-    });
-  }
 
   onAreaChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
     this.fireGtmEvent(`Area changed to ${selectedValue}`);
 
-
     // Navigate to the same page with the selected value as an ID in the URL
-    this.router.navigate([`/properties/${selectedValue}`]).then(x => this.title = this.area.replaceAll('_', ' '));
+    this.router
+      .navigate([`/properties/${selectedValue}`])
+      .then((x) => (this.title = this.area.replaceAll('_', ' ')));
   }
 
-  applyFilters() {
-    const form = this.interestForm.value;
+  applyFilters(changes: PropertyFilterChangeObject) {
+    // const form = this.interestForm.value;
+    const form = changes;
+    this.filters = changes;
+
+    if (changes.bedrooms != this.bedrooms) {
+      this.changeBedroomSelection(changes.bedrooms)
+    }
+
 
     let filteredProperties = this.properties;
 
-    if (form['maxPrice'] != null && form['maxPrice'] > 0) {
-      const maxPrice = form['maxPrice'];
+    if (form.maxPrice != null && form.maxPrice > 0) {
+      const maxPrice = form.maxPrice;
       if (!isNaN(maxPrice)) {
         filteredProperties = filteredProperties.filter(
           (property) => property.price <= maxPrice
