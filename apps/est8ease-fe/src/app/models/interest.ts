@@ -51,7 +51,7 @@ export class Interest {
   }
 
   static fromJsonBE(record: any) {
-    return new Interest(
+    const interest =  new Interest(
       record.email,
       record.name_of_area,
       record.max_price,
@@ -61,5 +61,7 @@ export class Interest {
       record.number_of_bedrooms,
       record.extra_details,
     );
+    interest._id = record._id;
+    return interest;
   }
 }
