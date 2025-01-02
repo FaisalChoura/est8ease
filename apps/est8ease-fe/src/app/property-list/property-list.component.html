@@ -85,10 +85,16 @@
       <button class="view-details" (click)="openDetails(property.url)">View on Property Finder</button>
     </div>
 
-    <!-- Loader -->
-    <div class="loader" *ngIf="isLoading">
-      <p>Loading more properties...</p>
+    <!-- Loading Skeleton -->
+    <div class="skeleton-container" *ngIf="isLoading">
+      <div class="skeleton-card" *ngFor="let item of [].constructor(3)">
+        <div class="skeleton-title"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
     </div>
+
   </div>
 
 <!-- Notification Modal -->
