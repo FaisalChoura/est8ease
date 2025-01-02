@@ -60,4 +60,4 @@ export class Property {
   updated_at: Date;
 }
 
-export const PropertySchema = SchemaFactory.createForClass(Property).set('collection', 'properties_ai');
+export const PropertySchema = SchemaFactory.createForClass(Property).set('collection', 'properties');
