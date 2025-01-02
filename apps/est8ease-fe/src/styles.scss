@@ -55,3 +55,23 @@ body {
   font-size: 0.8em;
   margin-right: 4px;
 }
+
+/* Home Link */
+.home-link {
+  color: #007aff; /* Apple blue */
+  font-size: 20px; /* Icon size */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.home-link:hover {
+  color: #005bbb; /* Darker blue on hover */
+  transform: scale(1.1); /* Slight enlargement on hover */
+}
+
+.home-link i {
+  font-size: 1.2rem; /* Adjust the icon size */
+}

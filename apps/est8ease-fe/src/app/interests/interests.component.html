@@ -1,12 +1,43 @@
-<div class="container">
-  <div class="column">
-    <h1>Interests</h1>
-    <p>Here's a list of all the interests assigned to {{email}}</p>
-    <p>To stop recieving and email for a certain interest, you can untick the active box</p>
+<div class="interest-summary">
+  <div class="summary-item">
+    <a class="home-link" href="/home">
+      <i class="fa fa-home"></i>
+    </a>
+  </div>
+  <div class="summary-item">
+    <div class="summary-label">Total Interests:</div>
+    <span class="summary-value">{{ (interests$ | async)?.length }}</span>
+  </div>
+</div>
 
-
-    <ag-grid-angular class="ag-theme-quartz mt-2" style="width: 100%; height: 400px;" [rowData]="interests$ | async"
-      [columnDefs]="colDefs" />
-
+<div class="interest-list">
+  <div *ngFor="let interest of (interests$ | async)" class="interest-card">
+    <div class="interest-details">
+      <div class="interest-title">{{ interest.nameOfArea }}</div>
+      <div class="interest-prices">
+        Max Price: <span class="price">{{ interest.maxPrice | number }}</span>
+        Min Price: <span class="price">{{ interest.minPrice | number }}</span>
+      </div>
+      <div class="interest-size">
+        Max Size: <span class="size">{{ interest.maxSize }} ㎡</span>
+        Min Size: <span class="size">{{ interest.minSize }} ㎡</span>
+      </div>
+      <div class="interest-rooms">
+        Bedrooms: <span class="bedrooms">{{ interest.bedrooms }}</span>
+      </div>
+      <div class="interest-created">
+        Created At: <span class="created-date">{{ interest.createdAt | date }}</span>
+      </div>
+    </div>
+    <div class="interest-actions">
+      <label class="checkbox-label">
+        <input
+          type="checkbox"
+          [checked]="interest.active"
+          (change)="onCheckboxChange({ data: interest })"
+        />
+        Active
+      </label>
+    </div>
   </div>
 </div>

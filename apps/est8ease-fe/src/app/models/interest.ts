@@ -9,6 +9,7 @@ export class Interest {
   bedrooms: number;
   active: boolean;
   extraDetails: object = {};
+  createdAt: string;
 
   constructor(
     email: string,
@@ -18,7 +19,7 @@ export class Interest {
     minSize: number,
     maxSize: number,
     bedrooms: number,
-    extraDetails: object = {}
+    extraDetails: object = {},
   ) {
     this.email = email;
     this.nameOfArea = nameOfArea;
@@ -29,6 +30,7 @@ export class Interest {
     this.minPrice = minPrice;
     this.active = true;
     this.extraDetails = extraDetails;
+    this.createdAt = new Date().toISOString();
   }
 
   toJsonBE() {
@@ -46,5 +48,18 @@ export class Interest {
     if (this.minPrice > 0) record.min_price = this.minPrice;
 
     return record;
+  }
+
+  static fromJsonBE(record: any) {
+    return new Interest(
+      record.email,
+      record.name_of_area,
+      record.max_price,
+      record.min_price,
+      record.min_size,
+      record.max_size,
+      record.number_of_bedrooms,
+      record.extra_details,
+    );
   }
 }
