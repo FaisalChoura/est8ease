@@ -4,27 +4,25 @@ const extraDetailsMap: PropertyFeatures = {
   high_floor: { text: 'High Floor', icon: 'fa-building', score: 15 },
   chiller_free: { text: 'Chiller Free', icon: 'fa-snowflake', score: 15 },
   good_view: { text: 'Good View', icon: 'fa-eye', score: 20 },
-  near_metro: { text: 'Near Metro', icon: 'fa-subway', score: 13 },
-  corner_unit: { text: 'Corner Unit', icon: 'fa-th-large', score: 0 },
-  recently_renovated: { text: 'Recently Renovated', icon: 'fa-paint-brush', score: 15 },
-  big_terrace: { text: 'Big Terrace', icon: 'fa-umbrella', score: 2 },
-  brand_new_unit: { text: 'Brand New Unit', icon: 'fa-star', score: 15 },
+  near_public_transport: { text: 'Near Metro', icon: 'fa-subway', score: 15 },
+  corner_unit: { text: 'Corner Unit', icon: 'fa-th-large', score: 5 },
+  big_terrace: { text: 'Big Terrace', icon: 'fa-umbrella', score: 5 },
+  brand_new_or_renovated: { text: 'Brand New Unit', icon: 'fa-star', score: 15 },
   easy_access_to_sheikh_zayed_road: {
     text: 'Easy Access to Sheikh Zayed Road',
     icon: 'fa-road',
-    score: 5
+    score: 10
   },
 };
-// 15 + 20 + 13 +15 =
+// sum all the
 interface PropertyFeatures {
   high_floor: ExtraDetail;
   chiller_free: ExtraDetail;
   good_view: ExtraDetail;
-  near_metro: ExtraDetail;
+  near_public_transport: ExtraDetail;
   corner_unit: ExtraDetail;
-  recently_renovated: ExtraDetail;
   big_terrace: ExtraDetail;
-  brand_new_unit: ExtraDetail;
+  brand_new_or_renovated: ExtraDetail;
   easy_access_to_sheikh_zayed_road: ExtraDetail;
 }
 
@@ -49,10 +47,10 @@ export class ExtraDetails {
   }
 
   static scoreLevel(score: number) {
-    if (score < 33) {
+    if (score < 25) {
       return 'low';
     }
-    if (score < 60) {
+    if (score < 75) {
       return 'medium';
     }
     return 'high';
