@@ -6,7 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { PropertyListComponent } from './property-list/property-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/properties/Emaar_Beach_Front', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'properties/:id', component: PropertiesComponent },
   { path: 'interests', component: InterestsComponent },
   { path: 'clicks', component: ClicksComponent },
