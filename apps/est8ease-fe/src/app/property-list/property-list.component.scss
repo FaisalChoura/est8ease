@@ -171,6 +171,16 @@ body {
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   animation: slide-up 0.3s ease; /* Slide-up animation */
+  display: flex;
+  flex-direction: column; /* Arrange content vertically */
+  overflow: hidden;
+}
+
+.modal-popup p,
+.modal-popup input {
+  flex-grow: 1; /* Allow content to grow and scroll */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-bottom: 12px; /* Space between content */
 }
 
 /* Animation for sliding the modal up */
@@ -211,6 +221,19 @@ body {
 
 .modal-close:hover {
   text-decoration: underline;
+}
+
+/* Modal Buttons Container */
+.modal-buttons-container {
+  position: sticky; /* Stick buttons to the bottom of the modal */
+  bottom: 0;
+  background-color: white; /* Ensure buttons have a background */
+  padding-top: 8px; /* Space above buttons */
+  margin-top: 12px; /* Space below content */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10; /* Ensure it stays on top */
 }
 
 
