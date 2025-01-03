@@ -146,20 +146,26 @@ export class FilterService {
     );
   }
 
-  generateInterest(email: string): Interest {
-    return new Interest(
-      email,
-      this.selectedAreaNameSubject.value,
-      this.maxPriceSubject.value,
-      this.minPriceSubject.value,
-      this.minSizeSubject.value,
-      this.maxSizeSubject.value,
-      this.selectedBedroomsSubject.value[0],
-      this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
-        acc[filter] = true;
-        return acc;
-      }, {} as Record<string, boolean>)
-    );
+  generateInterest(email: string): Interest[] {
+    const interests: Interest[] = [];
+    for (const bedroom in this.selectedBedroomsSubject.value) {
+      interests.push(
+        new  Interest(
+          email,
+          this.selectedAreaNameSubject.value,
+          this.maxPriceSubject.value,
+          this.minPriceSubject.value,
+          this.minSizeSubject.value,
+          this.maxSizeSubject.value,
+          parseInt(bedroom, 10),
+          this.selectedExtraDetailsFiltersSubject.value.reduce((acc, filter) => {
+            acc[filter] = true;
+            return acc;
+          }, {} as Record<string, boolean>)
+        )
+      )
+    }
+    return interests;
   }
 
   private populateFiltersFromParams(params: Params): void {

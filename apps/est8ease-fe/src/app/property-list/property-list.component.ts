@@ -8,7 +8,17 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ExtraDetails } from '../models/extra-details';
 import { Properties } from '../models/properties';
-import { BehaviorSubject, combineLatest, debounceTime, fromEvent, Observable, of, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  from,
+  fromEvent,
+  mergeMap,
+  Observable,
+  of,
+  switchMap
+} from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -137,10 +147,18 @@ export class PropertyListComponent implements OnInit {
   // Subscribe to alerts
   subscribeToAlerts(): void {
     if (this.isEmailValid(this.email)) {
-      const interest = this.filterService.generateInterest(this.email);
-      console.log(interest);
-      this.dbService.addInterest(interest).subscribe();
-      // this.showAlertModal = false;
+      const interests = this.filterService.generateInterest(this.email);
+      from(interests)
+        .pipe(
+          // Use mergeMap to process each interest concurrently or concatMap to process them sequentially
+          mergeMap(interest => this.dbService.addInterest(interest))
+        )
+        .subscribe({
+          next: response => console.log('Interest added successfully', response),
+          error: error => console.error('Error adding interest', error),
+          complete: () => this.showAlertModal = false
+        });
+
     } else {
       alert('Please enter a valid email address.');
     }

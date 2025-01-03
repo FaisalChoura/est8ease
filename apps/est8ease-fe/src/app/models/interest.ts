@@ -44,7 +44,7 @@ export class Interest {
     if (this.maxPrice > 0) record.max_price = this.maxPrice;
     if (this.minSize > 0) record.min_size = this.minSize;
     if (this.maxSize > 0) record.max_size = this.maxSize;
-    if (this.bedrooms > 0) record.number_of_bedrooms = this.bedrooms;
+    if (this.bedrooms >= 0) record.number_of_bedrooms = this.bedrooms;
     if (this.minPrice > 0) record.min_price = this.minPrice;
 
     return record;
