@@ -29,16 +29,10 @@
           class="autocomplete-item"
           (click)="onSelectArea(area)"
         >
-          {{ area }}
+          {{ area.value }}
         </div>
       </div>
-<!--      <button (click)="submitFilters()" class="search-button">Search</button>-->
     </div>
-
-
-
-
-
 
     <!-- Filter Chips -->
     <div class="filter-chips">
@@ -60,8 +54,10 @@
       <button (click)="submitFilters()" class="search-button">Search</button>
     </div>
 
-    <app-property-filters [isFilterPanelOpen]="isFilterPanelOpen" (filterClosed)="toggleFilterPanel()" ></app-property-filters>
-
+    <app-property-filters
+      [isFilterPanelOpen]="isFilterPanelOpen"
+      (filterClosed)="toggleFilterPanel()"
+    ></app-property-filters>
 
     <!-- Learn More Link -->
     <a (click)="scrollToSection('about-us')" class="learn-more">Learn more about us</a>

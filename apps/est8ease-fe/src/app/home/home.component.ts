@@ -16,19 +16,30 @@ import { Chip } from '../models/chip';
     PropertyFiltersComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   searchControl = new FormControl('');
-  areas = [
-    'Downtown',
-    'Marina',
-    'Suburbs',
-    'Beachside',
-    'City Center',
-    'Hilltop',
-  ];
-  filteredAreas: string[] = [];
+
+  // Map for areas with display-friendly names
+  areas = {
+    Down_Town: 'Down Town',
+    Marina: 'Marina',
+    Palm_Jumeirah: 'Palm Jumeirah',
+    Business_Bay: 'Business Bay',
+    Jumierah_Lake_Towers: 'Jumeirah Lake Towers',
+    Jumierah_Beach_Residence: 'Jumeirah Beach Residence',
+    Al_Barsha: 'Al Barsha',
+    Dubai_Hills: 'Dubai Hills',
+    City_Walk: 'City Walk',
+    Jumeirah_Village_Circle: 'Jumeirah Village Circle',
+    Dubai_Silicon_Oasis: 'Dubai Silicon Oasis',
+    Greens: 'Greens',
+    Dubai_Sports_City: 'Dubai Sports City',
+    Emaar_Beach_Front: 'Emaar Beach Front'
+  };
+
+  filteredAreas: { key: string, value: string }[] = [];
   selectedArea: string | null = null;
   isDropdownVisible = false;
 
@@ -56,7 +67,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // bedroom Chips
+  // Bedroom Chips
   bedroomFilterChips = [
     new Chip('Studio', 0, false),
     new Chip('1 BR', 1, false),
@@ -78,24 +89,24 @@ export class HomeComponent implements OnInit {
   // Update filteredAreas and show dropdown
   onSearchInput(): void {
     const query = this.searchControl.value?.toLowerCase() || '';
-    this.filteredAreas = this.areas.filter((area) =>
-      area.toLowerCase().includes(query)
-    );
+    this.filteredAreas = Object.entries(this.areas)
+      .filter(([key, value]) => value.toLowerCase().includes(query))
+      .map(([key, value]) => ({ key, value }));
     this.isDropdownVisible = this.filteredAreas.length > 0;
   }
 
   onSearchFocus(): void {
     const query = this.searchControl.value?.toLowerCase() || '';
-    this.filteredAreas = this.areas.filter((area) =>
-      area.toLowerCase().includes(query)
-    );
+    this.filteredAreas = Object.entries(this.areas)
+      .filter(([key, value]) => value.toLowerCase().includes(query))
+      .map(([key, value]) => ({ key, value }));
     this.isDropdownVisible = true; // Show dropdown
   }
 
   // Select an area and close the dropdown
-  onSelectArea(area: string): void {
-    this.searchControl.setValue(area);
-    this.filterService.setAreaName(area);
+  onSelectArea(area: { key: string, value: string }): void {
+    this.searchControl.setValue(area.value);
+    this.filterService.setAreaName(area.key);
     this.filteredAreas = [];
     this.isDropdownVisible = false;
   }
@@ -127,13 +138,13 @@ export class HomeComponent implements OnInit {
 
   // Submit Filters
   submitFilters(): void {
-    const searchData = this.filterService.generateFiltersPayload()
+    const searchData = this.filterService.generateFiltersPayload();
 
     this.router.navigate(['/property_list'], {
       queryParams: searchData.toQueryParams(),
     });
-
   }
+
   scrollToSection(sectionId: string): void {
     const section = document.getElementById(sectionId);
     if (section) {
