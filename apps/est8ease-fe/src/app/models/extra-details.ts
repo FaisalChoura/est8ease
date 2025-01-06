@@ -7,7 +7,7 @@ const extraDetailsMap: PropertyFeatures = {
   near_public_transport: { text: 'Near Metro', icon: 'fa-subway', score: 15 },
   corner_unit: { text: 'Corner Unit', icon: 'fa-th-large', score: 5 },
   big_terrace: { text: 'Big Terrace', icon: 'fa-umbrella', score: 5 },
-  brand_new_or_renovated: { text: 'Brand New Unit', icon: 'fa-star', score: 15 },
+  brand_new_or_renovated: { text: 'Brand New / Renovated', icon: 'fa-star', score: 15 },
   easy_access_to_sheikh_zayed_road: {
     text: 'Easy Access to Sheikh Zayed Road',
     icon: 'fa-road',
