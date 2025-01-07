@@ -138,9 +138,8 @@ export class PropertyFiltersComponent implements OnInit {
     { label: 'Chiller Free', value: 'chiller_free', selected: false },
     { label: 'Near Metro', value: 'near_metro', selected: false },
     { label: 'Corner Unit', value: 'corner_unit', selected: false },
-    { label: 'Recently Renovated', value: 'recently_renovated', selected: false },
     { label: 'Big Terrace', value: 'big_terrace', selected: false},
-    { label: 'Brand New Unit', value: 'brand_new_unit', selected: false },
+    { label: 'Brand New / Renovated', value: 'brand_new_or_renovated', selected: false },
     { label: 'Easy Sheikh Zayed Road Access', value: 'easy_access_to_sheikh_zayed_road', selected: false },
   ];
 
