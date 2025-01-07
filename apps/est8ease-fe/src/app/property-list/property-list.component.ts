@@ -17,7 +17,7 @@ import {
   mergeMap,
   Observable,
   of,
-  switchMap
+  switchMap, take
 } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -112,6 +112,9 @@ export class PropertyListComponent implements OnInit {
 
       if (properties.list.length < properties.count) {
         console.log('Loading more properties...');
+        this.filterService.getAreaName().pipe(take(1)).subscribe(area => {
+          this.fireGtmEvent(`Loading more properties - ${area}`, {page: this.currentPage + 1});
+        })
         this.currentPage++;
         this.fetchProperties();
       }
