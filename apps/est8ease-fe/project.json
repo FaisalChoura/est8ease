@@ -53,12 +53,14 @@
           "outputHashing": "all"
         },
         "development": {
+          "index": "apps/est8ease-fe/src/index.dev.html",
           "fileReplacements": [
             {
               "replace": "apps/est8ease-fe/src/environments/env.ts",
               "with": "apps/est8ease-fe/src/environments/env.dev.ts"
             }
           ],
+
           "buildOptimizer": false,
           "optimization": false,
           "vendorChunk": true,

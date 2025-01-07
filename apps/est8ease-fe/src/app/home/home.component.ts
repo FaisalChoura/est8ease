@@ -6,6 +6,12 @@ import { PropertyFiltersComponent } from '../property-filters/property-filters.c
 import { FilterService } from '../filters.service';
 import { Chip } from '../models/chip';
 
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+  }
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -139,6 +145,7 @@ export class HomeComponent implements OnInit {
   // Submit Filters
   submitFilters(): void {
     const searchData = this.filterService.generateFiltersPayload();
+    this.fireGtmEvent('Home screen - Search button clicked', searchData);
 
     this.router.navigate(['/property_list'], {
       queryParams: searchData.toQueryParams(),
@@ -150,5 +157,10 @@ export class HomeComponent implements OnInit {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+
+  // TODO create service for this
+  fireGtmEvent(eventName: string, eventParams: any = {}) {
+    window.gtag('event', eventName, {...eventParams});
   }
 }

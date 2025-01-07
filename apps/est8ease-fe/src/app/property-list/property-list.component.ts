@@ -148,6 +148,7 @@ export class PropertyListComponent implements OnInit {
   subscribeToAlerts(): void {
     if (this.isEmailValid(this.email)) {
       const interests = this.filterService.generateInterest(this.email);
+      this.fireGtmEvent('Alerts subscribed', {interests});
       from(interests)
         .pipe(
           // Use mergeMap to process each interest concurrently or concatMap to process them sequentially
@@ -156,7 +157,9 @@ export class PropertyListComponent implements OnInit {
         .subscribe({
           next: response => console.log('Interest added successfully', response),
           error: error => console.error('Error adding interest', error),
-          complete: () => this.showAlertModal = false
+          complete: () => {
+            this.showAlertModal = false;
+          }
         });
 
     } else {
@@ -193,6 +196,12 @@ export class PropertyListComponent implements OnInit {
 
     // Check if the "Filter Properties" button is out of view
     this.showFloatingFilterButton = rect.top + rect.height < 0;
+  }
+
+  // TODO create service for this
+  // TODO create service for this
+  fireGtmEvent(eventName: string, eventParams: any = {}) {
+    window.gtag('event', eventName, {...eventParams});
   }
 
 }
