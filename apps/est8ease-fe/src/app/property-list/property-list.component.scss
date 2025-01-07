@@ -294,12 +294,17 @@ body {
   position: sticky; /* Keeps the element in view */
   top: 0; /* Sticks to the top of the viewport */
   z-index: 1000; /* Ensure it stays above other content */
+  .group {
+    display: flex;
+    flex-direction: row; /* Arrange items horizontally */;
+  }
 }
 
 
 .summary-item {
   font-size: 16px;
   color: #333;
+  margin-right: 16px;
 }
 
 .summary-label {
@@ -311,6 +316,16 @@ body {
   font-weight: 600;
   color: #007aff; /* Apple blue */
   font-size: 18px;
+}
+
+@media (max-width: 400px) {
+  .summary-label {
+    font-size: 12px; /* Adjust font size for small screens */
+  }
+
+  .summary-value {
+    font-size: 16px;
+  }
 }
 
 /* Existing styles ... */

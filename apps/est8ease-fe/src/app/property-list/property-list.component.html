@@ -4,14 +4,16 @@
       <i class="fa fa-home"></i>
     </a>
   </div>
-  <div class="summary-item">
-    <div class="summary-label">Total Properties:</div>
-    <span class="summary-value">{{ (properties | async)?.count }}</span>
-  </div>
-  <div class="summary-item">
-    <div class="summary-label">Average Cost per ㎡:</div>
-    <div class="summary-value">
-      <span class="currency">AED</span>{{ (properties | async)?.avgCostPerSqm | number }}
+  <div class="group">
+    <div class="summary-item">
+      <div class="summary-label">Total Properties:</div>
+      <span class="summary-value">{{ (properties | async)?.count }}</span>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">Average Cost per ㎡:</div>
+      <div class="summary-value">
+        <span class="currency">AED</span>{{ (properties | async)?.avgCostPerSqm | number }}
+      </div>
     </div>
   </div>
 </div>
