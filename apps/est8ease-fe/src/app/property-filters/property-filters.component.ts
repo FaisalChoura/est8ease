@@ -136,7 +136,7 @@ export class PropertyFiltersComponent implements OnInit {
     { label: 'Good View',value: 'good_view' , selected: false },
     { label: 'High Floor',value: 'high_floor', selected: false },
     { label: 'Chiller Free', value: 'chiller_free', selected: false },
-    { label: 'Near Metro', value: 'near_metro', selected: false },
+    { label: 'Near Metro', value: 'near_public_transport', selected: false },
     { label: 'Corner Unit', value: 'corner_unit', selected: false },
     { label: 'Big Terrace', value: 'big_terrace', selected: false},
     { label: 'Brand New / Renovated', value: 'brand_new_or_renovated', selected: false },
