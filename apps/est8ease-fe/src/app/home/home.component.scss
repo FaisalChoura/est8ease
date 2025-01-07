@@ -22,7 +22,14 @@ html {
   font-size: 24px;
   font-weight: 500;
   color: #333;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  .blue-text {
+    color: #007aff;
+  }
+}
+
+.subtitle {
+  font-size: 14px;
 }
 
 /* Search Bar */
