@@ -26,6 +26,7 @@ declare global {
 })
 export class HomeComponent implements OnInit {
   searchControl = new FormControl('');
+  isSubmitted = false;
 
   // Map for areas with display-friendly names
   areas = {
@@ -127,6 +128,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  // Computed property to validate the form
+  get isFormValid(): boolean {
+    const isBedroomSelected = this.bedroomFilterChips.some(chip => chip.selected);
+    const isSearchBarFilled = !!this.searchControl.value?.trim();
+    return isBedroomSelected && isSearchBarFilled;
+  }
+
+  get isBedroomSelected(): boolean {
+    return this.bedroomFilterChips.some(chip => chip.selected);
+  }
+
   // Toggle Filter Chips
   selectBedroom(chip: any): void {
     chip.selected = !chip.selected;
@@ -144,6 +156,12 @@ export class HomeComponent implements OnInit {
 
   // Submit Filters
   submitFilters(): void {
+    this.isSubmitted = true;
+
+    if (!this.isFormValid) {
+      return; // Do nothing if the form is invalid
+    }
+
     const searchData = this.filterService.generateFiltersPayload();
     this.fireGtmEvent('Home screen - Search button clicked', searchData);
 

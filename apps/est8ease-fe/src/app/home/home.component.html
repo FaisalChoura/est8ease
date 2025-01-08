@@ -3,6 +3,9 @@
     <h1 class="search-title">Find your perfect <span class="blue-text">Estate</span> with <span class="blue-text">Ease</span>!</h1>
     <p class="subtitle">Use advanced filters to find high-floor apartments, stunning views, or chiller-free options, and stay ahead with custom alerts for matching properties.</p>
 
+    <div *ngIf="!isBedroomSelected && isSubmitted" class="error-message">
+      Please select at least one bedroom option.
+    </div>
     <div class="filter-chips">
       <button
         *ngFor="let chip of bedroomFilterChips"
@@ -15,6 +18,9 @@
     </div>
 
     <!-- Search Bar -->
+    <div *ngIf="!searchControl.value?.trim() && isSubmitted" class="error-message">
+      Please select an area.
+    </div>
     <div class="search-bar" style="position: relative;">
       <input
         type="text"
@@ -23,7 +29,9 @@
         (input)="onSearchInput()"
         placeholder="Search by Area"
         class="search-input"
+        [ngClass]="{ 'invalid': !searchControl.value?.trim() && isSubmitted }"
       />
+
       <div *ngIf="isDropdownVisible" class="autocomplete-dropdown">
         <div
           *ngFor="let area of filteredAreas"
@@ -45,14 +53,13 @@
       >
         {{ chip.label }}
       </button>
-
-      <button (click)="toggleFilterPanel()" class="more-filters-button">
-        More Filters
-      </button>
     </div>
 
+    <!-- Search Button -->
     <div class="search-button-container">
-      <button (click)="submitFilters()" class="search-button">Search</button>
+      <button (click)="submitFilters()" class="search-button">
+        Search
+      </button>
     </div>
 
     <app-property-filters
