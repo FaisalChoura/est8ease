@@ -129,6 +129,7 @@ export class PropertyListComponent implements OnInit {
   // Open property details in a new tab
   openDetails(url: string): void {
     if (url) {
+      this.fireGtmEvent(`User visited property page`, {url});
       window.open(url, '_blank');
     } else {
       console.error('URL is not available');
